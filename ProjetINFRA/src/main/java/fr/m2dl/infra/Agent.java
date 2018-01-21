@@ -18,6 +18,8 @@ public abstract class Agent implements Serializable {
         this.behaviors = new PriorityQueue<>(3, new BehaviorPriorityComparator());
     }
 
+    abstract public void handleMessages();
+
     public void update(Environment environment) {
         this.behaviors.forEach(b -> b.run(this, environment));
     }
