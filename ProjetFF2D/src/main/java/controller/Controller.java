@@ -1,5 +1,10 @@
 package controller;
 
+import java.awt.Color;
+import java.awt.TextField;
+
+import org.w3c.dom.Node;
+
 import fr.m2dl.ff2d.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -8,6 +13,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class Controller {
 	
@@ -15,7 +22,7 @@ public class Controller {
 	private AnchorPane gridPanel;
 	
 	private Main app;
-	GridPane gridPane;
+	private GridPane gridPane;
 	final int numCols = 32;
     final int numRows = 16;
 	
@@ -43,9 +50,19 @@ public class Controller {
 		
 	}
 	
+	private void lancerFourmi(int x, int y) {
+		// lancer une fourmi sur l'interface graphique
+		//Image image = new Image("/ProjetFF2D/src/main/java/controller/images.png");
+		ImageView iv = new ImageView(getClass().getResource("images.png").toExternalForm());
+		this.gridPane.getChildren().get(0);
+		Label ant = new Label("         ");
+		ant.setStyle("-fx-border-color:black; -fx-background-color: black;-fx-foreground-color: black;");
+		this.gridPane.add(ant, x, y);
+	}
+
 	public void launchSimulation() {
 		System.out.println("launch");
-		
+		this.lancerFourmi(numCols/2, numRows/2);
 	}
 	
 	public void stopSimulation() {
