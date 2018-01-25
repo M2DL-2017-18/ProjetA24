@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Agent {
-    private List<Action> listActions;
+    private List<Action> actionList;
 
     public Agent() {
-        listActions = new ArrayList<Action>();
+        actionList = new ArrayList<Action>();
     }
 
-    public abstract void percevoir();
-    public abstract Action decider();
+    public abstract void sense();
+    public abstract Action decide();
 
     protected void runLifeCycle() {
-        percevoir();
-        Action a = decider();
-        a.agir();
+        sense();
+        Action a = decide();
+        a.act();
     }
 }

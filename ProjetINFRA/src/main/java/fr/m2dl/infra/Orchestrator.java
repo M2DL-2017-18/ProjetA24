@@ -4,21 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Orchestrator {
-    List<ActiveEntity> listActiveEntities;
-    List<PassiveEntity> listPassiveEntities;
-    List<Agent> listAgents;
-
+    List<ActiveEntity> activeEntityList;
+    List<PassiveEntity> passiveEntityList;
+    List<Agent> agentList;
 
     Orchestrator() {
-        listAgents = new ArrayList<Agent>();
+        agentList = new ArrayList<Agent>();
     }
 
     public void createAgent(Agent a) {
-        listAgents.add(a);
+        agentList.add(a);
     }
 
     public void run() {
-        for (Agent a : listAgents) {
+        for (Agent a : agentList) {
             a.runLifeCycle();
         }
     }
