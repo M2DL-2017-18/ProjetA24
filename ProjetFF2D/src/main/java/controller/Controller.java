@@ -1,10 +1,13 @@
 package controller;
 
 import java.awt.Color;
+
 import java.awt.TextField;
+import java.util.logging.Logger;
 
 import org.w3c.dom.Node;
 
+import fr.m2dl.aco.domain.Ant;
 import fr.m2dl.ff2d.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -25,7 +28,8 @@ public class Controller {
 	private GridPane gridPane;
 	final int numCols = 32;
     final int numRows = 16;
-	
+    private final static Logger logger = Logger.getLogger(Ant.class.getSimpleName());
+
 	@FXML
 	private void initialize() {
 		
@@ -50,19 +54,23 @@ public class Controller {
 		
 	}
 	
-	private void lancerFourmi(int x, int y) {
+	private void launchAnt(int x, int y) {
+		// creation de la fourmie dans ACO
+		Ant ant = new Ant();
+		
 		// lancer une fourmi sur l'interface graphique
-		//Image image = new Image("/ProjetFF2D/src/main/java/controller/images.png");
+        logger.info("je suis une fourmi graphique.");
 		ImageView iv = new ImageView(getClass().getResource("images.png").toExternalForm());
 		this.gridPane.getChildren().get(0);
-		Label ant = new Label("         ");
-		ant.setStyle("-fx-border-color:black; -fx-background-color: black;-fx-foreground-color: black;");
-		this.gridPane.add(ant, x, y);
+		Label antUI = new Label("         ");
+		antUI.setStyle("-fx-border-color:black; -fx-background-color: black;-fx-foreground-color: black;");
+		this.gridPane.add(antUI, x, y);
+
 	}
 
 	public void launchSimulation() {
-		System.out.println("launch");
-		this.lancerFourmi(numCols/2, numRows/2);
+		System.out.println("Lancement de la simulation");
+		this.launchAnt(numCols/2, numRows/2);
 	}
 	
 	public void stopSimulation() {
