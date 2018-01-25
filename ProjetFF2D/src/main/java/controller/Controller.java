@@ -69,13 +69,13 @@ public class Controller {
 	}
 
 	public void launchSimulation() {
-		System.out.println("Lancement de la simulation");
 		this.launchAnt(numCols/2, numRows/2);
 	}
 	
 	public void stopSimulation() {
-		System.out.println("stop");
-		
+
+		gridPane.getChildren().clear();
+		initialize();
 	}
 	
 	
