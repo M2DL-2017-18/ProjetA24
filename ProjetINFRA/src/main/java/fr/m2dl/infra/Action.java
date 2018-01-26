@@ -1,5 +1,11 @@
 package fr.m2dl.infra;
 
+/**
+ * Describes an action that an agent can make
+ */
 public abstract class Action {
-    public abstract void agir();
+    /**
+     * The concrete action
+     */
+    public abstract void act();
 }
