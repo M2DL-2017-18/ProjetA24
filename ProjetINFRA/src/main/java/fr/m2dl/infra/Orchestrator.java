@@ -38,6 +38,6 @@ public class Orchestrator {
     }
     
     public List<Agent> getListAgents() {
-		return listAgents;
+		return agentList;
 	}
 }
