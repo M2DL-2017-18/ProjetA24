@@ -62,8 +62,8 @@ public class Controller {
         logger.info("je suis une fourmi graphique.");
 		ImageView iv = new ImageView(getClass().getResource("images.png").toExternalForm());
 		this.gridPane.getChildren().get(0);
-		Label antUI = new Label("         ");
-		antUI.setStyle("-fx-border-color:black; -fx-background-color: black;-fx-foreground-color: black;");
+		Label antUI = new Label("F");
+		antUI.setStyle("-fx-border-color:black; -fx-background-color: black;");
 		this.gridPane.add(antUI, x, y);
 
 	}
