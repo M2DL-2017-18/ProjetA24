@@ -10,14 +10,15 @@ public class Ant extends Agent {
     private final static Logger logger = Logger.getLogger(Ant.class.getSimpleName());
 
     public Ant() {
+        super();
         logger.info("je suis une fourmi.");
     }
 
-    public void percevoir() {
+    public void sense() {
 
     }
 
-    public Action decider() {
+    public Action decide() {
         return null;
     }
 }
