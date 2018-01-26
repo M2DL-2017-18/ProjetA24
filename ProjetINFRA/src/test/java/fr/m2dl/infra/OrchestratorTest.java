@@ -17,12 +17,12 @@ public class OrchestratorTest {
 		orchestrator.createAgent(new Agent() {
 
 			@Override
-			public void percevoir() {
+			public void sense() {
 				
 			}
 			
 			@Override
-			public Action decider() {
+			public Action decide() {
 				return null;
 			}
 		});
