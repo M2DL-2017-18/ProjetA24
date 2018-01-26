@@ -16,8 +16,8 @@ public class Orchestrator {
     /**
      * Default constructor
      */
-    Orchestrator() {
-        agentList = new ArrayList<Agent>();
+    public Orchestrator() {
+        listAgents = new ArrayList<Agent>();
     }
 
     /**
@@ -36,4 +36,8 @@ public class Orchestrator {
             a.runLifeCycle();
         }
     }
+    
+    public List<Agent> getListAgents() {
+		return listAgents;
+	}
 }
