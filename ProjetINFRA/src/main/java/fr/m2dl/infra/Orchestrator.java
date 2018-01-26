@@ -17,7 +17,7 @@ public class Orchestrator {
      * Default constructor
      */
     public Orchestrator() {
-        listAgents = new ArrayList<Agent>();
+        agentList = new ArrayList<Agent>();
     }
 
     /**
