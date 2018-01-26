@@ -36,4 +36,8 @@ public class Orchestrator {
             a.runLifeCycle();
         }
     }
+    
+    public List<Agent> getListAgents() {
+		return listAgents;
+	}
 }
