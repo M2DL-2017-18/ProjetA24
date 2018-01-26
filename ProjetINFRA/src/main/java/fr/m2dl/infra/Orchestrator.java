@@ -9,7 +9,7 @@ public class Orchestrator {
     List<Agent> listAgents;
 
 
-    Orchestrator() {
+    public Orchestrator() {
         listAgents = new ArrayList<Agent>();
     }
 
@@ -22,4 +22,8 @@ public class Orchestrator {
             a.runLifeCycle();
         }
     }
+    
+    public List<Agent> getListAgents() {
+		return listAgents;
+	}
 }
