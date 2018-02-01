@@ -32,14 +32,19 @@ public class Orchestrator {
      * Runs all the agent lifecycle sequentially
      */
     public void run() {
+        List<Agent> agentsToGarbage = new ArrayList<Agent>();
+
         for (Agent a : agentList) {
             a.runLifeCycle();
 
-            // we check if the agent is dead after the lifecycle because his state can only change during his lifecycle (INFRA-FN13)
             if (this.agentIsDead(a)) {
-                this.garbageAgent(a);
+                // we check if the agent is dead after the lifecycle 
+                // because his state can only change during his lifecycle (INFRA-FN13)
+                agentsToGarbage.add(a);
             }
         }
+
+        this.garbageAgents(agentsToGarbage);
     }
 
     public List<Agent> getListAgents() {
@@ -47,14 +52,18 @@ public class Orchestrator {
     }
 
     /**
-     * Remove the agent from the agents list in the system.
+     * Remove the agents with a Die state from the agents list in the system.
+     * @param a the agent to remove
      */
-    private void garbageAgent(Agent agent) {
-        this.activeEntityList.remove(agent);
+    private void garbageAgents(List<Agent> agents) {
+        for (Agent agent: agents) {
+            this.agentList.remove(agent);
+        }
     }
 
     /**
      * Verify if the agent is dead.
+     * @param a the agent to verify
      */
     private boolean agentIsDead(Agent agent) {
         return agent.getState().equals(State.Die);
