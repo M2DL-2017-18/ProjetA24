@@ -3,23 +3,41 @@ package fr.m2dl.infra;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Scheduler of the Multi-Agent System
+ *
+ * It "runs" all the agents in the system
+ */
 public class Orchestrator {
-    List<ActiveEntity> listActiveEntities;
-    List<PassiveEntity> listPassiveEntities;
-    List<Agent> listAgents;
+    List<ActiveEntity> activeEntityList;
+    List<PassiveEntity> passiveEntityList;
+    List<Agent> agentList;
 
-
-    Orchestrator() {
-        listAgents = new ArrayList<Agent>();
+    /**
+     * Default constructor
+     */
+    public Orchestrator() {
+        agentList = new ArrayList<Agent>();
     }
 
+    /**
+     * Adds an agent to the system
+     * @param a the agent to add
+     */
     public void createAgent(Agent a) {
-        listAgents.add(a);
+        agentList.add(a);
     }
 
+    /**
+     * Runs all the agent lifecycle sequentially
+     */
     public void run() {
-        for (Agent a : listAgents) {
+        for (Agent a : agentList) {
             a.runLifeCycle();
         }
     }
+    
+    public List<Agent> getListAgents() {
+		return agentList;
+	}
 }

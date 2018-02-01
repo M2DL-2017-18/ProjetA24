@@ -14,11 +14,11 @@ public class Ant extends Agent {
         logger.info("je suis une fourmi.");
     }
 
-    public void percevoir() {
+    public void sense() {
 
     }
 
-    public Action decider() {
+    public Action decide() {
         return null;
     }
 }
