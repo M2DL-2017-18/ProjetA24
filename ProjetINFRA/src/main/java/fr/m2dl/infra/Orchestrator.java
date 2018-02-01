@@ -35,7 +35,8 @@ public class Orchestrator {
         for (Agent a : agentList) {
             a.runLifeCycle();
 
-            if (this.agentIsAlive(a)) {
+            // we check if the agent is dead after the lifecycle because his state can only change during his lifecycle (INFRA-FN13)
+            if (this.agentIsDead(a)) {
                 this.garbageAgent(a);
             }
         }
@@ -53,9 +54,9 @@ public class Orchestrator {
     }
 
     /**
-     * Verify the agent is alive.
+     * Verify if the agent is dead.
      */
-    private boolean agentIsAlive(Agent agent) {
+    private boolean agentIsDead(Agent agent) {
         return agent.getState().equals(State.Die);
     }
 }
