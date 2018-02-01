@@ -58,7 +58,7 @@ public abstract class Agent {
         this.state = s;
     }
 
-    private void suicide() {
+    public void suicide() {
         this.state = State.Die;
     }
 }
