@@ -1,4 +1,4 @@
-package fr.m2dl.infra.examples;
+package fr.m2dl.infra.examplesForACO;
 
 import fr.m2dl.infra.Agent;
 import fr.m2dl.infra.Behavior;
