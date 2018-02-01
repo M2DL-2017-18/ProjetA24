@@ -34,10 +34,28 @@ public class Orchestrator {
     public void run() {
         for (Agent a : agentList) {
             a.runLifeCycle();
+
+            if (this.agentIsAlive(a)) {
+                this.garbageAgent(a);
+            }
         }
     }
-    
+
     public List<Agent> getListAgents() {
 		return agentList;
-	}
+    }
+
+    /**
+     * Remove the agent from the agents list in the system.
+     */
+    private void garbageAgent(Agent agent) {
+        this.activeEntityList.remove(agent);
+    }
+
+    /**
+     * Verify the agent is alive.
+     */
+    private boolean agentIsAlive(Agent agent) {
+        return agent.getState().equals(State.Die);
+    }
 }
