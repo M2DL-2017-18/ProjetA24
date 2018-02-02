@@ -1,10 +1,9 @@
 package fr.m2dl.infra;
 
 /**
- * Describes an active entity.
+ * Define the local environment.
  *
  * @author Infra core team
  * @since 02-02-2018
  */
-public class ActiveEntity {
-}
+public interface LocalEnv {}
