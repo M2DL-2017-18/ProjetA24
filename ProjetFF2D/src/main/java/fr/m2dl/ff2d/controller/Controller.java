@@ -86,7 +86,7 @@ public class Controller {
 	}
 	
 	private void launchAnt(int x, int y) {
-		// creation de la fourmie dans ACO
+		// creation de la fourmi dans ACO
 		Ant ant = new Ant();
 		
 		// lancer une fourmi sur l'interface graphique
@@ -134,6 +134,14 @@ public class Controller {
 
 		gridPane.getChildren().clear();
 		initialize();
+	}
+	
+	public void selectFood(){
+		this.entityType = 1;
+	}
+	
+	public void selectRock(){
+		this.entityType = 2;
 	}
 	
 	
