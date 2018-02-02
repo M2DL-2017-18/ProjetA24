@@ -5,11 +5,17 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.UUID;
 
+enum State {
+    ALIVE,
+    DEAD,
+}
+
 /**
  * Describes what is an agent and what it supposed to do
  */
 public abstract class Agent {
     private UUID id;
+    private State state;
     private List<Action> actionList;
     private final static Logger logger = Logger.getLogger(Agent.class.getSimpleName());
     private Behavior behavior;
@@ -19,6 +25,7 @@ public abstract class Agent {
      */
     public Agent(Behavior b) {
         id = UUID.randomUUID();
+        state = State.ALIVE;
         actionList = new ArrayList<Action>();
         this.behavior = b;
         logger.info("Création d'un agent");
@@ -41,5 +48,17 @@ public abstract class Agent {
 
     public UUID getId() {
         return this.id;
+    }
+
+    public State getState() {
+        return this.state;
+    }
+
+    public void setState(State s) {
+        this.state = s;
+    }
+
+    public void suicide() {
+        this.state = State.DEAD;
     }
 }
