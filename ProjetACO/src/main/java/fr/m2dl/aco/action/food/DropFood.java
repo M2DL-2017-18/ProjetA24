@@ -1,5 +1,6 @@
-package fr.m2dl.aco.action;
+package fr.m2dl.aco.action.food;
 
+import fr.m2dl.aco.action.AbstractAcoAction;
 import fr.m2dl.aco.domain.*;
 import fr.m2dl.aco.services.IBoxable;
 

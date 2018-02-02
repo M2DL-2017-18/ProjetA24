@@ -1,5 +1,6 @@
-package fr.m2dl.aco.action;
+package fr.m2dl.aco.action.food;
 
+import fr.m2dl.aco.action.AbstractAcoAction;
 import fr.m2dl.aco.domain.Ant;
 import fr.m2dl.aco.domain.Coordinates;
 import fr.m2dl.aco.domain.Environment;
