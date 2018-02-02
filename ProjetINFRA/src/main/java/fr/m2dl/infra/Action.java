@@ -2,10 +2,16 @@ package fr.m2dl.infra;
 
 /**
  * Describes an action that an agent can make
+ *
+ * @author Infra core team
+ * @since 02-02-2018
  */
-public abstract class Action {
+public interface Action<A extends Agent> {
+
     /**
      * The concrete action
+     * @param activeAgent the agent that perform this action
+     * @param env the local environment
      */
-    public abstract void act();
+    void act(A activeAgent, LocalEnv env);
 }

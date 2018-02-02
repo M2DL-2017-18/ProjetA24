@@ -4,14 +4,21 @@ import fr.m2dl.aco.services.IBoxable;
 
 public class Food implements IBoxable {
 
+    /**
+     * Quantité de nourriture restante
+     */
     private int quantity;
+
+    /**
+     * Coordonnées de la pile de nourriture
+     */
     private Coordinates coordinates;
 
     /**
-     * Constructor with posisiton and quantity of food
+     * Constructeur avec la position initiale et la quantité de nourriture
      *
      * @param coordinates
-     * @param quantity    quantity of food
+     * @param quantity    Quantité de nourriture restante
      */
     public Food(Coordinates coordinates, int quantity) {
         this.coordinates = coordinates;
@@ -24,5 +31,13 @@ public class Food implements IBoxable {
 
     public void setCoordinates(Coordinates coordinates) {
         this.coordinates = coordinates;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

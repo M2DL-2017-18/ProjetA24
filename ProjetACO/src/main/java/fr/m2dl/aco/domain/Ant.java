@@ -1,8 +1,12 @@
 package fr.m2dl.aco.domain;
 
+import fr.m2dl.aco.services.IBehavior;
 import fr.m2dl.aco.services.IBoxable;
+import fr.m2dl.aco.services.IEnvironment;
 import fr.m2dl.infra.Action;
 import fr.m2dl.infra.Agent;
+import fr.m2dl.infra.Behavior;
+import fr.m2dl.infra.LocalEnv;
 
 import java.util.logging.Logger;
 
@@ -10,29 +14,44 @@ public class Ant extends Agent implements IBoxable{
 
     private final static Logger logger = Logger.getLogger(Ant.class.getSimpleName());
 
+    /**
+     * Coordonnées de la fourmi
+     */
     private Coordinates coordinates;
-    private Integer qtityFoodMax;
-    private Integer qtityFoodCarrying = 0;
 
-    public Ant() {
-        super();
-        this.qtityFoodMax = 1;
+    /**
+     * Quantité maximale que la fourmi peut transporter
+     */
+    private int quantityFoodMax;
+
+    /**
+     * Quantité de nourriture transportée par la fourmi
+     */
+    private int quantityFoodCarrying;
+
+    private IBehavior behavior;
+
+
+    public Ant(IBehavior behavior) {
+        super(behavior);
+        this.behavior = behavior;
+        this.quantityFoodMax = 1;
         logger.info("je suis une fourmi.");
     }
 
 
     /**
-     * Constructor with parameter, will need to add behavior when implemented
-     * @param qtityFoodMax maximum quantity of food an ant can carry
+     * Constructeur avec parametres : quantité de nourriture max transportable / il faudra ajouter le comportement
+     * @param qtityFoodMax quantité maximum de nourriture que la fourmi peut porter
      */
-    public Ant(Integer qtityFoodMax) {
-        super();
-        this.qtityFoodMax = qtityFoodMax;
+    public Ant(int qtityFoodMax, IBehavior behavior) {
+        super(behavior);
+        this.quantityFoodMax = qtityFoodMax;
         logger.info("je suis une fourmi.");
     }
 
-    public void sense() {
-
+    public IEnvironment sense() {
+        return  null;
     }
 
     public Action decide() {
@@ -47,4 +66,19 @@ public class Ant extends Agent implements IBoxable{
 		this.coordinates = coordinates;
 	}
 
+    public int getQuantityFoodMax() {
+        return quantityFoodMax;
+    }
+
+    public void setQuantityFoodMax(int quantityFoodMax) {
+        this.quantityFoodMax = quantityFoodMax;
+    }
+
+    public int getQuantityFoodCarrying() {
+        return quantityFoodCarrying;
+    }
+
+    public void setQuantityFoodCarrying(int quantityFoodCarrying) {
+        this.quantityFoodCarrying = quantityFoodCarrying;
+    }
 }

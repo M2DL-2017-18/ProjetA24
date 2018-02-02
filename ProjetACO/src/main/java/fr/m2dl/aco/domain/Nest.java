@@ -4,10 +4,18 @@ import fr.m2dl.aco.services.IBoxable;
 
 public class Nest implements IBoxable {
 
+    /**
+     * Coordonées du nid
+     */
     private Coordinates coordinates;
 
     /**
-     * Constructor with posisiton
+     * Quantité de nourriture rapportée par les fourmis
+     */
+    private int qantityOfFood;
+
+    /**
+     * Constructeur avec position
      *
      * @param coordinates
      */
@@ -21,5 +29,13 @@ public class Nest implements IBoxable {
 
     public void setCoordinates(Coordinates coordinates) {
         this.coordinates = coordinates;
+    }
+
+    public int getQantityOfFood() {
+        return qantityOfFood;
+    }
+
+    public void setQantityOfFood(int qantityOfFood) {
+        this.qantityOfFood = qantityOfFood;
     }
 }
