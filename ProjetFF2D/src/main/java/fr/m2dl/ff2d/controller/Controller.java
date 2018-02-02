@@ -1,4 +1,4 @@
-package controller;
+package fr.m2dl.ff2d.controller;
 
 import java.awt.Color;
 
@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import org.w3c.dom.Node;
 
 import fr.m2dl.aco.domain.Ant;
-import fr.m2dl.ff2d.Main;
+import fr.m2dl.ff2d.application.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
