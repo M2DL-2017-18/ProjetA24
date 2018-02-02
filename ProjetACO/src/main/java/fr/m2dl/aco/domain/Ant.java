@@ -10,6 +10,8 @@ public class Ant extends Agent implements IBoxable{
 
     private final static Logger logger = Logger.getLogger(Ant.class.getSimpleName());
 
+    private Coordinates coordinates;
+    
     public Ant() {
         super();
         logger.info("je suis une fourmi.");
@@ -22,4 +24,12 @@ public class Ant extends Agent implements IBoxable{
     public Action decide() {
         return null;
     }
+
+	public Coordinates getCoordinates() {
+		return coordinates;
+	}
+
+	public void setCoordinates(Coordinates coordinates) {
+		this.coordinates = coordinates;
+	}
 }

@@ -2,11 +2,11 @@ package fr.m2dl.aco.action.move;
 
 import fr.m2dl.aco.domain.Ant;
 import fr.m2dl.aco.domain.Coordinates;
-import fr.m2dl.aco.domain.Environment;
+import fr.m2dl.aco.services.IEnvironment;
 
 public class MoveTopRight extends AbstractMove {
 
-	public MoveTopRight(Environment environment, Ant ant) {
+	public MoveTopRight(IEnvironment environment, Ant ant) {
 		super(environment, ant);
 	}
 

@@ -1,5 +1,6 @@
 package fr.m2dl.aco.services;
 
+import fr.m2dl.aco.domain.Coordinates;
 import javafx.util.Pair;
 
 /**
