@@ -4,18 +4,34 @@ import fr.m2dl.aco.domain.Ant;
 import fr.m2dl.aco.domain.Environment;
 import fr.m2dl.aco.services.IEnvironment;
 
-public abstract class AbstractAcoAction {
+/**
+ * classe qui abstrait toutes les actions dans ACO. 
+ * 
+ *
+ */
+public abstract class AbstractAcoAction implements IAction{
 	
+	/**
+	 * l'environnement dans lequel se deroule l'action
+	 */
 	private IEnvironment environment;
+	/**
+	 * La fourmi qui effectue l'action
+	 */
 	private Ant ant;
 
+	/**
+	 * Constructeur d'une action.
+	 * 
+	 * @param environment pour initialiser l'attribut environnement.
+	 * @param ant pour initialiser l'attribut ant
+	 */
 	public AbstractAcoAction(IEnvironment environment, Ant ant) {
 		super();
 		this.environment = environment;
 		this.ant = ant;
 	}
 
-	public abstract void act();
 	
 	public IEnvironment getEnvironment() {
 		return environment;
