@@ -1,8 +1,12 @@
 package fr.m2dl.aco.domain;
 
+import fr.m2dl.aco.services.IBehavior;
 import fr.m2dl.aco.services.IBoxable;
+import fr.m2dl.aco.services.IEnvironment;
 import fr.m2dl.infra.Action;
 import fr.m2dl.infra.Agent;
+import fr.m2dl.infra.Behavior;
+import fr.m2dl.infra.LocalEnv;
 
 import java.util.logging.Logger;
 
@@ -25,8 +29,12 @@ public class Ant extends Agent implements IBoxable{
      */
     private int quantityFoodCarrying;
 
-    public Ant() {
-        super();
+    private IBehavior behavior;
+
+
+    public Ant(IBehavior behavior) {
+        super(behavior);
+        this.behavior = behavior;
         this.quantityFoodMax = 1;
         logger.info("je suis une fourmi.");
     }
@@ -36,14 +44,14 @@ public class Ant extends Agent implements IBoxable{
      * Constructeur avec parametres : quantité de nourriture max transportable / il faudra ajouter le comportement
      * @param qtityFoodMax quantité maximum de nourriture que la fourmi peut porter
      */
-    public Ant(int qtityFoodMax) {
-        super();
+    public Ant(int qtityFoodMax, IBehavior behavior) {
+        super(behavior);
         this.quantityFoodMax = qtityFoodMax;
         logger.info("je suis une fourmi.");
     }
 
-    public void sense() {
-
+    public IEnvironment sense() {
+        return  null;
     }
 
     public Action decide() {
