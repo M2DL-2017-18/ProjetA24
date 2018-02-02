@@ -6,8 +6,8 @@ import java.util.logging.Logger;
 import java.util.UUID;
 
 enum State {
-    Live,
-    Die,
+    Alive,
+    Dead,
 }
 
 /**
@@ -25,7 +25,7 @@ public abstract class Agent {
      */
     public Agent(Behavior b) {
         id = UUID.randomUUID();
-        state = State.Live;
+        state = State.Alive;
         actionList = new ArrayList<Action>();
         this.behavior = b;
         logger.info("Création d'un agent");
@@ -59,6 +59,6 @@ public abstract class Agent {
     }
 
     public void suicide() {
-        this.state = State.Die;
+        this.state = State.Dead;
     }
 }

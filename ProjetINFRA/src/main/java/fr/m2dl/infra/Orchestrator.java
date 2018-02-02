@@ -52,7 +52,7 @@ public class Orchestrator {
     }
 
     /**
-     * Remove the agents with a Die state from the agents list in the system.
+     * Remove the agents with a Dead state from the agents list in the system.
      * @param a the agent to remove
      */
     private void garbageAgents(List<Agent> agents) {
@@ -64,6 +64,6 @@ public class Orchestrator {
      * @param a the agent to verify
      */
     private boolean agentIsDead(Agent agent) {
-        return agent.getState().equals(State.Die);
+        return agent.getState().equals(State.Dead);
     }
 }
