@@ -66,7 +66,7 @@ public class Controller {
 		// creation de nid
 		FileInputStream imageStream = null;
 		try {
-			imageStream = new FileInputStream("C:/Users/SoF/Documents/aM2DL/nid.png");
+			imageStream = new FileInputStream("src/main/java/fr/m2dl/ff2d/view/nid.png");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -106,7 +106,7 @@ public class Controller {
 
 		FileInputStream imageStream = null;
 		try {
-			imageStream = new FileInputStream("C:/Users/SoF/Documents/aM2DL/ant.png");
+			imageStream = new FileInputStream("src/main/java/fr/m2dl/ff2d/view/ant.png");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -128,8 +128,8 @@ public class Controller {
 			FileInputStream foodStream = null;
 			FileInputStream obstacleStream = null;
 			try {
-				foodStream = new FileInputStream("C:/Users/SoF/Documents/aM2DL/food.jpeg");
-				obstacleStream = new FileInputStream("C:/Users/SoF/Documents/aM2DL/obstacle.jpg");
+				foodStream = new FileInputStream("src/main/java/fr/m2dl/ff2d/view/food.jpeg");
+				obstacleStream = new FileInputStream("src/main/java/fr/m2dl/ff2d/view/obstacle.jpg");
 			} catch (FileNotFoundException ev) {
 				// TODO Auto-generated catch block
 				ev.printStackTrace();
