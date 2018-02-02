@@ -52,4 +52,9 @@ public class Environment implements IEnvironment {
     public Box[][] getGrid() {
         return grid;
     }
+
+	public void setGrid(Box[][] grid) {
+		this.grid = grid;
+	}
+    
 }
