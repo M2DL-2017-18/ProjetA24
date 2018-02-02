@@ -8,8 +8,7 @@ public abstract class AbstractAcoAction {
 	
 	private IEnvironment environment;
 	private Ant ant;
-	
-	
+
 	public AbstractAcoAction(IEnvironment environment, Ant ant) {
 		super();
 		this.environment = environment;

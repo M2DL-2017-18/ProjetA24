@@ -11,9 +11,23 @@ public class Ant extends Agent implements IBoxable{
     private final static Logger logger = Logger.getLogger(Ant.class.getSimpleName());
 
     private Coordinates coordinates;
-    
+    private Integer qtityFoodMax;
+    private Integer qtityFoodCarrying = 0;
+
     public Ant() {
         super();
+        this.qtityFoodMax = 1;
+        logger.info("je suis une fourmi.");
+    }
+
+
+    /**
+     * Constructor with parameter, will need to add behavior when implemented
+     * @param qtityFoodMax maximum quantity of food an ant can carry
+     */
+    public Ant(Integer qtityFoodMax) {
+        super();
+        this.qtityFoodMax = qtityFoodMax;
         logger.info("je suis une fourmi.");
     }
 
@@ -32,4 +46,5 @@ public class Ant extends Agent implements IBoxable{
 	public void setCoordinates(Coordinates coordinates) {
 		this.coordinates = coordinates;
 	}
+
 }

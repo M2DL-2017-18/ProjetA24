@@ -2,6 +2,7 @@ package fr.m2dl.aco.services;
 
 import fr.m2dl.aco.domain.Ant;
 import fr.m2dl.aco.domain.Box;
+import fr.m2dl.aco.domain.Coordinates;
 import fr.m2dl.aco.domain.Environment;
 
 /**
