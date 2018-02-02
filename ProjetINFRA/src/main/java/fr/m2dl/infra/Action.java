@@ -3,9 +3,9 @@ package fr.m2dl.infra;
 /**
  * Describes an action that an agent can make
  */
-public abstract class Action {
+public interface Action {
     /**
      * The concrete action
      */
-    public abstract void act();
+    void act(Agent activeAgent, LocalEnv env);
 }
