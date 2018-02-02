@@ -12,34 +12,31 @@ public abstract class Agent {
     private UUID id;
     private List<Action> actionList;
     private final static Logger logger = Logger.getLogger(Agent.class.getSimpleName());
+    private Behavior behavior;
 
     /**
      * Default constructor
      */
-    public Agent() {
+    public Agent(Behavior b) {
         id = UUID.randomUUID();
         actionList = new ArrayList<Action>();
+        this.behavior = b;
         logger.info("Création d'un agent");
     }
 
     /**
      * An agent can perceive
      */
-    public abstract void sense();
-
-    /**
-     * An agent can decide what will be it's next action
-     * @return the next action to do
-     */
-    public abstract Action decide();
+    public abstract LocalEnv sense();
 
     /**
      * An agent has a lifecycle : perceive, decide, act
      */
     protected void runLifeCycle() {
-        sense();
-        Action a = decide();
-        a.act();
+        LocalEnv env = sense();
+        for(Action a : behavior.decide(env)) {
+            a.act(this, env);
+        }
     }
 
     public UUID getId() {
