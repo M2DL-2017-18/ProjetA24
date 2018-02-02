@@ -24,6 +24,8 @@
                                  </HBox.margin>
                               </Button>
                               <Button fx:id="stopBtn" minHeight="-Infinity" mnemonicParsing="false" onAction="#stopSimulation" prefHeight="57.0" prefWidth="160.0" text="Stop" AnchorPane.rightAnchor="0.0" />
+                           	  <Button fx:id="foodBtn" minHeight="-Infinity" mnemonicParsing="false" onAction="#selectFood" prefHeight="57.0" prefWidth="160.0" text="Nourriture" AnchorPane.rightAnchor="0.0" />
+                              <Button fx:id="rockBtn" minHeight="-Infinity" mnemonicParsing="false" onAction="#selectRock" prefHeight="57.0" prefWidth="160.0" text="Obstacle" AnchorPane.rightAnchor="0.0" />
                            </children>
                            <padding>
                               <Insets left="5.0" top="5.0" />
