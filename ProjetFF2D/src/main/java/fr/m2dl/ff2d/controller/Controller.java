@@ -9,6 +9,8 @@ import org.w3c.dom.Node;
 
 import fr.m2dl.aco.domain.Ant;
 import fr.m2dl.ff2d.application.Main;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,6 +20,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 
 public class Controller {
 	
@@ -29,6 +32,7 @@ public class Controller {
 	final int numCols = 32;
     final int numRows = 16;
     private final static Logger logger = Logger.getLogger(Ant.class.getSimpleName());
+    private int entityType = 2;
 
 	@FXML
 	private void initialize() {
@@ -56,12 +60,29 @@ public class Controller {
         this.gridPane.setStyle("-fx-background-color: white;");
         this.gridPane.prefWidthProperty().bind(this.gridPanel.widthProperty());
         this.gridPane.prefHeightProperty().bind(this.gridPanel.heightProperty());
+        
+        // on ajoute le listener aux cellules de la grille
+        for (int i = 0 ; i < numCols ; i++) {
+            for (int j = 0; j < numRows; j++) {
+                addPane(i, j);
+            }
+        }
+    }
 
+    private void addPane(final int colIndex, final int rowIndex) {
+        Pane pane = new Pane();
+        pane.setOnMousePressed(new EventHandler<Event>() {
+			public void handle(Event event) {
+				launchPassiveEntity(colIndex,rowIndex);
+			}
+		});
+        gridPane.add(pane, colIndex, rowIndex);
+
+        
 	}
 
 	public void setApp(Main main) {
 		this.app = main;
-		
 	}
 	
 	private void launchAnt(int x, int y) {
@@ -75,6 +96,32 @@ public class Controller {
 		Label antUI = new Label("     ");
 		antUI.setStyle("-fx-border-color:black; -fx-background-color: black;");
 		this.gridPane.add(antUI, x, y);
+
+	}
+	
+	private void launchPassiveEntity(int x, int y) {
+		if(this.entityType != 0){
+		// lancer une entite sur l'interface graphique
+		switch(this.entityType){
+		case 1:
+	        logger.info("Creation de l'entité Nourriture");
+			// TODO : CREATION DE L'ENTITE NOURRITURE DANS ACO
+	        // affichage de l'entite
+	        Label foodUI = new Label("     ");
+			foodUI.setStyle("-fx-border-color:green; -fx-background-color: green;");
+			this.gridPane.add(foodUI, x, y);
+			break;
+		case 2:
+	        logger.info("Creation de l'entité Obstacle");
+			// TODO : CREATION DE L'ENTITE OBSTACLE DANS ACO
+	        // affichage de l'entite
+	        Label rockUI = new Label("     ");
+			rockUI.setStyle("-fx-border-color:grey; -fx-background-color: grey;");
+			this.gridPane.add(rockUI, x, y);
+			break;
+		}
+       
+		}
 
 	}
 
