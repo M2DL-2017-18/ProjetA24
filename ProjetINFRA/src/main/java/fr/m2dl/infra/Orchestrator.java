@@ -7,10 +7,11 @@ import java.util.List;
  * Scheduler of the Multi-Agent System
  *
  * It "runs" all the agents in the system
+ * @author Infra core team
+ * @since 02-02-2018
  */
 public class Orchestrator {
     List<ActiveEntity> activeEntityList;
-    List<PassiveEntity> passiveEntityList;
     List<Agent> agentList;
 
     /**

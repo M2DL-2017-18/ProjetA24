@@ -1,7 +1,10 @@
 package fr.m2dl.infra;
 
 /**
- * Describes what is an active entity
+ * Describes an active entity.
+ *
+ * @author Infra core team
+ * @since 02-02-2018
  */
 public class ActiveEntity {
 }
