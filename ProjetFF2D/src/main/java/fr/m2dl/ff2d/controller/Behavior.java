@@ -18,7 +18,7 @@ public class Behavior {
 	 * @param e Environnement immédiat de la fourmi
 	 * @return  La liste des actions que la fourmi exécutera	selon son environnement
 	 */
-	public List<Action> decide(IEnvironment e) {
+	public List<IAction> decide(IEnvironment e) {
 		List<Action> listeAction = new ArrayList<Action>();
 		
 		listeAction.addAll(uTurn());
@@ -26,13 +26,17 @@ public class Behavior {
 		return listeAction;
 	}
 	
-	public List<Action> uTurn() {
-		List<Action> listeActionUturn = new ArrayList<Action>();
+	public List<IAction> uTurn() {
+		List<IAction> listeActionUturn = new ArrayList<Action>();
 		
-		listeActionUturn.add(Action.MOVERIGHT);
-		listeActionUturn.add(Action.MOVEBOTTOM);
-		listeActionUturn.add(Action.MOVELEFT);
+		listeActionUturn.add(new MoveRight());
+		listeActionUturn.add(new MoveBottom());
+		listeActionUturn.add(new MoveLeft());
 		
 		return listeActionUturn;
+	}
+	
+	public List<IAction> exploreEnv(IEnvironment e) {
+		
 	}
 }
