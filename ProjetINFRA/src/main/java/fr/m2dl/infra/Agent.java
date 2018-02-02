@@ -1,10 +1,13 @@
 package fr.m2dl.infra;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 import java.util.UUID;
 
+/**
+ * Describe if the agent is dead or alive.
+ * @author Infra core team
+ * @since 02-02-2018
+ */
 enum State {
     ALIVE,
     DEAD,
@@ -16,7 +19,6 @@ enum State {
 public abstract class Agent {
     private UUID id;
     private State state;
-    private List<Action> actionList;
     private final static Logger logger = Logger.getLogger(Agent.class.getSimpleName());
     private Behavior behavior;
 
@@ -26,7 +28,6 @@ public abstract class Agent {
     public Agent(Behavior b) {
         id = UUID.randomUUID();
         state = State.ALIVE;
-        actionList = new ArrayList<Action>();
         this.behavior = b;
         logger.info("Création d'un agent");
     }
@@ -46,18 +47,33 @@ public abstract class Agent {
         }
     }
 
+    /**
+     * Get id
+     * @return UUID the id of the agent
+     */
     public UUID getId() {
         return this.id;
     }
 
+    /**
+     * Get state
+     * @return State the state of the agent
+     */
     public State getState() {
         return this.state;
     }
 
+    /**
+     * Set state
+     * @param s the new state
+     */
     public void setState(State s) {
         this.state = s;
     }
 
+    /**
+     * Set the state of agent to DEAD
+     */
     public void suicide() {
         this.state = State.DEAD;
     }
