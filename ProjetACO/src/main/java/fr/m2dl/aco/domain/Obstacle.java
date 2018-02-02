@@ -1,6 +1,8 @@
 package fr.m2dl.aco.domain;
 
-public class Obstacle {
+import fr.m2dl.aco.services.IBoxable;
+
+public class Obstacle implements IBoxable{
 
     private int posX;
     private int posY;

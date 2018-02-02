@@ -1,6 +1,8 @@
 package fr.m2dl.aco.domain;
 
-public class Food {
+import fr.m2dl.aco.services.IBoxable;
+
+public class Food implements IBoxable{
 
     private int posX;
     private int posY;
