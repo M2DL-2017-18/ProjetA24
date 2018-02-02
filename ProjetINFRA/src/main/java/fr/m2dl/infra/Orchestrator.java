@@ -56,9 +56,7 @@ public class Orchestrator {
      * @param a the agent to remove
      */
     private void garbageAgents(List<Agent> agents) {
-        for (Agent agent: agents) {
-            this.agentList.remove(agent);
-        }
+        this.agentList.removeAll(agents);
     }
 
     /**
