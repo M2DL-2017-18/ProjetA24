@@ -10,24 +10,35 @@ public class Ant extends Agent implements IBoxable{
 
     private final static Logger logger = Logger.getLogger(Ant.class.getSimpleName());
 
+    /**
+     * Coordonnées de la fourmi
+     */
     private Coordinates coordinates;
-    private Integer qtityFoodMax;
-    private Integer qtityFoodCarrying = 0;
+
+    /**
+     * Quantité maximale que la fourmi peut transporter
+     */
+    private int quantityFoodMax;
+
+    /**
+     * Quantité de nourriture transportée par la fourmi
+     */
+    private int quantityFoodCarrying;
 
     public Ant() {
         super();
-        this.qtityFoodMax = 1;
+        this.quantityFoodMax = 1;
         logger.info("je suis une fourmi.");
     }
 
 
     /**
-     * Constructor with parameter, will need to add behavior when implemented
-     * @param qtityFoodMax maximum quantity of food an ant can carry
+     * Constructeur avec parametres : quantité de nourriture max transportable / il faudra ajouter le comportement
+     * @param qtityFoodMax quantité maximum de nourriture que la fourmi peut porter
      */
-    public Ant(Integer qtityFoodMax) {
+    public Ant(int qtityFoodMax) {
         super();
-        this.qtityFoodMax = qtityFoodMax;
+        this.quantityFoodMax = qtityFoodMax;
         logger.info("je suis une fourmi.");
     }
 
@@ -47,4 +58,19 @@ public class Ant extends Agent implements IBoxable{
 		this.coordinates = coordinates;
 	}
 
+    public int getQuantityFoodMax() {
+        return quantityFoodMax;
+    }
+
+    public void setQuantityFoodMax(int quantityFoodMax) {
+        this.quantityFoodMax = quantityFoodMax;
+    }
+
+    public int getQuantityFoodCarrying() {
+        return quantityFoodCarrying;
+    }
+
+    public void setQuantityFoodCarrying(int quantityFoodCarrying) {
+        this.quantityFoodCarrying = quantityFoodCarrying;
+    }
 }
