@@ -1,22 +1,28 @@
 package fr.m2dl.aco.domain;
 
-public class Food {
+import fr.m2dl.aco.services.IBoxable;
+
+public class Food implements IBoxable {
 
     private int quantity;
-
-    private int posX;
-    private int posY;
+    private Coordinates coordinates;
 
     /**
      * Constructor with posisiton and quantity of food
      *
-     * @param posX The X position
-     * @param posY The Y position
-     * @param quantity quantity of food
+     * @param coordinates
+     * @param quantity    quantity of food
      */
-    public Food(int posX, int posY, int quantity) {
-        this.posX = posX;
-        this.posY = posY;
+    public Food(Coordinates coordinates, int quantity) {
+        this.coordinates = coordinates;
         this.quantity = quantity;
+    }
+
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
     }
 }
