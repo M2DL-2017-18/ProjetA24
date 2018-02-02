@@ -1,17 +1,19 @@
 package fr.m2dl.aco.action;
 
+import fr.m2dl.aco.domain.Ant;
 import fr.m2dl.aco.domain.Environment;
 import fr.m2dl.infra.Agent;
 
 public abstract class AbstractAcoAction {
 	
 	private Environment environment;
-	private Agent agent;
+	private Ant ant;
 	
-	public AbstractAcoAction(Environment environment, Agent agent) {
+	
+	public AbstractAcoAction(Environment environment, Ant ant) {
 		super();
 		this.environment = environment;
-		this.agent = agent;
+		this.ant = ant;
 	}
 
 	public abstract void act();
@@ -24,12 +26,12 @@ public abstract class AbstractAcoAction {
 		this.environment = environment;
 	}
 
-	public Agent getAgent() {
-		return agent;
+	public Ant getAnt() {
+		return ant;
 	}
 
-	public void setAgent(Agent agent) {
-		this.agent = agent;
+	public void setAnt(Ant ant) {
+		this.ant = ant;
 	}
 	
 	
