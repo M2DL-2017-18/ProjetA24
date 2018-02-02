@@ -2,13 +2,14 @@ package fr.m2dl.aco.domain;
 
 import fr.m2dl.aco.services.IBoxable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Définition d'une case de la grille
  */
 public class Box {
-    private List<IBoxable> boxables;
+    private List<IBoxable> boxables = new ArrayList<>();
 
     public Box(){}
 
