@@ -53,7 +53,7 @@ public class Orchestrator {
 
     /**
      * Remove the agents with a Dead state from the agents list in the system.
-     * @param a the agent to remove
+     * @param agents the list of agent to remove
      */
     private void garbageAgents(List<Agent> agents) {
         this.agentList.removeAll(agents);
@@ -61,9 +61,9 @@ public class Orchestrator {
 
     /**
      * Verify if the agent is dead.
-     * @param a the agent to verify
+     * @param agent the agent to verify
      */
     private boolean agentIsDead(Agent agent) {
-        return agent.getState().equals(State.Dead);
+        return agent.getState().equals(State.DEAD);
     }
 }
