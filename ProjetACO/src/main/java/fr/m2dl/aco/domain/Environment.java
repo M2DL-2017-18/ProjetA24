@@ -14,6 +14,11 @@ public class Environment implements IEnvironment{
     public Environment (int row, int col) {
         this.orchestrator = new Orchestrator();
         grid = new Box[row][col];
+        for(int i = 0 ; i<row;i++){
+            for(int j=0 ; j<col;j++){
+                grid[i][j]= new Box();
+            }
+        }
 
     }
 
