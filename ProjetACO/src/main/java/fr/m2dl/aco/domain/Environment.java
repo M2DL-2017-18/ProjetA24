@@ -3,11 +3,18 @@ package fr.m2dl.aco.domain;
 import fr.m2dl.aco.services.IBehavior;
 import fr.m2dl.aco.services.IEnvironment;
 import fr.m2dl.infra.Behavior;
+import fr.m2dl.infra.Orchestrator;
 
 public class Environment implements IEnvironment{
 
     private Box[][] grid;
     private Nest nest;
+
+    private Orchestrator orchestrator;
+
+    public Environment () {
+        this.orchestrator = new Orchestrator();
+    }
 
     /**
      * Création de x fourmis avec le même comportement
@@ -27,6 +34,7 @@ public class Environment implements IEnvironment{
         for (int i = 0; i < number; i++) {
             Ant ant = new Ant(behavior);
             grid[nestX][nestY].addBoxable(ant);
+            orchestrator.createAgent(ant);
         }
     }
 
