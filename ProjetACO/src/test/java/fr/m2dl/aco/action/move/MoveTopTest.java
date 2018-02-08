@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import fr.m2dl.aco.domain.Ant;
-import fr.m2dl.aco.domain.Box;
 import fr.m2dl.aco.domain.Coordinates;
 import fr.m2dl.aco.domain.Environment;
 import fr.m2dl.aco.domain.Obstacle;
@@ -23,13 +22,7 @@ public class MoveTopTest {
 	
 	@Before
 	public  void init(){
-		env = new Environment();
-		env.setGrid(new Box[3][3]);
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
-				env.getGrid()[i][j] = new Box();
-			}
-		}
+		env = new Environment(3,3);
 		ant = new Ant(null);
 	}
 
