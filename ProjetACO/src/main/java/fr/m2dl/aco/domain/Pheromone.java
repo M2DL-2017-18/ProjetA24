@@ -1,21 +1,31 @@
 package fr.m2dl.aco.domain;
 
-public class Pheromone {
+import fr.m2dl.aco.services.IBoxable;
 
-    private int posX;
-    private int posY;
+public class Pheromone implements IBoxable {
+
     private int power;
+    private int decrement;
+    private Coordinates coordinates;
 
     /**
      * Constructor with posisiton
      *
-     * @param posX  The X position
-     * @param posY  The Y position
-     * @param power The remaining power of the pheromone
+     * @param coordinates
+     * @param power     The remaining power of the pheromone
+     * @param decrement The value of the decrementation when update (power = power - decrement)
      */
-    public Pheromone(int posX, int posY, int power) {
-        this.posX = posX;
-        this.posY = posY;
+    public Pheromone(Coordinates coordinates, int power, int decrement) {
+        this.coordinates = coordinates;
         this.power = power;
+        this.decrement = decrement;
+    }
+
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
     }
 }

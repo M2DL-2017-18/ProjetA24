@@ -1,18 +1,25 @@
 package fr.m2dl.aco.domain;
 
-public class Obstacle {
+import fr.m2dl.aco.services.IBoxable;
 
-    private int posX;
-    private int posY;
+public class Obstacle implements IBoxable {
+
+    private Coordinates coordinates;
 
     /**
      * Constructor with posisiton
      *
-     * @param posX The X position
-     * @param posY The Y position
+     * @param coordinates
      */
-    public Obstacle(int posX, int posY) {
-        this.posX = posX;
-        this.posY = posY;
+    public Obstacle(Coordinates coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
     }
 }
