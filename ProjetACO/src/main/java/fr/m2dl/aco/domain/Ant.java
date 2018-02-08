@@ -14,7 +14,7 @@ public class Ant extends Agent implements IBoxable{
     /**
      * Coordonnées de la fourmi
      */
-    private Coordinates coordinates;
+    private Coordinates coordinates = new Coordinates(0, 0);
 
     /**
      * Quantité maximale que la fourmi peut transporter
