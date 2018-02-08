@@ -2,11 +2,11 @@ package fr.m2dl.aco.action.move;
 
 import java.util.Optional;
 
-import fr.m2dl.aco.action.AbstractAcoAction;
 import fr.m2dl.aco.domain.Ant;
 import fr.m2dl.aco.domain.Box;
 import fr.m2dl.aco.domain.Coordinates;
 import fr.m2dl.aco.domain.Obstacle;
+import fr.m2dl.aco.services.IAction;
 import fr.m2dl.aco.services.IBoxable;
 import fr.m2dl.aco.services.IEnvironment;
 
@@ -15,18 +15,9 @@ import fr.m2dl.aco.services.IEnvironment;
  * 
  *
  */
-public abstract class AbstractMove extends AbstractAcoAction{
+public abstract class AbstractMove implements IAction{
 
-	/**
-	 * Constructeur d'un mouvement
-	 * 
-	 * @param environment pour initialiser l'attribut environnement.
-	 * @param ant pour initialiser l'attribut ant
-	 */
-	public AbstractMove(IEnvironment environment, Ant ant) {
-		super(environment, ant);
-	}
-
+	
 	/**
 	 * Methode pour calculer les coordonnées de destination en fonction d'un mouvement.
 	 * 
@@ -42,13 +33,11 @@ public abstract class AbstractMove extends AbstractAcoAction{
 	 * La fourmi est deplacée sur la destination.
 	 */
 	@Override
-	public void act() {
-		Ant ant = getAnt();
-		IEnvironment env = getEnvironment();
+	public void act(Ant ant, IEnvironment env) {
 		Coordinates origin = ant.getCoordinates();
 		Coordinates destination = getDestination(origin);
-		destination = stayInGrid(destination);
-		if(verify(destination)){
+		destination = stayInGrid(env,destination);
+		if(verify(env,destination)){
 			int x_origine = origin.getX();
 			int y_origine = origin.getY();
 			int x_dest = destination.getX();
@@ -65,9 +54,9 @@ public abstract class AbstractMove extends AbstractAcoAction{
 	 * @param coordinates les coordonnées à normaliser
 	 * @return les coordonnées normalisés
 	 */
-	private Coordinates stayInGrid(Coordinates coordinates){
-		int row = getEnvironment().getGrid().length;
-		int col = getEnvironment().getGrid()[0].length;
+	private Coordinates stayInGrid(IEnvironment env,Coordinates coordinates){
+		int row = env.getGrid().length;
+		int col = env.getGrid()[0].length;
 		int x = coordinates.getX() % row;
 		if(x < 0) x += row;
 		int y = coordinates.getY() % col;
@@ -81,8 +70,8 @@ public abstract class AbstractMove extends AbstractAcoAction{
 	 * @param coordinates la destination
 	 * @return true si le deplacememt est possible,false sinon
 	 */
-	private boolean verify(Coordinates coordinates){
-		Box box_destination = getEnvironment().getGrid()[coordinates.getX()][coordinates.getY()];
+	private boolean verify(IEnvironment env,Coordinates coordinates){
+		Box box_destination = env.getGrid()[coordinates.getX()][coordinates.getY()];
 		Optional<IBoxable> opt = box_destination.getBoxables().stream().filter(b -> b instanceof Obstacle).findAny();
 		return ! opt.isPresent();
 	}

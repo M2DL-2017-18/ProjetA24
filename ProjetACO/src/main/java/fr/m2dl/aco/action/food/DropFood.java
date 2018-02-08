@@ -1,21 +1,20 @@
 package fr.m2dl.aco.action.food;
 
-import fr.m2dl.aco.action.AbstractAcoAction;
-import fr.m2dl.aco.domain.*;
-import fr.m2dl.aco.services.IBoxable;
-
 import java.util.Optional;
 
-public class DropFood extends AbstractAcoAction {
+import fr.m2dl.aco.domain.Ant;
+import fr.m2dl.aco.domain.Coordinates;
+import fr.m2dl.aco.domain.Nest;
+import fr.m2dl.aco.services.IAction;
+import fr.m2dl.aco.services.IBoxable;
+import fr.m2dl.aco.services.IEnvironment;
 
-    public DropFood(Environment environment, Ant ant) {
-        super(environment, ant);
-    }
+public class DropFood implements IAction {
 
-    public void act() {
-        Ant ant = this.getAnt();
+
+    public void act(Ant ant, IEnvironment env) {
         Coordinates coordinates = ant.getCoordinates();
-        Optional<IBoxable> opt = this.getEnvironment().getGrid()[coordinates.getX()][coordinates.getY()].getBoxables()
+        Optional<IBoxable> opt = env.getGrid()[coordinates.getX()][coordinates.getY()].getBoxables()
                 .stream().filter(e -> e instanceof Nest).findFirst();
 
         if(opt.isPresent()) {

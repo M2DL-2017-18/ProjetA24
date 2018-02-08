@@ -2,7 +2,6 @@ package fr.m2dl.aco.domain;
 
 import fr.m2dl.aco.services.IBehavior;
 import fr.m2dl.aco.services.IEnvironment;
-import fr.m2dl.infra.Behavior;
 import fr.m2dl.infra.Orchestrator;
 
 public class Environment implements IEnvironment{
