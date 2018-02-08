@@ -3,7 +3,7 @@ package fr.m2dl.aco.action.move;
 import fr.m2dl.aco.domain.Coordinates;
 
 /**
- * Deplacement en basa gauche.
+ * Deplacement en bas a gauche.
  * 
  *
  */
