@@ -12,9 +12,12 @@ public class Environment implements IEnvironment{
 
     private Orchestrator orchestrator;
 
-    public Environment () {
+    public Environment (int row, int col) {
         this.orchestrator = new Orchestrator();
+        grid = new Box[row][col];
+
     }
+
 
     /**
      * Création de x fourmis avec le même comportement

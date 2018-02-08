@@ -49,4 +49,6 @@ public interface IEnvironment extends LocalEnv{
      * @return la grille
      */
     Box[][] getGrid();
+
+
 }
