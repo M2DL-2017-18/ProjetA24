@@ -1,6 +1,6 @@
-package fr.m2dl.ff2d;
+package fr.m2dl.ff2d.application;
 
-import controller.Controller;
+import fr.m2dl.ff2d.controller.Controller;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,7 +15,7 @@ public class Main extends Application {
 		try {
 			
 			FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("/view/main.fxml"));
+            loader.setLocation(Main.class.getResource("../view/main.fxml"));
 
             VBox view = (VBox) loader.load();
             Controller controller = loader.getController();
