@@ -20,7 +20,7 @@ public abstract class Agent {
     private UUID id;
     private State state;
     private final static Logger logger = Logger.getLogger(Agent.class.getSimpleName());
-    private Behavior behavior;
+    private Behavior<Agent, LocalEnv> behavior;
 
     /**
      * Default constructor
@@ -42,7 +42,7 @@ public abstract class Agent {
      */
     protected void runLifeCycle() {
         LocalEnv env = sense();
-        for(Action a : behavior.decide(env)) {
+        for(Action<Agent, LocalEnv> a : behavior.decide(env)) {
             a.act(this, env);
         }
     }
