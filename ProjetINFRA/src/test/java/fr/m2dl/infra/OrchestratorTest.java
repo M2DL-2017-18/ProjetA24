@@ -21,14 +21,12 @@ public class OrchestratorTest {
 	}
 
 	private Agent generateAgent(Orchestrator orchestrator) {
-		List<Action> l = new ArrayList<Action>();
+		final List<Action<AgentTest, LocalEnv>> l = new ArrayList();
 
-		AgentTest a = new AgentTest(new Behavior() {
-			@Override
-			public List<Action> decide(LocalEnv env) {
-				l.add(new Action() {
-					@Override
-					public void act(Agent myAgent, LocalEnv env) {
+		AgentTest a = new AgentTest(new Behavior<AgentTest, LocalEnv>() {
+			public List<Action<AgentTest, LocalEnv>> decide(LocalEnv env) {
+				l.add(new Action<AgentTest, LocalEnv>() {
+					public void act(AgentTest activeAgent, LocalEnv env) {
 						testPassedByActFunction = true;
 					}
 				});
@@ -59,7 +57,6 @@ public class OrchestratorTest {
 
 	public void generateSuicideAgent(Orchestrator orchestrator) {
 		Agent a = new Agent(new Behavior() {
-			@Override
 			public List<Action> decide(LocalEnv env) {
 				List<Action> l = new ArrayList<Action>();
 				l.add(new ActionSuicideTest());
