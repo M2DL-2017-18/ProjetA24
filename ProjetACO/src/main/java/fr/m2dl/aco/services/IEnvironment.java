@@ -47,5 +47,9 @@ public interface IEnvironment extends LocalEnv{
      */
     Box[][] getGrid();
 
+    /**
+     * Lance l'orchestrateur
+     */
+    void run();
 
 }

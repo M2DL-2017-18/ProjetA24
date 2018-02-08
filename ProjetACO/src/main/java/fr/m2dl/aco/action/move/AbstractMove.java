@@ -11,7 +11,7 @@ import fr.m2dl.aco.services.IBoxable;
 import fr.m2dl.aco.services.IEnvironment;
 
 /**
- * Classe qui abstrait les action de deplacement d'une fourmi.
+ * Classe qui abstrait les actions de deplacement d'une fourmi.
  * 
  *
  */
@@ -31,6 +31,9 @@ public abstract class AbstractMove implements IAction{
 	 * Les coordonnées de destination est calculée en fonction du deplacement puis, 
 	 * puis ceux-ci sont normalisés pour gerer les debordements . Si le deplacement est posssible
 	 * La fourmi est deplacée sur la destination.
+	 * 
+	 * @param ant la fourmi qui effectue le mouvement
+	 * @param env l'environnement dans lequel se deplace la fourmi
 	 */
 	@Override
 	public void act(Ant ant, IEnvironment env) {
@@ -51,6 +54,8 @@ public abstract class AbstractMove implements IAction{
 	
 	/**
 	 * Normalise les coordonnées pour qui'il reste dans la grille
+	 * 
+	 * @param  env l'environnement
 	 * @param coordinates les coordonnées à normaliser
 	 * @return les coordonnées normalisés
 	 */
@@ -67,6 +72,8 @@ public abstract class AbstractMove implements IAction{
 	/**
 	 * Verifie qu'un deplacement est possible, s'il y a un obstacle a la destination le deplacment
 	 * est impossible, sinon il est posssible
+	 * 
+	 * @param env l'environnement 
 	 * @param coordinates la destination
 	 * @return true si le deplacememt est possible,false sinon
 	 */

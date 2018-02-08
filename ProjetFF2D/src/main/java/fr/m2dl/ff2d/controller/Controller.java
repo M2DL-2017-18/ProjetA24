@@ -6,6 +6,8 @@ import java.awt.TextField;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Logger;
 
 import org.w3c.dom.Node;
@@ -33,9 +35,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
-
 import javafx.application.Platform;
-
 
 public class Controller {
 
@@ -53,19 +53,21 @@ public class Controller {
 
 	private Thread refresh;
 
-	private ImageView imageNid;
+	private Image imageNid;
 
 	private ImageView imageFood;
 
-	private ImageView imageObstacle;
+	private Image imageObstacle;
 
-	private ImageView imageFourmi;
+	private Image imageFourmi;
+
+	private Image imageNourr;
 
 	@FXML
 	private void initialize() {
 		// on cree l'environnement
-		this.env = new Environment(numRows,numCols);
-		
+		this.env = new Environment(numRows, numCols);
+
 		// on lance la grille et on créé ses colonnes et lignes
 		this.gridPane = new GridPane();
 		this.gridPane.setGridLinesVisible(true);
@@ -73,13 +75,13 @@ public class Controller {
 			ColumnConstraints colConst = new ColumnConstraints(32);
 			colConst.setPercentWidth(100.0 / numCols);
 			colConst.setMinWidth(0);
-			gridPane.getColumnConstraints().add(colConst);       
+			gridPane.getColumnConstraints().add(colConst);
 		}
 		for (int i = 0; i < numRows; i++) {
 			RowConstraints rowConst = new RowConstraints(32);
 			rowConst.setPercentHeight(100.0 / numRows);
 			rowConst.setMinHeight(0);
-			gridPane.getRowConstraints().add(rowConst);   
+			gridPane.getRowConstraints().add(rowConst);
 
 		}
 
@@ -92,12 +94,12 @@ public class Controller {
 		this.gridPane.prefHeightProperty().bind(this.gridPanel.heightProperty());
 
 		// on ajoute le listener aux cellules de la grille
-		for (int i = 0 ; i < numCols ; i++) {
+		for (int i = 0; i < numCols; i++) {
 			for (int j = 0; j < numRows; j++) {
 				addPane(i, j);
 			}
 		}
-		
+
 		// on recupere l'ensemble des images au lancement du projet
 		FileInputStream imageStream = null;
 		try {
@@ -105,11 +107,8 @@ public class Controller {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		Image imageRouge = new Image(imageStream);
-		this.imageNid = new ImageView(imageRouge);
-		this.imageNid.setFitWidth(140);
-		this.imageNid.setFitHeight(140);
-		
+		imageNid = new Image(imageStream);
+
 		FileInputStream foodStream = null;
 		FileInputStream obstacleStream = null;
 		try {
@@ -119,44 +118,33 @@ public class Controller {
 			// TODO Auto-generated catch block
 			ev.printStackTrace();
 		}
-		Image food = new Image(foodStream);
-		this.imageFood = new ImageView(food);
-		this.imageFood.setFitWidth(40);
-		this.imageFood.setFitHeight(40);
+		imageNourr = new Image(foodStream);
 
+		imageObstacle = new Image(obstacleStream);
 
-		Image obstacle = new Image(obstacleStream);
-		this.imageObstacle = new ImageView(obstacle);
-		this.imageObstacle.setFitWidth(40);
-		this.imageObstacle.setFitHeight(40);
-		
 		FileInputStream imageStream2 = null;
 		try {
 			imageStream2 = new FileInputStream("src/main/java/fr/m2dl/ff2d/view/ant.png");
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Image imageRouge2 = new Image(imageStream2);
-		imageFourmi = new ImageView(imageRouge2);
-		this.imageFourmi.setFitWidth(40);
-		this.imageFourmi.setFitHeight(60);
+		imageFourmi = new Image(imageStream2);
+
 	}
 
 	public void launchNest() {
 		// on met à jour env
-		this.env.createNest(new Coordinates(0,0));
+		this.env.createNest(new Coordinates(1, 1));
 	}
 
 	private void addPane(final int colIndex, final int rowIndex) {
 		Pane pane = new Pane();
 		pane.setOnMousePressed(new EventHandler<Event>() {
 			public void handle(Event event) {
-				launchPassiveEntity( colIndex, rowIndex);
+				launchPassiveEntity(colIndex, rowIndex);
 			}
 		});
 		gridPane.add(pane, colIndex, rowIndex);
-
 
 	}
 
@@ -167,15 +155,15 @@ public class Controller {
 	private void launchAnt(int x, int y) {
 		// creation de la fourmi dans ACO
 		this.env.createAnts(1, new Behavior());
-		
+
 		// lancer une fourmi sur l'interface graphique
 		logger.info("je suis une fourmi graphique.");
 	}
 
 	private void launchPassiveEntity(int x, int y) {
-		if(this.entityType != 0){
+		if (this.entityType != 0) {
 			// lancer une entite sur l'interface graphique
-			switch(this.entityType){
+			switch (this.entityType) {
 			case 1:
 				logger.info("Creation de l'entité Nourriture");
 				// affichage de l'entite
@@ -193,10 +181,9 @@ public class Controller {
 	public void launchSimulation() {
 		// on lance le nid
 		launchNest();
-		
 		// on lance une fourmie
-		launchAnt(numCols/2, numRows/2);
-		
+		launchAnt(numCols / 2, numRows / 2);
+
 		// on lance l'interface graphique
 		refreshUI();
 
@@ -207,47 +194,67 @@ public class Controller {
 		initialize();
 	}
 
-	public void selectFood(){
+	public void selectFood() {
 		this.entityType = 1;
 	}
 
-	public void selectRock(){
+	public void selectRock() {
 		this.entityType = 2;
 	}
 
-	public void refreshUI(){
-		Platform.runLater(new Runnable() {
+	public void refreshUI() {
+
+		new Timer().schedule(new TimerTask() {
+
 			@Override
 			public void run() {
-				while(true){
-				Box[][] box = env.getGrid();
-				for(int i = 0 ; i<numRows;i++){
-					for(int j = 0 ; j<numCols;j++){
-						List<IBoxable> boxables = box[i][j].getBoxables();
-						for(IBoxable b : boxables){
-							if(b instanceof Ant){
-								// afficher ant
-								System.out.println(b.getCoordinates());
-								System.out.println(b.getCoordinates());
-
-								gridPane.add(imageFourmi, b.getCoordinates().getX(), b.getCoordinates().getY());
-							}else if(b instanceof Food){
-								// afficher food
-								gridPane.add(imageFood, b.getCoordinates().getX(), b.getCoordinates().getY());
-							}else if(b instanceof Obstacle){
-								// afficher obstacle
-								gridPane.add(imageObstacle, b.getCoordinates().getX(), b.getCoordinates().getY());
-							}else if(b instanceof Nest){
-								// afficher nest
-								gridPane.add(imageNid, b.getCoordinates().getX(), b.getCoordinates().getY());
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						Box[][] box = env.getGrid();
+						for (int i = 0; i < numRows; i++) {
+							for (int j = 0; j < numCols; j++) {
+								List<IBoxable> boxables = box[i][j].getBoxables();
+								for(IBoxable b : boxables){
+								//if (boxables.size() > 0) {
+									//IBoxable b = boxables.get(0);
+									
+									if (b instanceof Ant) {
+										// afficher ant
+										ImageView imageAnt = new ImageView(imageFourmi);
+										imageAnt.setFitWidth(40);
+										imageAnt.setFitHeight(60);
+										gridPane.add(imageAnt, b.getCoordinates().getY(), b.getCoordinates().getX());
+									} else if (b instanceof Food) {
+										// afficher food
+										ImageView imageAnt = new ImageView(imageNourr);
+										imageAnt.setFitWidth(40);
+										imageAnt.setFitHeight(60);
+										gridPane.add(imageAnt, b.getCoordinates().getY(), b.getCoordinates().getX());
+									} else if (b instanceof Obstacle) {
+										// afficher obstacle
+										ImageView imageAnt = new ImageView(imageObstacle);
+										imageAnt.setFitWidth(40);
+										imageAnt.setFitHeight(60);
+										gridPane.add(imageAnt, b.getCoordinates().getY(), b.getCoordinates().getX());
+									} else if (b instanceof Nest) {
+										// afficher nest
+										ImageView imageAnt = new ImageView(imageNid);
+										imageAnt.setFitWidth(40);
+										imageAnt.setFitHeight(60);
+										//gridPane.add(imageAnt, b.getCoordinates().getX(), b.getCoordinates().getY());
+									}
+								}
 							}
-						}
-					}	
-				}				
-			}
-			}
-		});
-	}
 
+						}
+					}
+				});
+
+			}
+
+		}, 0, 500);
+
+	}
 
 }
