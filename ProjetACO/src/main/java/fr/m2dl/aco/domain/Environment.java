@@ -4,19 +4,19 @@ import fr.m2dl.aco.services.IBehavior;
 import fr.m2dl.aco.services.IEnvironment;
 import fr.m2dl.infra.Orchestrator;
 
-public class Environment implements IEnvironment{
+public class Environment implements IEnvironment {
 
     private Box[][] grid;
     private Nest nest;
 
     private Orchestrator orchestrator;
 
-    public Environment (int row, int col) {
+    public Environment(int row, int col) {
         this.orchestrator = new Orchestrator();
         grid = new Box[row][col];
-        for(int i = 0 ; i<row;i++){
-            for(int j=0 ; j<col;j++){
-                grid[i][j]= new Box();
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                grid[i][j] = new Box();
             }
         }
 
@@ -32,8 +32,8 @@ public class Environment implements IEnvironment{
      * @param behavior comportement des fourmis
      */
     public void createAnts(int number, IBehavior behavior) {
-        if (nest == null){
-            Coordinates positionNest = new Coordinates(0,0);
+        if (nest == null) {
+            Coordinates positionNest = new Coordinates(0, 0);
             createNest(positionNest);
         }
         int nestX = nest.getCoordinates().getX();
@@ -49,7 +49,7 @@ public class Environment implements IEnvironment{
      * Création d'une nourriture à un emplacement donné
      *
      * @param coordinates Coordonnées de l'emplacement
-     * @param quantity La quantité de la nourriture
+     * @param quantity    La quantité de la nourriture
      */
     public void createFood(Coordinates coordinates, int quantity) {
 
@@ -70,15 +70,16 @@ public class Environment implements IEnvironment{
     }
 
     /**
-     *  Création d'un nid à un emplacement donné (que sur une case)
+     * Création d'un nid à un emplacement donné (que sur une case)
+     *
      * @param coordinates Coordonnées de l'emplacement
      */
     public void createNest(Coordinates coordinates) {
 
-            if (nest == null) {
-                nest = new Nest(coordinates);
-                grid[coordinates.getX()][coordinates.getY()].addBoxable(nest);
-            }
+        if (nest == null) {
+            nest = new Nest(coordinates);
+            grid[coordinates.getX()][coordinates.getY()].addBoxable(nest);
+        }
 
     }
 
@@ -91,8 +92,16 @@ public class Environment implements IEnvironment{
         return grid;
     }
 
-	public void setGrid(Box[][] grid) {
-		this.grid = grid;
-	}
-    
+    /**
+     * Lance l'orchestrateur
+     */
+    @Override
+    public void run() {
+        orchestrator.run();
+    }
+
+    public void setGrid(Box[][] grid) {
+        this.grid = grid;
+    }
+
 }
