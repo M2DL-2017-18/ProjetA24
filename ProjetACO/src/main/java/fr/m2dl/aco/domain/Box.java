@@ -1,9 +1,9 @@
 package fr.m2dl.aco.domain;
 
-import fr.m2dl.aco.services.IBoxable;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import fr.m2dl.aco.services.IBoxable;
 
 /**
  * Définition d'une case de la grille

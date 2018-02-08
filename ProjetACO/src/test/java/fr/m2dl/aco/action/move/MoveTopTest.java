@@ -4,7 +4,7 @@ package fr.m2dl.aco.action.move;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import fr.m2dl.aco.domain.Ant;
@@ -21,8 +21,8 @@ public class MoveTopTest {
 	Coordinates ant_coordinates;
 	
 	
-	@BeforeClass
-	public static void init(){
+	@Before
+	public  void init(){
 		env = new Environment();
 		env.setGrid(new Box[3][3]);
 		for (int i = 0; i < 3; i++) {
@@ -38,8 +38,8 @@ public class MoveTopTest {
 		ant_coordinates = new Coordinates(1, 1);
 		ant.setCoordinates(ant_coordinates);
 		env.getGrid()[1][1].addBoxable(ant);
-		MoveTop mov = new MoveTop(env, ant);
-		mov.act();
+		MoveTop mov = new MoveTop();
+		mov.act(ant,env);
 		assertFalse(env.getGrid()[1][1].getBoxables().contains(ant));
 		assertTrue(env.getGrid()[1][0].getBoxables().contains(ant));
 	}
@@ -50,19 +50,19 @@ public class MoveTopTest {
 		ant.setCoordinates(ant_coordinates);
 		env.getGrid()[1][1].addBoxable(ant);
 		env.getGrid()[1][0].addBoxable(new Obstacle(new Coordinates(1, 0)));
-		MoveTop mov = new MoveTop(env, ant);
-		mov.act();
+		MoveTop mov = new MoveTop();
+		mov.act(ant,env);
 		assertTrue(env.getGrid()[1][1].getBoxables().contains(ant));
 		assertFalse(env.getGrid()[1][0].getBoxables().contains(ant));
 	}
 	
 	@Test
-	public void testMoveTransvers(){
+	public void testMoveTraverse(){
 		ant_coordinates = new Coordinates(1, 0);
 		ant.setCoordinates(ant_coordinates);
 		env.getGrid()[1][0].addBoxable(ant);
-		MoveTop mov = new MoveTop(env, ant);
-		mov.act();
+		MoveTop mov = new MoveTop();
+		mov.act(ant,env);
 		assertFalse(env.getGrid()[1][0].getBoxables().contains(ant));
 		assertTrue(env.getGrid()[1][2].getBoxables().contains(ant));
 	}

@@ -1,14 +1,12 @@
 package fr.m2dl.aco.domain;
 
+import java.util.logging.Logger;
+
 import fr.m2dl.aco.services.IBehavior;
 import fr.m2dl.aco.services.IBoxable;
 import fr.m2dl.aco.services.IEnvironment;
 import fr.m2dl.infra.Action;
 import fr.m2dl.infra.Agent;
-import fr.m2dl.infra.Behavior;
-import fr.m2dl.infra.LocalEnv;
-
-import java.util.logging.Logger;
 
 public class Ant extends Agent implements IBoxable{
 
