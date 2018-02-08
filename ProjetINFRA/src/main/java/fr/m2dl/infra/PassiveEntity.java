@@ -1,7 +1,9 @@
 package fr.m2dl.infra;
 
 /**
- * Describes what is a passive entity
+ * Describes a passive entity
+ * @author Infra core team
+ * @since 02-02-2018
  */
-public class PassiveEntity {
+public abstract class PassiveEntity {
 }

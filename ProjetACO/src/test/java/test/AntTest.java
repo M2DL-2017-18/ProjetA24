@@ -1,13 +1,11 @@
 package test;
 
-import fr.m2dl.aco.domain.Ant;
+import static org.junit.Assert.assertNotNull;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNull.notNullValue;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import fr.m2dl.aco.domain.Ant;
 
 
 /**
@@ -18,7 +16,7 @@ public class AntTest {
     private Ant ant;
     @Before
     public void setUp() {
-        ant = new Ant();
+        ant = new Ant(null);
     }
 
     @Test

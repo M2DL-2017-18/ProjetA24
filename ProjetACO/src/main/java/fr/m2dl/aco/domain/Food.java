@@ -1,18 +1,43 @@
 package fr.m2dl.aco.domain;
 
-public class Food {
+import fr.m2dl.aco.services.IBoxable;
 
-    private int posX;
-    private int posY;
+public class Food implements IBoxable {
 
     /**
-     * Constructor with posisiton
-     *
-     * @param posX The X position
-     * @param posY The Y position
+     * Quantité de nourriture restante
      */
-    public Food(int posX, int posY) {
-        this.posX = posX;
-        this.posY = posY;
+    private int quantity;
+
+    /**
+     * Coordonnées de la pile de nourriture
+     */
+    private Coordinates coordinates;
+
+    /**
+     * Constructeur avec la position initiale et la quantité de nourriture
+     *
+     * @param coordinates
+     * @param quantity    Quantité de nourriture restante
+     */
+    public Food(Coordinates coordinates, int quantity) {
+        this.coordinates = coordinates;
+        this.quantity = quantity;
+    }
+
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

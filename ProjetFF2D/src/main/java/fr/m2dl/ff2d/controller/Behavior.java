@@ -1,9 +1,12 @@
 package fr.m2dl.ff2d.controller;
 
 import java.util.List;
-import java.util.ArrayList;
 
-import fr.m2dl.ff2d.mocks.*;
+import fr.m2dl.aco.action.move.*;
+import fr.m2dl.aco.services.IAction;
+import fr.m2dl.aco.services.IEnvironment;
+
+import java.util.ArrayList;
 
 /**
  * 
@@ -19,7 +22,7 @@ public class Behavior {
 	 * @return  La liste des actions que la fourmi exécutera	selon son environnement
 	 */
 	public List<IAction> decide(IEnvironment e) {
-		List<Action> listeAction = new ArrayList<Action>();
+		List<IAction> listeAction = new ArrayList<IAction>();
 		
 		listeAction.addAll(uTurn());
 		
@@ -27,7 +30,7 @@ public class Behavior {
 	}
 	
 	public List<IAction> uTurn() {
-		List<IAction> listeActionUturn = new ArrayList<Action>();
+		List<IAction> listeActionUturn = new ArrayList<IAction>();
 		
 		listeActionUturn.add(new MoveRight());
 		listeActionUturn.add(new MoveBottom());
@@ -37,6 +40,6 @@ public class Behavior {
 	}
 	
 	public List<IAction> exploreEnv(IEnvironment e) {
-		
+		return null;
 	}
 }
