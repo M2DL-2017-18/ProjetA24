@@ -23,10 +23,18 @@ public class Orchestrator {
 
     /**
      * Adds an agent to the system
-     * @param a the agent to add
+     * @param agent the agent to add
      */
-    public void createAgent(Agent a) {
-        agentList.add(a);
+    public void createAgent(Agent agent) {
+        agentList.add(agent);
+    }
+
+    /**
+     * Adds an active entity to the system
+     * @param activeEntity the active entity to add
+     */
+    public void createActiveEntity(ActiveEntity activeEntity) {
+        activeEntityList.add(activeEntity);
     }
 
     /**
