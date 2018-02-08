@@ -9,6 +9,18 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+	<repositories>
+	    <repository>
+	      <id>central</id>
+	      <name>Central Repository</name>
+	      <url>http://repo.maven.apache.org/maven2</url>
+	      <layout>default</layout>
+	      <snapshots>
+	        <enabled>false</enabled>
+	      </snapshots>
+	    </repository>
+	  </repositories>
+
     <artifactId>ProjetFF2D</artifactId>
 
     <dependencies>
@@ -17,6 +29,13 @@
             <artifactId>ProjetACO</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/junit/junit -->
+		<dependency>
+		    <groupId>junit</groupId>
+		    <artifactId>junit</artifactId>
+		    <version>4.12</version>
+		    <scope>test</scope>
+		</dependency>
     </dependencies>
 
 </project>

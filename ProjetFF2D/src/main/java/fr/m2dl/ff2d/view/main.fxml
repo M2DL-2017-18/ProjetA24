@@ -7,23 +7,25 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.m2dl.ff2d.controller.Controller">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
          <children>
             <SplitPane dividerPositions="0.8165829145728644" layoutX="-1.0" orientation="VERTICAL" prefHeight="800.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
-                <AnchorPane fx:id="gridPanel" minHeight="0.0" minWidth="0.0" prefHeight="213.0" prefWidth="638.0" />
+                <AnchorPane fx:id="gridPanel" minHeight="0.0" minWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="161.0" prefWidth="638.0">
                      <children>
                         <HBox layoutX="166.0" layoutY="33.0" prefHeight="143.0" prefWidth="1278.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Button fx:id="launchBtn" mnemonicParsing="false" onAction="#launchSimulation" prefHeight="57.0" prefWidth="160.0" text="Lancer">
+                              <Button fx:id="launchBtn" mnemonicParsing="false" onAction="#launchSimulation" prefHeight="57.0" prefWidth="160.0" text="Lancer" AnchorPane.leftAnchor="0.0">
                                  <HBox.margin>
                                     <Insets right="5.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button fx:id="stopBtn" minHeight="-Infinity" mnemonicParsing="false" onAction="#stopSimulation" prefHeight="57.0" prefWidth="160.0" text="Stop" />
+                              <Button fx:id="stopBtn" minHeight="-Infinity" mnemonicParsing="false" onAction="#stopSimulation" prefHeight="57.0" prefWidth="160.0" text="Stop" AnchorPane.rightAnchor="0.0" />
+                           	  <Button fx:id="foodBtn" minHeight="-Infinity" mnemonicParsing="false" onAction="#selectFood" prefHeight="57.0" prefWidth="160.0" text="Nourriture" AnchorPane.rightAnchor="0.0" />
+                              <Button fx:id="rockBtn" minHeight="-Infinity" mnemonicParsing="false" onAction="#selectRock" prefHeight="57.0" prefWidth="160.0" text="Obstacle" AnchorPane.rightAnchor="0.0" />
                            </children>
                            <padding>
                               <Insets left="5.0" top="5.0" />
