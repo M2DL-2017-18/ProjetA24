@@ -3,8 +3,11 @@ package fr.m2dl.ff2d.controller;
 import java.util.List;
 
 import fr.m2dl.aco.action.move.*;
+import fr.m2dl.aco.domain.Ant;
 import fr.m2dl.aco.services.IAction;
+import fr.m2dl.aco.services.IBehavior;
 import fr.m2dl.aco.services.IEnvironment;
+import fr.m2dl.infra.Action;
 
 import java.util.ArrayList;
 
@@ -14,20 +17,8 @@ import java.util.ArrayList;
  *
  * Implémentation du comportement d'une fourmi
  */
-public class Behavior {
+public class Behavior implements IBehavior {
 	
-	/**
-	 * 
-	 * @param e Environnement immédiat de la fourmi
-	 * @return  La liste des actions que la fourmi exécutera	selon son environnement
-	 */
-	public List<IAction> decide(IEnvironment e) {
-		List<IAction> listeAction = new ArrayList<IAction>();
-		
-		listeAction.addAll(uTurn());
-		
-		return listeAction;
-	}
 	
 	public List<IAction> uTurn() {
 		List<IAction> listeActionUturn = new ArrayList<IAction>();
@@ -38,8 +29,15 @@ public class Behavior {
 		
 		return listeActionUturn;
 	}
-	
-	public List<IAction> exploreEnv(IEnvironment e) {
-		return null;
+
+
+	@Override
+	public List<Action<Ant, IEnvironment>> decide(IEnvironment environment) {
+		List<Action<Ant, IEnvironment>> listeAction = new ArrayList<>();
+		
+		listeAction.addAll(uTurn());
+		
+		return listeAction;
 	}
+	
 }
