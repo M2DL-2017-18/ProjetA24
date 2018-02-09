@@ -20,7 +20,7 @@ public abstract class Agent {
     private UUID id;
     private State state;
     private final static Logger logger = Logger.getLogger(Agent.class.getSimpleName());
-    private IBehavior<Agent, IEnvironment> IBehavior;
+    private IBehavior<Agent, IEnvironment> behavior;
 
     /**
      * Default constructor
@@ -28,7 +28,7 @@ public abstract class Agent {
     public Agent(IBehavior b) {
         id = UUID.randomUUID();
         state = State.ALIVE;
-        this.IBehavior = b;
+        this.behavior = b;
         logger.info("Création d'un agent");
     }
 
@@ -42,7 +42,7 @@ public abstract class Agent {
      */
     protected void runLifeCycle() {
         IEnvironment environment = sense();
-        for(IAction<Agent, IEnvironment> a : IBehavior.decide(environment)) {
+        for(IAction<Agent, IEnvironment> a : behavior.decide(environment)) {
             a.act(this, environment);
         }
     }
