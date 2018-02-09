@@ -20,7 +20,7 @@ public class Ant extends Agent {
     }
 
     @Override
-    public IEnvironment sense() {
+    public IEnvironment sense(IEnvironment environment) {
         return null;
     }
 }

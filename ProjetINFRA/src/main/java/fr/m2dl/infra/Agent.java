@@ -35,14 +35,15 @@ public abstract class Agent {
     /**
      * An agent can perceive
      */
-    public abstract IEnvironment sense();
+    public abstract <E extends IEnvironment> E sense(E environment);
 
     /**
      * An agent has a lifecycle : perceive, decide, act
      */
-    protected void runLifeCycle() {
-        IEnvironment environment = sense();
-        for(IAction<Agent, IEnvironment> a : behavior.decide(environment)) {
+    protected void runLifeCycle(IEnvironment environment) {
+        // sensedEnv is the maximal decision scope of the agent
+        IEnvironment sensedEnv = sense(environment);
+        for(IAction<Agent, IEnvironment> a : behavior.decide(sensedEnv)) {
             a.act(this, environment);
         }
     }
