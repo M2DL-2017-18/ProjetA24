@@ -50,7 +50,7 @@ public class OrchestratorTest {
 	@Test
 	public void testRunAgentLifeCycle() {
 		Agent a = generateAgent(orchestrator);
-		a.runLifeCycle();
+		a.runLifeCycle(new IEnvironment() { });
 		assertTrue(testPassedByActFunction);
 	}
 
@@ -64,7 +64,7 @@ public class OrchestratorTest {
 			}
 		}) {
 			@Override
-			public IEnvironment sense() {
+			public IEnvironment sense(IEnvironment environment) {
 				return null;
 			}
 		};
@@ -76,7 +76,18 @@ public class OrchestratorTest {
 		generateSuicideAgent(orchestrator);
 
 		// When we run the system
-		orchestrator.run();
+		orchestrator.run(new IGlobalEnvironment() {
+			@Override
+			public IEnvironment getAgentEnvironment(Agent a) {
+				return new IEnvironment() {
+				};
+			}
+
+			@Override
+			public void synchronize(IEnvironment environment) {
+
+			}
+		});
 
 		// Then the agent should be removed from the system.
 		assertEquals(0, orchestrator.getListAgents().size());
