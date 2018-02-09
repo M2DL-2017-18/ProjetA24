@@ -1,6 +1,7 @@
 package fr.m2dl.infra;
 
 import java.util.logging.Logger;
+import java.util.Timer;
 import java.util.UUID;
 
 /**
@@ -40,10 +41,17 @@ public abstract class Agent {
     /**
      * An agent has a lifecycle : perceive, decide, act
      */
-    protected void runLifeCycle() {
+    protected void runLifeCycle(LocalEnv environnement) {
         LocalEnv env = sense();
         for(Action<Agent, LocalEnv> a : behavior.decide(env)) {
-            a.act(this, env);
+        	a.act(this, environnement);
+        	//TODO a virer
+        	try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
     }
 
