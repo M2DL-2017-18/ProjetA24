@@ -47,7 +47,7 @@ public class Controller {
 	final int numCols = 32;
 	final int numRows = 16;
 	private final static Logger logger = Logger.getLogger(Ant.class.getSimpleName());
-	private int entityType = 2;
+	private int entityType = 0;
 
 	private Environment env;
 
@@ -63,10 +63,10 @@ public class Controller {
 
 	private Image imageNourr;
 
+	private Timer timer;
+
 	@FXML
 	private void initialize() {
-		// on cree l'environnement
-		this.env = new Environment(numRows, numCols);
 
 		// on lance la grille et on créé ses colonnes et lignes
 		this.gridPane = new GridPane();
@@ -92,13 +92,6 @@ public class Controller {
 		this.gridPane.setStyle("-fx-background-color: white;");
 		this.gridPane.prefWidthProperty().bind(this.gridPanel.widthProperty());
 		this.gridPane.prefHeightProperty().bind(this.gridPanel.heightProperty());
-
-		// on ajoute le listener aux cellules de la grille
-		for (int i = 0; i < numCols; i++) {
-			for (int j = 0; j < numRows; j++) {
-				addPane(i, j);
-			}
-		}
 
 		// on recupere l'ensemble des images au lancement du projet
 		FileInputStream imageStream = null;
@@ -134,7 +127,7 @@ public class Controller {
 
 	public void launchNest() {
 		// on met à jour env
-		this.env.createNest(new Coordinates(1, 1));
+		this.env.createNest(new Coordinates(0, 1));
 	}
 
 	private void addPane(final int colIndex, final int rowIndex) {
@@ -179,17 +172,33 @@ public class Controller {
 	}
 
 	public void launchSimulation() {
+		// on cree l'environnement
+		this.env = new Environment(numRows, numCols);
+		
 		// on lance le nid
 		launchNest();
+		
 		// on lance une fourmie
 		launchAnt(numCols / 2, numRows / 2);
+		
+		// on lance la boucle de l'environnement
+		//this.env.run();
 
+		// on ajoute le listener aux cellules de la grille
+		for (int i = 0; i < numCols; i++) {
+			for (int j = 0; j < numRows; j++) {
+				addPane(i, j);
+			}
+		}
+		
 		// on lance l'interface graphique
 		refreshUI();
 
 	}
 
 	public void stopSimulation() {
+		this.timer.cancel();
+		this.env = new Environment(numRows, numCols);
 		gridPane.getChildren().clear();
 		initialize();
 	}
@@ -204,7 +213,8 @@ public class Controller {
 
 	public void refreshUI() {
 
-		new Timer().schedule(new TimerTask() {
+		this.timer = new Timer();
+		this.timer.schedule(new TimerTask() {
 
 			@Override
 			public void run() {
@@ -223,26 +233,26 @@ public class Controller {
 										// afficher ant
 										ImageView imageAnt = new ImageView(imageFourmi);
 										imageAnt.setFitWidth(40);
-										imageAnt.setFitHeight(60);
+										imageAnt.setFitHeight(40);
 										gridPane.add(imageAnt, b.getCoordinates().getY(), b.getCoordinates().getX());
 									} else if (b instanceof Food) {
 										// afficher food
 										ImageView imageAnt = new ImageView(imageNourr);
 										imageAnt.setFitWidth(40);
-										imageAnt.setFitHeight(60);
+										imageAnt.setFitHeight(40);
 										gridPane.add(imageAnt, b.getCoordinates().getY(), b.getCoordinates().getX());
 									} else if (b instanceof Obstacle) {
 										// afficher obstacle
 										ImageView imageAnt = new ImageView(imageObstacle);
 										imageAnt.setFitWidth(40);
-										imageAnt.setFitHeight(60);
+										imageAnt.setFitHeight(40);
 										gridPane.add(imageAnt, b.getCoordinates().getY(), b.getCoordinates().getX());
 									} else if (b instanceof Nest) {
 										// afficher nest
 										ImageView imageAnt = new ImageView(imageNid);
-										imageAnt.setFitWidth(40);
-										imageAnt.setFitHeight(60);
-										//gridPane.add(imageAnt, b.getCoordinates().getX(), b.getCoordinates().getY());
+										imageAnt.setFitWidth(120);
+										imageAnt.setFitHeight(120);
+										gridPane.add(imageAnt, b.getCoordinates().getX(), b.getCoordinates().getY());
 									}
 								}
 							}
