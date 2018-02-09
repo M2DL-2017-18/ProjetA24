@@ -43,6 +43,7 @@ public class Environment implements IEnvironment {
             grid[nestX][nestY].addBoxable(ant);
             orchestrator.createAgent(ant);
         }
+        orchestrator.setEnvironnement(this);
     }
 
     /**

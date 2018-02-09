@@ -13,6 +13,7 @@ import java.util.List;
 public class Orchestrator {
     List<ActiveEntity> activeEntityList;
     List<Agent> agentList;
+    LocalEnv environnement;
 
     /**
      * Default constructor
@@ -29,6 +30,10 @@ public class Orchestrator {
         agentList.add(agent);
     }
 
+    public void setEnvironnement(LocalEnv environnement) {
+		this.environnement = environnement;
+	}
+    
     /**
      * Adds an active entity to the system
      * @param activeEntity the active entity to add
@@ -44,7 +49,7 @@ public class Orchestrator {
         List<Agent> agentsToGarbage = new ArrayList<Agent>();
 
         for (Agent a : agentList) {
-            a.runLifeCycle();
+            a.runLifeCycle(environnement);
 
             if (this.agentIsDead(a)) {
                 // we check if the agent is dead after the lifecycle 

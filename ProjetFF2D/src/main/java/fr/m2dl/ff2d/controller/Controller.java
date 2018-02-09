@@ -68,7 +68,7 @@ public class Controller {
 	@FXML
 	private void initialize() {
 
-		// on lance la grille et on créé ses colonnes et lignes
+		// on lance la grille et on crï¿½ï¿½ ses colonnes et lignes
 		this.gridPane = new GridPane();
 		this.gridPane.setGridLinesVisible(true);
 		for (int i = 0; i < numCols; i++) {
@@ -126,7 +126,7 @@ public class Controller {
 	}
 
 	public void launchNest() {
-		// on met à jour env
+		// on met ï¿½ jour env
 		this.env.createNest(new Coordinates(0, 1));
 	}
 
@@ -158,12 +158,12 @@ public class Controller {
 			// lancer une entite sur l'interface graphique
 			switch (this.entityType) {
 			case 1:
-				logger.info("Creation de l'entité Nourriture");
+				logger.info("Creation de l'entitï¿½ Nourriture");
 				// affichage de l'entite
 				this.env.createFood(new Coordinates(y, x), 1);
 				break;
 			case 2:
-				logger.info("Creation de l'entité Obstacle");
+				logger.info("Creation de l'entitï¿½ Obstacle");
 				// affichage de l'entite
 				this.env.createObstacle(new Coordinates(y, x));
 				break;
@@ -176,13 +176,21 @@ public class Controller {
 		this.env = new Environment(numRows, numCols);
 		
 		// on lance le nid
-		launchNest();
+		//launchNest();
 		
 		// on lance une fourmie
 		launchAnt(numCols / 2, numRows / 2);
 		
-		// on lance la boucle de l'environnement
-		//this.env.run();
+		Thread t = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				env.run();
+				
+			}
+		});
+		t.start();
+		
 
 		// on ajoute le listener aux cellules de la grille
 		for (int i = 0; i < numCols; i++) {

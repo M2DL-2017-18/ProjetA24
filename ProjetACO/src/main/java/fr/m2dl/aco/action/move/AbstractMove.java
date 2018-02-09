@@ -1,6 +1,7 @@
 package fr.m2dl.aco.action.move;
 
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import fr.m2dl.aco.domain.Ant;
 import fr.m2dl.aco.domain.Box;
@@ -17,6 +18,7 @@ import fr.m2dl.aco.services.IEnvironment;
  */
 public abstract class AbstractMove implements IAction{
 
+	private final static Logger logger = Logger.getLogger(AbstractMove.class.getSimpleName());
 	
 	/**
 	 * Methode pour calculer les coordonnées de destination en fonction d'un mouvement.
@@ -40,7 +42,9 @@ public abstract class AbstractMove implements IAction{
 		Coordinates origin = ant.getCoordinates();
 		Coordinates destination = getDestination(origin);
 		destination = stayInGrid(env,destination);
+		logger.info("J'essaie de  me deplacer vers "+destination);
 		if(verify(env,destination)){
+			logger.info("le deplacement est possible");
 			int x_origine = origin.getX();
 			int y_origine = origin.getY();
 			int x_dest = destination.getX();
