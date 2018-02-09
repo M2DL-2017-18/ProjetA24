@@ -1,8 +1,9 @@
 package fr.m2dl.aco.domain;
 
 import fr.m2dl.aco.services.IBoxable;
+import fr.m2dl.infra.PassiveEntity;
 
-public class Nest implements IBoxable {
+public class Nest extends PassiveEntity implements IBoxable {
 
     /**
      * Coordonées du nid
