@@ -6,12 +6,12 @@ package fr.m2dl.infra;
  * @author Infra core team
  * @since 02-02-2018
  */
-public interface Action<A extends Agent, L extends LocalEnv> {
+public interface IAction<A extends Agent, E extends IEnvironment> {
 
     /**
      * The concrete action
      * @param activeAgent the agent that perform this action
-     * @param env the local environment
+     * @param environment the environment of the active agent
      */
-    void act(A activeAgent, L env);
+    void act(A activeAgent, E environment);
 }

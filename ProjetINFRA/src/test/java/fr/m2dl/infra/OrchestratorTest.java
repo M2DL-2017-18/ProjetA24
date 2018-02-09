@@ -21,12 +21,12 @@ public class OrchestratorTest {
 	}
 
 	private Agent generateAgent(Orchestrator orchestrator) {
-		final List<Action<AgentTest, LocalEnv>> l = new ArrayList();
+		final List<IAction<AgentTest, IEnvironment>> l = new ArrayList();
 
-		AgentTest a = new AgentTest(new Behavior<AgentTest, LocalEnv>() {
-			public List<Action<AgentTest, LocalEnv>> decide(LocalEnv env) {
-				l.add(new Action<AgentTest, LocalEnv>() {
-					public void act(AgentTest activeAgent, LocalEnv env) {
+		AgentTest a = new AgentTest(new IBehavior<AgentTest, IEnvironment>() {
+			public List<IAction<AgentTest, IEnvironment>> decide(IEnvironment env) {
+				l.add(new IAction<AgentTest, IEnvironment>() {
+					public void act(AgentTest activeAgent, IEnvironment environment) {
 						testPassedByActFunction = true;
 					}
 				});
@@ -50,21 +50,21 @@ public class OrchestratorTest {
 	@Test
 	public void testRunAgentLifeCycle() {
 		Agent a = generateAgent(orchestrator);
-		a.runLifeCycle();
+		a.runLifeCycle(new IEnvironment() { });
 		assertTrue(testPassedByActFunction);
 	}
 
 
 	public void generateSuicideAgent(Orchestrator orchestrator) {
-		Agent a = new Agent(new Behavior() {
-			public List<Action> decide(LocalEnv env) {
-				List<Action> l = new ArrayList<Action>();
+		Agent a = new Agent(new IBehavior() {
+			public List<IAction> decide(IEnvironment env) {
+				List<IAction> l = new ArrayList<IAction>();
 				l.add(new ActionSuicideTest());
 				return l;
 			}
 		}) {
 			@Override
-			public LocalEnv sense() {
+			public IEnvironment sense(IEnvironment environment) {
 				return null;
 			}
 		};
@@ -76,7 +76,18 @@ public class OrchestratorTest {
 		generateSuicideAgent(orchestrator);
 
 		// When we run the system
-		orchestrator.run();
+		orchestrator.run(new IGlobalEnvironment() {
+			@Override
+			public IEnvironment getAgentEnvironment(Agent a) {
+				return new IEnvironment() {
+				};
+			}
+
+			@Override
+			public void synchronize(IEnvironment environment) {
+
+			}
+		});
 
 		// Then the agent should be removed from the system.
 		assertEquals(0, orchestrator.getListAgents().size());
