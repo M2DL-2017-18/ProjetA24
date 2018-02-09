@@ -20,30 +20,30 @@ public abstract class Agent {
     private UUID id;
     private State state;
     private final static Logger logger = Logger.getLogger(Agent.class.getSimpleName());
-    private Behavior<Agent, LocalEnv> behavior;
+    private IBehavior<Agent, IEnvironment> IBehavior;
 
     /**
      * Default constructor
      */
-    public Agent(Behavior b) {
+    public Agent(IBehavior b) {
         id = UUID.randomUUID();
         state = State.ALIVE;
-        this.behavior = b;
+        this.IBehavior = b;
         logger.info("Création d'un agent");
     }
 
     /**
      * An agent can perceive
      */
-    public abstract LocalEnv sense();
+    public abstract IEnvironment sense();
 
     /**
      * An agent has a lifecycle : perceive, decide, act
      */
     protected void runLifeCycle() {
-        LocalEnv env = sense();
-        for(Action<Agent, LocalEnv> a : behavior.decide(env)) {
-            a.act(this, env);
+        IEnvironment environment = sense();
+        for(IAction<Agent, IEnvironment> a : IBehavior.decide(environment)) {
+            a.act(this, environment);
         }
     }
 
