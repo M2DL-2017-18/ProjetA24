@@ -9,12 +9,12 @@ import org.junit.Test;
 
 import fr.m2dl.aco.domain.Ant;
 import fr.m2dl.aco.domain.Coordinates;
-import fr.m2dl.aco.domain.Environment;
+import fr.m2dl.aco.domain.AcoEnvironment;
 import fr.m2dl.aco.domain.Obstacle;
 
 public class MoveTopTest {
 	
-	static Environment env;
+	static AcoEnvironment env;
 	static Ant ant;
 	Coordinates obstacle_coordinates;
 	Coordinates ant_coordinates;
@@ -22,7 +22,7 @@ public class MoveTopTest {
 	
 	@Before
 	public  void init(){
-		env = new Environment(3,3);
+		env = new AcoEnvironment(3,3);
 		ant = new Ant(null);
 	}
 

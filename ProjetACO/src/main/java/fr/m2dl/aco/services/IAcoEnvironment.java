@@ -7,7 +7,7 @@ import fr.m2dl.infra.LocalEnv;
 /**
  * Created by hichem on 02/02/2018.
  */
-public interface IEnvironment extends LocalEnv{
+public interface IAcoEnvironment extends LocalEnv{
 
     /**
      * Création de x fourmis avec le même comportement

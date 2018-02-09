@@ -1,8 +1,5 @@
 package fr.m2dl.ff2d.controller;
 
-import java.awt.Color;
-
-import java.awt.TextField;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -10,23 +7,18 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
 
-import org.w3c.dom.Node;
-
 import fr.m2dl.aco.domain.Ant;
 import fr.m2dl.aco.domain.Box;
 import fr.m2dl.aco.domain.Coordinates;
-import fr.m2dl.aco.domain.Environment;
+import fr.m2dl.aco.domain.AcoEnvironment;
 import fr.m2dl.aco.domain.Food;
 import fr.m2dl.aco.domain.Nest;
 import fr.m2dl.aco.domain.Obstacle;
-import fr.m2dl.aco.services.IBehavior;
 import fr.m2dl.aco.services.IBoxable;
 import fr.m2dl.ff2d.application.Main;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -49,7 +41,7 @@ public class Controller {
 	private final static Logger logger = Logger.getLogger(Ant.class.getSimpleName());
 	private int entityType = 0;
 
-	private Environment env;
+	private AcoEnvironment env;
 
 	private Thread refresh;
 
@@ -68,7 +60,7 @@ public class Controller {
 	@FXML
 	private void initialize() {
 
-		// on lance la grille et on créé ses colonnes et lignes
+		// on lance la grille et on crï¿½ï¿½ ses colonnes et lignes
 		this.gridPane = new GridPane();
 		this.gridPane.setGridLinesVisible(true);
 		for (int i = 0; i < numCols; i++) {
@@ -126,7 +118,7 @@ public class Controller {
 	}
 
 	public void launchNest() {
-		// on met à jour env
+		// on met ï¿½ jour env
 		this.env.createNest(new Coordinates(0, 1));
 	}
 
@@ -158,12 +150,12 @@ public class Controller {
 			// lancer une entite sur l'interface graphique
 			switch (this.entityType) {
 			case 1:
-				logger.info("Creation de l'entité Nourriture");
+				logger.info("Creation de l'entitï¿½ Nourriture");
 				// affichage de l'entite
 				this.env.createFood(new Coordinates(y, x), 1);
 				break;
 			case 2:
-				logger.info("Creation de l'entité Obstacle");
+				logger.info("Creation de l'entitï¿½ Obstacle");
 				// affichage de l'entite
 				this.env.createObstacle(new Coordinates(y, x));
 				break;
@@ -173,7 +165,7 @@ public class Controller {
 
 	public void launchSimulation() {
 		// on cree l'environnement
-		this.env = new Environment(numRows, numCols);
+		this.env = new AcoEnvironment(numRows, numCols);
 		
 		// on lance le nid
 		launchNest();
@@ -198,7 +190,7 @@ public class Controller {
 
 	public void stopSimulation() {
 		this.timer.cancel();
-		this.env = new Environment(numRows, numCols);
+		this.env = new AcoEnvironment(numRows, numCols);
 		gridPane.getChildren().clear();
 		initialize();
 	}
