@@ -5,7 +5,7 @@ import fr.m2dl.aco.domain.Coordinates;
 import fr.m2dl.aco.domain.Pheromone;
 import fr.m2dl.aco.services.IAction;
 import fr.m2dl.aco.services.IBoxable;
-import fr.m2dl.aco.services.IEnvironment;
+import fr.m2dl.aco.services.IAcoEnvironment;
 
 public class PutPheromone implements IAction {
 
@@ -24,7 +24,7 @@ public class PutPheromone implements IAction {
         this.decrement = decrement;
     }
 
-    public void act(Ant ant, IEnvironment env) {
+    public void act(Ant ant, IAcoEnvironment env) {
         Coordinates coordinates = ant.getCoordinates();
         int x = coordinates.getX();
         int y = coordinates.getY();

@@ -1,17 +1,17 @@
 package fr.m2dl.aco.domain;
 
 import fr.m2dl.aco.services.IBehavior;
-import fr.m2dl.aco.services.IEnvironment;
+import fr.m2dl.aco.services.IAcoEnvironment;
 import fr.m2dl.infra.Orchestrator;
 
-public class Environment implements IEnvironment {
+public class AcoEnvironment implements IAcoEnvironment {
 
     private Box[][] grid;
     private Nest nest;
 
     private Orchestrator orchestrator;
 
-    public Environment(int row, int col) {
+    public AcoEnvironment(int row, int col) {
         this.orchestrator = new Orchestrator();
         grid = new Box[row][col];
         for (int i = 0; i < row; i++) {

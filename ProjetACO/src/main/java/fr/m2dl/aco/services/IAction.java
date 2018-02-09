@@ -6,6 +6,6 @@ import fr.m2dl.infra.Action;
 /**
  * Created by hichem on 02/02/2018.
  */
-public interface IAction extends Action<Ant,IEnvironment>
+public interface IAction extends Action<Ant,IAcoEnvironment>
 {
 }

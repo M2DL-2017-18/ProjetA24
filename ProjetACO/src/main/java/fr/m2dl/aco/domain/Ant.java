@@ -4,8 +4,10 @@ import java.util.logging.Logger;
 
 import fr.m2dl.aco.services.IBehavior;
 import fr.m2dl.aco.services.IBoxable;
-import fr.m2dl.aco.services.IEnvironment;
+import fr.m2dl.aco.services.IAcoEnvironment;
+import fr.m2dl.aco.util.Util;
 import fr.m2dl.infra.Agent;
+import sun.plugin.dom.core.CoreConstants;
 
 public class Ant extends Agent implements IBoxable{
 
@@ -43,9 +45,17 @@ public class Ant extends Agent implements IBoxable{
         logger.info("je suis une fourmi.");
     }
 
-    public IEnvironment sense() {
-        //TODO : add sense for the ant
-    	return  null;
+    public AcoEnvironment sense(AcoEnvironment acoEnvironment) {
+        AcoEnvironment envToReturn = new AcoEnvironment(3,3);
+        Box[][] grid = new Box[3][3];
+        for(int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                Coordinates coord = Util.stayInGrid(acoEnvironment, new Coordinates(coordinates.getX()+i, coordinates.getY()+j) );
+                grid[i+1][j+1] = acoEnvironment.getGrid()[coord.getX()][coord.getY()];
+            }
+        }
+        envToReturn.setGrid(grid);
+    	return  envToReturn;
     }
 
 	public Coordinates getCoordinates() {
