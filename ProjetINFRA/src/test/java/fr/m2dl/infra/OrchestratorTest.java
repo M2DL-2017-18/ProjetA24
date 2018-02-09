@@ -26,7 +26,7 @@ public class OrchestratorTest {
 		AgentTest a = new AgentTest(new IBehavior<AgentTest, IEnvironment>() {
 			public List<IAction<AgentTest, IEnvironment>> decide(IEnvironment env) {
 				l.add(new IAction<AgentTest, IEnvironment>() {
-					public void act(AgentTest activeAgent, IEnvironment env) {
+					public void act(AgentTest activeAgent, IEnvironment environment) {
 						testPassedByActFunction = true;
 					}
 				});

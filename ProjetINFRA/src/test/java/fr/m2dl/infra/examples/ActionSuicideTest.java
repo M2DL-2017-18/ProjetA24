@@ -7,7 +7,7 @@ import fr.m2dl.infra.IEnvironment;
 public class ActionSuicideTest implements IAction<Agent, IEnvironment> {
 
     @Override
-    public void act(Agent activeAgent, IEnvironment env) {
+    public void act(Agent activeAgent, IEnvironment environment) {
         activeAgent.suicide();
     }
 }

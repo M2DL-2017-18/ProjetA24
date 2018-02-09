@@ -11,7 +11,7 @@ public interface IAction<A extends Agent, E extends IEnvironment> {
     /**
      * The concrete action
      * @param activeAgent the agent that perform this action
-     * @param localEnv the local environment of the active agent
+     * @param environment the environment of the active agent
      */
-    void act(A activeAgent, E localEnv);
+    void act(A activeAgent, E environment);
 }
