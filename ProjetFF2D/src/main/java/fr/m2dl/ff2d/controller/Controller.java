@@ -250,8 +250,8 @@ public class Controller {
 									} else if (b instanceof Nest) {
 										// afficher nest
 										ImageView imageAnt = new ImageView(imageNid);
-										imageAnt.setFitWidth(120);
-										imageAnt.setFitHeight(120);
+										imageAnt.setFitWidth(40);
+										imageAnt.setFitHeight(40);
 										gridPane.add(imageAnt, b.getCoordinates().getX(), b.getCoordinates().getY());
 									}
 								}
