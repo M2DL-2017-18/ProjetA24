@@ -1,8 +1,8 @@
 package fr.m2dl.infra.examplesForACO;
 
 import fr.m2dl.infra.Agent;
-import fr.m2dl.infra.Behavior;
-import fr.m2dl.infra.LocalEnv;
+import fr.m2dl.infra.IBehavior;
+import fr.m2dl.infra.IEnvironment;
 
 public class Ant extends Agent {
     Boolean propertyAnt;
@@ -15,12 +15,12 @@ public class Ant extends Agent {
      *
      * @param b
      */
-    public Ant (Behavior b) {
+    public Ant (IBehavior b) {
         super(b);
     }
 
     @Override
-    public LocalEnv sense() {
+    public IEnvironment sense() {
         return null;
     }
 }

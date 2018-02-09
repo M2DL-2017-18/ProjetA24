@@ -1,8 +1,8 @@
 package fr.m2dl.infra.examples;
 
 import fr.m2dl.infra.Agent;
-import fr.m2dl.infra.Behavior;
-import fr.m2dl.infra.LocalEnv;
+import fr.m2dl.infra.IBehavior;
+import fr.m2dl.infra.IEnvironment;
 
 public class AgentTest extends Agent {
 
@@ -11,12 +11,12 @@ public class AgentTest extends Agent {
      *
      * @param b
      */
-    public AgentTest(Behavior b) {
+    public AgentTest(IBehavior b) {
         super(b);
     }
 
     @Override
-    public LocalEnv sense() {
+    public IEnvironment sense() {
         return null;
     }
 }
