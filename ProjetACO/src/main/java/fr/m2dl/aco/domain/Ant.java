@@ -5,7 +5,6 @@ import java.util.logging.Logger;
 import fr.m2dl.aco.services.IBehavior;
 import fr.m2dl.aco.services.IBoxable;
 import fr.m2dl.aco.services.IEnvironment;
-import fr.m2dl.infra.Action;
 import fr.m2dl.infra.Agent;
 
 public class Ant extends Agent implements IBoxable{
@@ -15,7 +14,7 @@ public class Ant extends Agent implements IBoxable{
     /**
      * Coordonnées de la fourmi
      */
-    private Coordinates coordinates;
+    private Coordinates coordinates = new Coordinates(0, 0);
 
     /**
      * Quantité maximale que la fourmi peut transporter
@@ -27,12 +26,8 @@ public class Ant extends Agent implements IBoxable{
      */
     private int quantityFoodCarrying;
 
-    private IBehavior behavior;
-
-
     public Ant(IBehavior behavior) {
         super(behavior);
-        this.behavior = behavior;
         this.quantityFoodMax = 1;
         logger.info("je suis une fourmi.");
     }
@@ -49,11 +44,8 @@ public class Ant extends Agent implements IBoxable{
     }
 
     public IEnvironment sense() {
-        return  null;
-    }
-
-    public Action decide() {
-        return null;
+        //TODO : add sense for the ant
+    	return  null;
     }
 
 	public Coordinates getCoordinates() {
