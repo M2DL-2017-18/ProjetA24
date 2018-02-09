@@ -19,7 +19,6 @@ public class Main extends Application {
 
             VBox view = (VBox) loader.load();
             Controller controller = loader.getController();
-            controller.setApp(this);
    
             Scene scene = new Scene(view);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());

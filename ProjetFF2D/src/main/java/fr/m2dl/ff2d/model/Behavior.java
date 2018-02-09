@@ -1,4 +1,4 @@
-package fr.m2dl.ff2d.controller;
+package fr.m2dl.ff2d.model;
 
 import java.util.ArrayList;
 import java.util.List;
