@@ -43,20 +43,18 @@ public class Grid implements IGrid{
 		this.gridPane.setStyle("-fx-background-color: white;");
 		this.gridPane.prefWidthProperty().bind(this.gridPanel.widthProperty());
 		this.gridPane.prefHeightProperty().bind(this.gridPanel.heightProperty());
+	
 	}
 
 	public GridPane getGrid() {
 		return this.gridPane;
 	}
+
 	
-	public void addElement(ImageView image, int x, int y) {
+	public void addGraphicElement(ImageView image, int x, int y) {
 		this.gridPane.add(image, x, y);
 	}
 	
-	public void addElement(Pane p, int x, int y) {
-		this.gridPane.add(p, x, y);
-	}
-
 	public int getGridRows() {
 		return this.gridRows;
 	}
@@ -68,6 +66,7 @@ public class Grid implements IGrid{
 	public int getGridCols() {
 		return this.gridCols;
 	}
+
 	
 	
 	

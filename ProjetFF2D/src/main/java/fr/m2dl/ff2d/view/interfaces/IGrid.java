@@ -6,10 +6,7 @@ import javafx.scene.layout.Pane;
 
 public interface IGrid {
 	
-	
-	public void addElement(ImageView image, int x, int y);
-	public GridPane getGrid();
-	public void addElement(Pane p, int x, int y);
+	public void addGraphicElement(ImageView image, int x, int y);
 	public void clearGrid();
 	public int getGridRows();
 	public int getGridCols();

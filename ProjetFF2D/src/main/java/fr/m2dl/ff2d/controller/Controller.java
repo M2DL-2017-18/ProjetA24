@@ -14,14 +14,19 @@ import fr.m2dl.aco.domain.Nest;
 import fr.m2dl.aco.domain.Obstacle;
 import fr.m2dl.aco.services.IBoxable;
 import fr.m2dl.ff2d.model.Behavior;
+import fr.m2dl.ff2d.view.GraphicAnt;
 import fr.m2dl.ff2d.view.GraphicElement;
+import fr.m2dl.ff2d.view.GraphicFloor;
+import fr.m2dl.ff2d.view.GraphicFood;
+import fr.m2dl.ff2d.view.GraphicNest;
+import fr.m2dl.ff2d.view.GraphicObstacle;
 import fr.m2dl.ff2d.view.Grid;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 
 public class Controller {
 
@@ -29,7 +34,6 @@ public class Controller {
 	private int entityType = 0;
 	private Environment env;
 	private Timer timer;
-	private GraphicElement elements;
 	private Grid grid;
 	
 	@FXML
@@ -37,7 +41,6 @@ public class Controller {
 
 	@FXML
 	private void initialize() {
-		elements = new GraphicElement();
 		grid = new Grid(gridPanel);	
 
 	}
@@ -47,13 +50,15 @@ public class Controller {
 	}
 
 	private void addCellListener(final int colIndex, final int rowIndex) {
-		Pane pane = new Pane();
-		pane.setOnMousePressed(new EventHandler<Event>() {
+		GraphicElement g = new GraphicFloor();
+		ImageView image = g.getImageView();
+		image.setOnMousePressed(new EventHandler<Event>() {
 			public void handle(Event event) {
 				launchPassiveEntity(colIndex, rowIndex);
 			}
 		});
-		grid.addElement(pane, colIndex, rowIndex);
+		
+		grid.addGraphicElement(image, colIndex, rowIndex);
 	}
 
 	private void launchAnt() {
@@ -124,15 +129,19 @@ public class Controller {
 							List<IBoxable> boxables = box[i][j].getBoxables();
 							
 							for(IBoxable b : boxables){
-								
-								if (b instanceof Ant) {
-									grid.addElement(elements.createAntImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());
+								GraphicElement element;
+								if (b instanceof Ant) {	
+									element = new GraphicAnt();
+									grid.addGraphicElement(element.getImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());
 								} else if (b instanceof Food) {
-									grid.addElement(elements.createFoodImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());
+									element = new GraphicFood();
+									grid.addGraphicElement(element.getImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());
 								} else if (b instanceof Obstacle) {
-									grid.addElement(elements.createObstacleImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());
+									element = new GraphicObstacle();
+									grid.addGraphicElement(element.getImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());
 								} else if (b instanceof Nest) {
-									grid.addElement(elements.createNestImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());
+									element = new GraphicNest();
+									grid.addGraphicElement(element.getImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());
 								}
 							
 							}
