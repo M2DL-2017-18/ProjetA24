@@ -252,15 +252,7 @@ public class Controller {
 								List<IBoxable> boxables = box[i][j].getBoxables();
 								if(boxables.isEmpty()){
 
-									ImageView imageNull = new ImageView(imageVide);
-									imageNull.setFitWidth(38);
-									imageNull.setFitHeight(38);
-									imageNull.setOnMousePressed(new EventHandler<Event>() {
-										public void handle(Event event) {
-											launchPassiveEntity(jFinal, iFinal);
-										}
-									});
-									gridPane.add(imageNull, j, i);
+									this.addPane(j,i);
 
 								}else{
 
