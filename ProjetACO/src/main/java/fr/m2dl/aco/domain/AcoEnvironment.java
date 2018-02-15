@@ -97,7 +97,7 @@ public class AcoEnvironment implements IAcoEnvironment {
      */
     @Override
     public void run() {
-        orchestrator.run();
+        orchestrator.run(this);
     }
 
     public void setGrid(Box[][] grid) {
