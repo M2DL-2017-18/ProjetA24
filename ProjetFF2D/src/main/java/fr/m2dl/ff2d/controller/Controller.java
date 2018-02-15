@@ -128,6 +128,9 @@ public class Controller {
 						for (int j = 0; j < grid.getGridCols(); j++) {
 							
 							List<IBoxable> boxables = box[i][j].getBoxables();
+							if(boxables.isEmpty()) {
+								addCellListener(i,j);
+							}
 							
 							for(IBoxable b : boxables){
 								GraphicElement element;
