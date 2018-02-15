@@ -38,7 +38,7 @@ public class Orchestrator {
     }
 
     /**
-     * Runs all the agent lifecycle sequentially
+     * Runs all the agents and active entities lifecycle sequentially
      */
     public void run(IEnvironment globalEnv) {
         List<Agent> agentsToGarbage = new ArrayList<Agent>();
@@ -51,6 +51,10 @@ public class Orchestrator {
                 // because his state can only change during his lifecycle (INFRA-FN13)
                 agentsToGarbage.add(a);
             }
+        }
+
+        for(ActiveEntity activeEntity : this.activeEntityList) {
+            activeEntity.runLifeCycle(globalEnv);
         }
 
         this.garbageAgents(agentsToGarbage);

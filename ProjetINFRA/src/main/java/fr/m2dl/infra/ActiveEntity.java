@@ -6,6 +6,4 @@ package fr.m2dl.infra;
  * @author Infra core team
  * @since 02-02-2018
  */
-public abstract class ActiveEntity {
-
-}
+public abstract class ActiveEntity implements RunnableEntity {}
