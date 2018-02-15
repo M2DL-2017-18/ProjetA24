@@ -3,7 +3,7 @@ package fr.m2dl.ff2d.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -16,6 +16,7 @@ import fr.m2dl.aco.domain.Coordinates;
 import fr.m2dl.aco.domain.Food;
 import fr.m2dl.aco.services.IAction;
 import fr.m2dl.aco.services.IBehavior;
+import fr.m2dl.aco.services.IBoxable;
 import fr.m2dl.aco.services.IEnvironment;
 import fr.m2dl.infra.Action;
 
@@ -40,14 +41,24 @@ public class Behavior implements IBehavior{
 		
 		return listeActionUturn;
 	}
+	
+	public Optional<IBoxable> getFourmi(IEnvironment environment)
+	{
+		
+		 return environment.getGrid()[1][1].getBoxables().stream().filter(a -> a instanceof Ant).findFirst();
+		
+	}
 
 
 	@Override
 	public List<Action<Ant, IEnvironment>> decide(IEnvironment environment) {
 		List<Action<Ant, IEnvironment>> listeAction = new ArrayList<>();
 		
-		listeAction.addAll(uTurn());
+		List<Coordinates> food = new ArrayList<>();
+		food = findFoodInGrid(environment.getGrid());
 		
+		
+		Ant ant;
 		
 		
 		
@@ -66,6 +77,10 @@ public class Behavior implements IBehavior{
 				.collect(Collectors.toList());
 		
 		return foodCoordinates;
+	}
+	
+	public IAction direction(Coordinates cr) {
+		return null;
 	}
 	
 }
