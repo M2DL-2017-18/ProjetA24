@@ -1,13 +1,13 @@
 package fr.m2dl.infra.examples;
 
-import fr.m2dl.infra.Action;
+import fr.m2dl.infra.IAction;
 import fr.m2dl.infra.Agent;
-import fr.m2dl.infra.LocalEnv;
+import fr.m2dl.infra.IEnvironment;
 
-public class ActionSuicideTest implements Action<Agent, LocalEnv> {
+public class ActionSuicideTest implements IAction<Agent, IEnvironment> {
 
     @Override
-    public void act(Agent activeAgent, LocalEnv env) {
+    public void act(Agent activeAgent, IEnvironment environment) {
         activeAgent.suicide();
     }
 }
