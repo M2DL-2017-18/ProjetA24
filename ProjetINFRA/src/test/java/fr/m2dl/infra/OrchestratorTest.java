@@ -76,16 +76,10 @@ public class OrchestratorTest {
 		generateSuicideAgent(orchestrator);
 
 		// When we run the system
-		orchestrator.run(new IGlobalEnvironment() {
+		orchestrator.run(new IEnvironment() {
 			@Override
-			public IEnvironment getAgentEnvironment(Agent a) {
-				return new IEnvironment() {
-				};
-			}
-
-			@Override
-			public void synchronize(IEnvironment environment) {
-
+			public String toString() {
+				return "Environment";
 			}
 		});
 
