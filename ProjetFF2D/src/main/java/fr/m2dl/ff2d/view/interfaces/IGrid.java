@@ -1,4 +1,4 @@
-package fr.m2dl.ff2d.view;
+package fr.m2dl.ff2d.view.interfaces;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;

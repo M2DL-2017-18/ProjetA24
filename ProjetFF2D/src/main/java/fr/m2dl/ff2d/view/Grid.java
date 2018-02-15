@@ -1,5 +1,6 @@
 package fr.m2dl.ff2d.view;
 
+import fr.m2dl.ff2d.view.interfaces.IGrid;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
