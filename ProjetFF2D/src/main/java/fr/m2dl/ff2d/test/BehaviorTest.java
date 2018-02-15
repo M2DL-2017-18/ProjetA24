@@ -5,9 +5,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import fr.m2dl.aco.domain.Ant;
 import fr.m2dl.aco.domain.Box;
 import fr.m2dl.aco.domain.Coordinates;
 import fr.m2dl.aco.domain.Food;
+import fr.m2dl.aco.services.IBehavior;
+import fr.m2dl.aco.services.IEnvironment;
 import fr.m2dl.ff2d.model.Behavior;
 
 public class BehaviorTest {
@@ -35,6 +38,15 @@ public class BehaviorTest {
 		Food f = new Food(new Coordinates(1,1),1);
 		grid[2][2].addBoxable(f);
 		assertEquals(b.findFoodInGrid(grid).size(),1);
+	}
+	
+	@Test
+	public void testBackToNest() {
+		Ant ant = new Ant(b);
+		Coordinates coord = new Coordinates(2, 3);
+		ant.setCoordinates(coord);
+		
+		assertNotNull(b.backToNest(ant, grid));
 	}
 	
 	@Test

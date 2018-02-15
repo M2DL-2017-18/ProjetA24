@@ -6,10 +6,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.UserDataHandler;
 
 import fr.m2dl.aco.action.move.MoveBottom;
 import fr.m2dl.aco.action.move.MoveLeft;
 import fr.m2dl.aco.action.move.MoveRight;
+import fr.m2dl.aco.action.move.MoveTop;
 import fr.m2dl.aco.domain.Ant;
 import fr.m2dl.aco.domain.Box;
 import fr.m2dl.aco.domain.Coordinates;
@@ -18,7 +25,9 @@ import fr.m2dl.aco.services.IAction;
 import fr.m2dl.aco.services.IBehavior;
 import fr.m2dl.aco.services.IBoxable;
 import fr.m2dl.aco.services.IEnvironment;
+import fr.m2dl.ff2d.view.Grid;
 import fr.m2dl.infra.Action;
+import javafx.scene.layout.*;
 
 /**
  * 
@@ -42,10 +51,10 @@ public class Behavior implements IBehavior{
 		return listeActionUturn;
 	}
 	
-	public Optional<IBoxable> getFourmi(IEnvironment environment)
+	public Optional<IBoxable> getFourmi(Box[][] grid)
 	{
 		
-		 return environment.getGrid()[1][1].getBoxables().stream().filter(a -> a instanceof Ant).findFirst();
+		 return grid[1][1].getBoxables().stream().filter(a -> a instanceof Ant).findFirst();
 		
 	}
 
@@ -81,6 +90,24 @@ public class Behavior implements IBehavior{
 	
 	public IAction direction(Coordinates cr) {
 		return null;
+	}
+	
+	public List<IAction> backToNest(Ant ant, Box[][] grid) {
+		List<IAction> listeActionUturn = new ArrayList<IAction>();
+		
+		ant = (Ant)getFourmi(grid).get();
+		
+		int xAnt = ant.getCoordinates().getX();
+		int yAnt = ant.getCoordinates().getY();
+
+		for (int i = xAnt; i >= 0; i--) {
+			listeActionUturn.add(new MoveLeft());
+		}
+		for (int j = yAnt; j >= 0; j--) {
+			listeActionUturn.add(new MoveTop());
+		}
+
+		return listeActionUturn;
 	}
 	
 }
