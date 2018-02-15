@@ -5,7 +5,7 @@ import fr.m2dl.infra.Agent;
 
 import java.util.logging.Logger;
 
-import fr.m2dl.aco.services.IBehavior;
+import fr.m2dl.aco.services.IAcoBehavior;
 import fr.m2dl.aco.services.IBoxable;
 import fr.m2dl.aco.services.IAcoEnvironment;
 import fr.m2dl.aco.util.Util;
@@ -31,7 +31,7 @@ public class Ant extends Agent implements IBoxable{
      */
     private int quantityFoodCarrying;
 
-    public Ant(IBehavior behavior) {
+    public Ant(IAcoBehavior behavior) {
         super(behavior);
         this.quantityFoodMax = 1;
         logger.info("je suis une fourmi.");
@@ -42,7 +42,7 @@ public class Ant extends Agent implements IBoxable{
      * Constructeur avec parametres : quantité de nourriture max transportable / il faudra ajouter le comportement
      * @param qtityFoodMax quantité maximum de nourriture que la fourmi peut porter
      */
-    public Ant(int qtityFoodMax, IBehavior behavior) {
+    public Ant(int qtityFoodMax, IAcoBehavior behavior) {
         super(behavior);
         this.quantityFoodMax = qtityFoodMax;
         logger.info("je suis une fourmi.");

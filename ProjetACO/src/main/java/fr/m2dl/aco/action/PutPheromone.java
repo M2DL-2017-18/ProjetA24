@@ -3,11 +3,11 @@ package fr.m2dl.aco.action;
 import fr.m2dl.aco.domain.Ant;
 import fr.m2dl.aco.domain.Coordinates;
 import fr.m2dl.aco.domain.Pheromone;
-import fr.m2dl.aco.services.IAction;
+import fr.m2dl.aco.services.IAcoAction;
 import fr.m2dl.aco.services.IBoxable;
 import fr.m2dl.aco.services.IAcoEnvironment;
 
-public class PutPheromone implements IAction {
+public class PutPheromone implements IAcoAction {
 
     private int power;
     private int decrement;

@@ -1,6 +1,6 @@
 package fr.m2dl.aco.domain;
 
-import fr.m2dl.aco.services.IBehavior;
+import fr.m2dl.aco.services.IAcoBehavior;
 import fr.m2dl.aco.services.IAcoEnvironment;
 import fr.m2dl.infra.Orchestrator;
 
@@ -31,7 +31,7 @@ public class AcoEnvironment implements IAcoEnvironment {
      * @param number   nombre de fourmis à créer
      * @param behavior comportement des fourmis
      */
-    public void createAnts(int number, IBehavior behavior) {
+    public void createAnts(int number, IAcoBehavior behavior) {
         if (nest == null) {
             Coordinates positionNest = new Coordinates(0, 0);
             createNest(positionNest);

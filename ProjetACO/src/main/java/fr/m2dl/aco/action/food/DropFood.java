@@ -5,11 +5,11 @@ import java.util.Optional;
 import fr.m2dl.aco.domain.Ant;
 import fr.m2dl.aco.domain.Coordinates;
 import fr.m2dl.aco.domain.Nest;
-import fr.m2dl.aco.services.IAction;
+import fr.m2dl.aco.services.IAcoAction;
 import fr.m2dl.aco.services.IBoxable;
 import fr.m2dl.aco.services.IAcoEnvironment;
 
-public class DropFood implements IAction {
+public class DropFood implements IAcoAction {
 
 
     public void act(Ant ant, IAcoEnvironment env) {
