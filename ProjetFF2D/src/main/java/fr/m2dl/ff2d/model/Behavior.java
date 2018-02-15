@@ -22,9 +22,7 @@ import fr.m2dl.aco.services.IAction;
 import fr.m2dl.aco.services.IBehavior;
 import fr.m2dl.aco.services.IBoxable;
 import fr.m2dl.aco.services.IEnvironment;
-import fr.m2dl.ff2d.view.Grid;
 import fr.m2dl.infra.Action;
-import javafx.scene.layout.*;
 
 /**
  * 
@@ -52,10 +50,10 @@ public class Behavior implements IBehavior{
 		food = findFoodInGrid(environment.getGrid());
 		
 		
-		Ant ant = (Ant) getFourmi(environment).get();
+		Ant ant = (Ant) getFourmi(environment.getGrid()).get();
 		
 		if (ant.getQuantityFoodCarrying() != 0)
-			listeAction.add(backToNest(ant, environment.getGrid()));
+			listeAction.addAll(backToNest(ant, environment.getGrid()));
 		else
 			if (food.size() != 0) {
 				listeAction.add(directionToFood(food.get(0), ant));
@@ -118,7 +116,7 @@ public class Behavior implements IBehavior{
 	}
 	
 	public List<IAction> backToNest(Ant ant, Box[][] grid) {
-		List<IAction> listeActionUturn = new ArrayList<IAction>();
+		List<IAction> listeActionUturn = new ArrayList<>();
 		
 		ant = (Ant)getFourmi(grid).get();
 		
