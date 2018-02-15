@@ -40,20 +40,17 @@ public class Orchestrator {
     /**
      * Runs all the agent lifecycle sequentially
      */
-    public void run(IGlobalEnvironment globalEnv) {
+    public void run(IEnvironment globalEnv) {
         List<Agent> agentsToGarbage = new ArrayList<Agent>();
 
         for (Agent a : agentList) {
-            // agentEnv is the maximal action scope of the agent
-            IEnvironment agentEnv = globalEnv.getAgentEnvironment(a);
-            a.runLifeCycle(agentEnv);
+            a.runLifeCycle(globalEnv);
 
             if (this.agentIsDead(a)) {
                 // we check if the agent is dead after the lifecycle 
                 // because his state can only change during his lifecycle (INFRA-FN13)
                 agentsToGarbage.add(a);
             }
-            globalEnv.synchronize(agentEnv);
         }
 
         this.garbageAgents(agentsToGarbage);
