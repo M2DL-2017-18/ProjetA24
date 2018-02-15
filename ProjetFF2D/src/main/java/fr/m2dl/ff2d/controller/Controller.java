@@ -21,6 +21,7 @@ import fr.m2dl.ff2d.view.GraphicFood;
 import fr.m2dl.ff2d.view.GraphicNest;
 import fr.m2dl.ff2d.view.GraphicObstacle;
 import fr.m2dl.ff2d.view.Grid;
+import fr.m2dl.ff2d.view.interfaces.IGrid;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -34,7 +35,7 @@ public class Controller {
 	private int entityType = 0;
 	private Environment env;
 	private Timer timer;
-	private Grid grid;
+	private IGrid grid;
 	
 	@FXML
 	private AnchorPane gridPanel;
@@ -123,10 +124,13 @@ public class Controller {
 				public void run() {
 					
 					Box[][] box = env.getGrid();
-					for (int i = 0; i < grid.gridRows; i++) {
-						for (int j = 0; j < grid.gridCols; j++) {
+					for (int i = 0; i < grid.getGridRows(); i++) {
+						for (int j = 0; j < grid.getGridCols(); j++) {
 							
 							List<IBoxable> boxables = box[i][j].getBoxables();
+							if(boxables.isEmpty()) {
+								addCellListener(i,j);
+							}
 							
 							for(IBoxable b : boxables){
 								GraphicElement element;
