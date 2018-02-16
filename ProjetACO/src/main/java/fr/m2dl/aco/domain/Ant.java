@@ -1,6 +1,7 @@
 package fr.m2dl.aco.domain;
 
 import fr.m2dl.infra.IAction;
+import fr.m2dl.infra.IEnvironment;
 import fr.m2dl.infra.Agent;
 
 import java.util.logging.Logger;
@@ -9,8 +10,6 @@ import fr.m2dl.aco.services.IAcoBehavior;
 import fr.m2dl.aco.services.IBoxable;
 import fr.m2dl.aco.services.IAcoEnvironment;
 import fr.m2dl.aco.util.Util;
-import fr.m2dl.infra.Agent;
-import sun.plugin.dom.core.CoreConstants;
 
 public class Ant extends Agent implements IBoxable{
 
@@ -48,7 +47,9 @@ public class Ant extends Agent implements IBoxable{
         logger.info("je suis une fourmi.");
     }
 
-    public AcoEnvironment sense(AcoEnvironment acoEnvironment) {
+    @Override
+    public AcoEnvironment sense(IEnvironment env) {
+    	AcoEnvironment acoEnvironment = (AcoEnvironment) env;
         AcoEnvironment envToReturn = new AcoEnvironment(3,3);
         Box[][] grid = new Box[3][3];
         for(int i = -1; i < 2; i++) {
@@ -88,4 +89,5 @@ public class Ant extends Agent implements IBoxable{
     public void setQuantityFoodCarrying(int quantityFoodCarrying) {
         this.quantityFoodCarrying = quantityFoodCarrying;
     }
+
 }
