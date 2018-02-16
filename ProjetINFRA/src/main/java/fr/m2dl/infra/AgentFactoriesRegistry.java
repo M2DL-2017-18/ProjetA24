@@ -14,21 +14,39 @@ public class AgentFactoriesRegistry {
     private Map<Integer, IFactoryAgent<Agent>> factories;
     private int indexFactory;
 
+    /**
+    * Default constructor
+    */
     public AgentFactoriesRegistry() {
         this.factories = new HashMap<>();
         this.indexFactory = 0;
     }
 
+    /**
+    * Create an agent by using a factory registred
+    * @param token Id of the factory use to create the agent.
+    * @return get None if the factory doesn't exist
+    */
     public Optional<Agent> createAgent(int token) {
         return getFactoryImpl(token)
                 .map(IFactoryAgent::create);
     }
 
+    /**
+    * Create <b>count</b> agents by using a factory registred.
+    * @param token Id of the factory use to create the agent.
+    * @return get None if the factory doesn't exist
+    */
     public Optional<List<Agent>> createSwarm(int token, long count) {
         return getFactoryImpl(token)
                 .map(f -> createAgents(f, count));
     }
 
+    /**
+    * Register a new factory.
+    * @param factory a factory than can create Agent.
+    * @return Token use to retrieve a factory.
+    */
     public int registerAgentFactory(IFactoryAgent factory) {
         int token = this.indexFactory;
         this.factories.put(token, factory);
@@ -37,10 +55,20 @@ public class AgentFactoriesRegistry {
         return token;
     }
 
+    /**
+    * Get the number of factory registred.
+    * @return number of factory
+    */
     public int getNbOfFactories() {
         return this.factories.size();
     }
 
+    /**
+    * Create <b>count</b> agents.
+    * @param factory the factory use to create the agents.
+    * @param factory the number of agent to create.
+    * @return List of agents create.
+    */
     private List<Agent> createAgents(IFactoryAgent factory, long count) {
         ArrayList<Agent> agents = new ArrayList<>();
 
@@ -50,6 +78,11 @@ public class AgentFactoriesRegistry {
         return agents;
     }
 
+    /**
+    * Get the number of factory registred.
+    * @param token Use this token to retrieve the factory.
+    * @return The factory, get None if the factory doesn't exist
+    */
     private Optional<IFactoryAgent> getFactoryImpl(int token) {
         IFactoryAgent factory = factories.get(token);
 
