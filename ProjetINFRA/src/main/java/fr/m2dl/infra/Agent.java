@@ -20,12 +20,12 @@ public abstract class Agent {
     private UUID id;
     private State state;
     private final static Logger logger = Logger.getLogger(Agent.class.getSimpleName());
-    private Behavior<Agent, LocalEnv> behavior;
+    private IBehavior<Agent, IEnvironment> behavior;
 
     /**
      * Default constructor
      */
-    public Agent(Behavior b) {
+    public Agent(IBehavior b) {
         id = UUID.randomUUID();
         state = State.ALIVE;
         this.behavior = b;
@@ -35,15 +35,16 @@ public abstract class Agent {
     /**
      * An agent can perceive
      */
-    public abstract LocalEnv sense();
+    public abstract <E extends IEnvironment> E sense(E environment);
 
     /**
      * An agent has a lifecycle : perceive, decide, act
      */
-    protected void runLifeCycle() {
-        LocalEnv env = sense();
-        for(Action<Agent, LocalEnv> a : behavior.decide(env)) {
-            a.act(this, env);
+    protected void runLifeCycle(IEnvironment environment) {
+        // sensedEnv is the maximal decision scope of the agent
+        IEnvironment sensedEnv = sense(environment);
+        for(IAction<Agent, IEnvironment> a : behavior.decide(sensedEnv)) {
+            a.act(this, environment);
         }
     }
 
