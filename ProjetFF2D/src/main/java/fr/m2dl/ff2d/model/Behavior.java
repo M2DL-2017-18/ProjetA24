@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import fr.m2dl.aco.action.PutPheromone;
 import fr.m2dl.aco.action.food.PickFood;
 import fr.m2dl.aco.action.move.MoveBottom;
 import fr.m2dl.aco.action.move.MoveBottomLeft;
@@ -125,12 +127,18 @@ public class Behavior implements IBehavior{
 
 		for (int i = xAnt; i >= 0; i--) {
 			listeActionUturn.add(new MoveLeft());
+			listeActionUturn.add(new PutPheromone(yAnt, yAnt));
 		}
 		for (int j = yAnt; j >= 0; j--) {
 			listeActionUturn.add(new MoveTop());
+			listeActionUturn.add(new PutPheromone(yAnt, yAnt));
 		}
 
 		return listeActionUturn;
+	}
+	
+	public void deposePheromene(int x, int y) {
+		
 	}
 	
 }
