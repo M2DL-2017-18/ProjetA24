@@ -1,17 +1,17 @@
 package fr.m2dl.aco.domain;
 
-import fr.m2dl.aco.services.IBehavior;
-import fr.m2dl.aco.services.IEnvironment;
+import fr.m2dl.aco.services.IAcoBehavior;
+import fr.m2dl.aco.services.IAcoEnvironment;
 import fr.m2dl.infra.Orchestrator;
 
-public class Environment implements IEnvironment {
+public class AcoEnvironment implements IAcoEnvironment {
 
     private Box[][] grid;
     private Nest nest;
 
     private Orchestrator orchestrator;
 
-    public Environment(int row, int col) {
+    public AcoEnvironment(int row, int col) {
         this.orchestrator = new Orchestrator();
         grid = new Box[row][col];
         for (int i = 0; i < row; i++) {
@@ -31,7 +31,7 @@ public class Environment implements IEnvironment {
      * @param number   nombre de fourmis à créer
      * @param behavior comportement des fourmis
      */
-    public void createAnts(int number, IBehavior behavior) {
+    public void createAnts(int number, IAcoBehavior behavior) {
         if (nest == null) {
             Coordinates positionNest = new Coordinates(0, 0);
             createNest(positionNest);
@@ -97,7 +97,7 @@ public class Environment implements IEnvironment {
      */
     @Override
     public void run() {
-        orchestrator.run();
+        orchestrator.run(this);
     }
 
     public void setGrid(Box[][] grid) {

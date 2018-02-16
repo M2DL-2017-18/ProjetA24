@@ -1,8 +1,9 @@
 package fr.m2dl.aco.domain;
 
 import fr.m2dl.aco.services.IBoxable;
+import fr.m2dl.infra.PassiveEntity;
 
-public class Food implements IBoxable {
+public class Food extends PassiveEntity implements IBoxable {
 
     /**
      * Quantité de nourriture restante

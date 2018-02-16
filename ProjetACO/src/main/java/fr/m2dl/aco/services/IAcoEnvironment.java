@@ -2,12 +2,12 @@ package fr.m2dl.aco.services;
 
 import fr.m2dl.aco.domain.Box;
 import fr.m2dl.aco.domain.Coordinates;
-import fr.m2dl.infra.LocalEnv;
+import fr.m2dl.infra.IEnvironment;
 
 /**
  * Created by hichem on 02/02/2018.
  */
-public interface IEnvironment extends LocalEnv{
+public interface IAcoEnvironment extends IEnvironment{
 
     /**
      * Création de x fourmis avec le même comportement
@@ -17,7 +17,7 @@ public interface IEnvironment extends LocalEnv{
      * @param number   nombre de fourmis à créer
      * @param behavior comportement des fourmis
      */
-    void createAnts(int number, IBehavior behavior);
+    void createAnts(int number, IAcoBehavior behavior);
 
     /**
      * Création d'une nourriture à un emplacement donné

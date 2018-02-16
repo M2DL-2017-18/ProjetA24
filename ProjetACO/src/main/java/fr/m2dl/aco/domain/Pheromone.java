@@ -1,8 +1,9 @@
 package fr.m2dl.aco.domain;
 
 import fr.m2dl.aco.services.IBoxable;
+import fr.m2dl.infra.ActiveEntity;
 
-public class Pheromone implements IBoxable {
+public class Pheromone extends ActiveEntity implements IBoxable {
 
     private int power;
     private int decrement;
