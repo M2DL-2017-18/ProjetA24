@@ -28,12 +28,18 @@ import fr.m2dl.aco.services.IAcoEnvironment;
 
 /**
  * 
- * @author mathieukostiuk
+ * @author mathieukostiu
  *
  * Implémentation du comportement d'une fourmi
  */
 
 public class Behavior implements IAcoBehavior{
+	
+	private Ant ant;
+	
+	public void setAnt(Ant a) {
+		ant = a;
+	}
 	
 	
 	public Optional<IBoxable> getFourmi(Box[][] grid)
