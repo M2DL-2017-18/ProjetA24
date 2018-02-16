@@ -35,12 +35,12 @@ public abstract class Agent implements RunnableEntity {
     /**
      * An agent can perceive
      */
-    public abstract <E extends IEnvironment> E sense(E environment);
+    abstract <E extends IEnvironment> E sense(E environment);
 
     /**
      * An agent has a lifecycle : perceive, decide, act
      */
-    public void runLifeCycle(IEnvironment environment) {
+    public final void runLifeCycle(IEnvironment environment) {
         // sensedEnv is the maximal decision scope of the agent
         IEnvironment sensedEnv = sense(environment);
         for(IAction<Agent, IEnvironment> a : behavior.decide(sensedEnv)) {

@@ -9,5 +9,5 @@ public interface RunnableEntity {
      *
      * @param env environment of the entity
      */
-    public void runLifeCycle(IEnvironment env);
+    void runLifeCycle(IEnvironment env);
 }
