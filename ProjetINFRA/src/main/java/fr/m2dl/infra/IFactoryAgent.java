@@ -9,5 +9,8 @@ import fr.m2dl.infra.Agent;
  * @since 15-02-2018
  */
 public interface IFactoryAgent<A extends Agent> {
+    /**
+     * Create an Agent.
+     */
     A create();
 }
