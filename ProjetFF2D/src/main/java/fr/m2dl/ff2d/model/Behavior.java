@@ -124,12 +124,16 @@ public class Behavior implements IBehavior{
 		
 		int xAnt = ant.getCoordinates().getX();
 		int yAnt = ant.getCoordinates().getY();
-
-		for (int i = xAnt; i >= 0; i--) {
-			listeActionUturn.add(new MoveLeft());
+		
+		if (xAnt > 0 && yAnt > 0) {
+			listeActionUturn.add(new MoveTopLeft());
+			listeActionUturn.add(new PutPheromone(xAnt, yAnt));
+		}
+		if (xAnt > 0 && yAnt == 0) {
+			listeActionUturn.add(new MoveRight());
 			listeActionUturn.add(new PutPheromone(yAnt, yAnt));
 		}
-		for (int j = yAnt; j >= 0; j--) {
+		if (xAnt == 0 && yAnt > 0) {
 			listeActionUturn.add(new MoveTop());
 			listeActionUturn.add(new PutPheromone(yAnt, yAnt));
 		}
