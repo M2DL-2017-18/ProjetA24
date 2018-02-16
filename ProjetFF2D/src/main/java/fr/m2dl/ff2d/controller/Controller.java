@@ -20,6 +20,7 @@ import fr.m2dl.ff2d.view.GraphicFloor;
 import fr.m2dl.ff2d.view.GraphicFood;
 import fr.m2dl.ff2d.view.GraphicNest;
 import fr.m2dl.ff2d.view.GraphicObstacle;
+import fr.m2dl.ff2d.view.GraphicPheromone;
 import fr.m2dl.ff2d.view.Grid;
 import fr.m2dl.ff2d.view.interfaces.IGrid;
 import javafx.application.Platform;
@@ -152,7 +153,7 @@ public class Controller {
 		GraphicElement graphicFood = new GraphicFood();
 		GraphicElement graphicObstacle = new GraphicObstacle();
 		GraphicElement graphicNest = new GraphicNest();
-
+		GraphicElement graphicPheromone = new GraphicPheromone();
 		
 		@Override
 		public void run() {
@@ -180,6 +181,8 @@ public class Controller {
 									grid.addGraphicElement(graphicObstacle.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());						
 								} else if (b instanceof Nest) {																
 									grid.addGraphicElement(graphicNest.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());							
+								} else if (b instanceof Pheromone) {																
+									grid.addGraphicElement(graphicPheromone.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());							
 								}
 								
 							}
