@@ -1,261 +1,209 @@
 package fr.m2dl.ff2d.controller;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
 
+import fr.m2dl.aco.domain.AcoEnvironment;
 import fr.m2dl.aco.domain.Ant;
 import fr.m2dl.aco.domain.Box;
 import fr.m2dl.aco.domain.Coordinates;
-import fr.m2dl.aco.domain.AcoEnvironment;
 import fr.m2dl.aco.domain.Food;
 import fr.m2dl.aco.domain.Nest;
 import fr.m2dl.aco.domain.Obstacle;
+import fr.m2dl.aco.domain.Pheromone;
+import fr.m2dl.aco.services.IAcoEnvironment;
 import fr.m2dl.aco.services.IBoxable;
-import fr.m2dl.ff2d.application.Main;
+import fr.m2dl.ff2d.model.Behavior;
+import fr.m2dl.ff2d.view.GraphicAnt;
+import fr.m2dl.ff2d.view.GraphicElement;
+import fr.m2dl.ff2d.view.GraphicFloor;
+import fr.m2dl.ff2d.view.GraphicFood;
+import fr.m2dl.ff2d.view.GraphicNest;
+import fr.m2dl.ff2d.view.GraphicObstacle;
+import fr.m2dl.ff2d.view.GraphicPheromone;
+import fr.m2dl.ff2d.view.Grid;
+import fr.m2dl.ff2d.view.interfaces.IGrid;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
-
-import javafx.application.Platform;
+import javafx.scene.layout.AnchorPane;
 
 public class Controller {
 
+	private final static Logger logger = Logger.getLogger(Ant.class.getSimpleName());
+	private int entityType = 0;
+	private IAcoEnvironment env;
+	private Timer timer;
+	private IGrid grid;
+	
 	@FXML
 	private AnchorPane gridPanel;
 
-	private Main app;
-	private GridPane gridPane;
-	final int numCols = 32;
-	final int numRows = 16;
-	private final static Logger logger = Logger.getLogger(Ant.class.getSimpleName());
-	private int entityType = 0;
-
-	private AcoEnvironment env;
-
-	private Thread refresh;
-
-	private Image imageNid;
-
-	private ImageView imageFood;
-
-	private Image imageObstacle;
-
-	private Image imageFourmi;
-
-	private Image imageNourr;
-
-	private Timer timer;
-
+	
 	@FXML
 	private void initialize() {
-
-		// on lance la grille et on crï¿½ï¿½ ses colonnes et lignes
-		this.gridPane = new GridPane();
-		this.gridPane.setGridLinesVisible(true);
-		for (int i = 0; i < numCols; i++) {
-			ColumnConstraints colConst = new ColumnConstraints(32);
-			colConst.setPercentWidth(100.0 / numCols);
-			colConst.setMinWidth(0);
-			gridPane.getColumnConstraints().add(colConst);
-		}
-		for (int i = 0; i < numRows; i++) {
-			RowConstraints rowConst = new RowConstraints(32);
-			rowConst.setPercentHeight(100.0 / numRows);
-			rowConst.setMinHeight(0);
-			gridPane.getRowConstraints().add(rowConst);
-
-		}
-
-		// on ajoute au panel la grille
-		this.gridPanel.getChildren().add(gridPane);
-
-		// on redimensionne la grille pour qu'elle s'adapte a la bonne taille
-		this.gridPane.setStyle("-fx-background-color: white;");
-		this.gridPane.prefWidthProperty().bind(this.gridPanel.widthProperty());
-		this.gridPane.prefHeightProperty().bind(this.gridPanel.heightProperty());
-
-		// on recupere l'ensemble des images au lancement du projet
-		FileInputStream imageStream = null;
-		try {
-			imageStream = new FileInputStream("src/main/java/fr/m2dl/ff2d/view/nid.png");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		imageNid = new Image(imageStream);
-
-		FileInputStream foodStream = null;
-		FileInputStream obstacleStream = null;
-		try {
-			foodStream = new FileInputStream("src/main/java/fr/m2dl/ff2d/view/food.jpeg");
-			obstacleStream = new FileInputStream("src/main/java/fr/m2dl/ff2d/view/obstacle.jpg");
-		} catch (FileNotFoundException ev) {
-			// TODO Auto-generated catch block
-			ev.printStackTrace();
-		}
-		imageNourr = new Image(foodStream);
-
-		imageObstacle = new Image(obstacleStream);
-
-		FileInputStream imageStream2 = null;
-		try {
-			imageStream2 = new FileInputStream("src/main/java/fr/m2dl/ff2d/view/ant.png");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		imageFourmi = new Image(imageStream2);
+		grid = new Grid(gridPanel);	
 
 	}
 
 	public void launchNest() {
-		// on met ï¿½ jour env
-		this.env.createNest(new Coordinates(0, 1));
+		this.env.createNest(new Coordinates(0, 0));
 	}
 
-	private void addPane(final int colIndex, final int rowIndex) {
-		Pane pane = new Pane();
-		pane.setOnMousePressed(new EventHandler<Event>() {
+    /**
+	 * Ajoute le terrain sur la grille et met un listeners sur la case
+     *
+     * @param colIndex indice de la colonne de la grille
+     * @param rowIndex indice de la ligne de la grille
+     */
+	private void addFloor(final int colIndex, final int rowIndex) {
+		GraphicElement g = new GraphicFloor();
+		ImageView image = g.createImageView();
+		image.setOnMousePressed(new EventHandler<Event>() {
 			public void handle(Event event) {
 				launchPassiveEntity(colIndex, rowIndex);
 			}
 		});
-		gridPane.add(pane, colIndex, rowIndex);
-
+		
+		grid.addGraphicElement(image, colIndex, rowIndex);
 	}
 
-	public void setApp(Main main) {
-		this.app = main;
-	}
-
-	private void launchAnt(int x, int y) {
-		// creation de la fourmi dans ACO
+	/**
+	 * Demande la création de la fourmi 
+	 * 
+	 */
+	private void launchAnt() {
 		this.env.createAnts(1, new Behavior());
-
-		// lancer une fourmi sur l'interface graphique
 		logger.info("je suis une fourmi graphique.");
 	}
 
+	/**
+	 * Permet de creer les entites passives (nourriture et obstacle)
+	 * 
+	 */
 	private void launchPassiveEntity(int x, int y) {
 		if (this.entityType != 0) {
-			// lancer une entite sur l'interface graphique
 			switch (this.entityType) {
 			case 1:
-				logger.info("Creation de l'entitï¿½ Nourriture");
-				// affichage de l'entite
+				logger.info("Creation de l'entité Nourriture");
 				this.env.createFood(new Coordinates(y, x), 1);
 				break;
 			case 2:
-				logger.info("Creation de l'entitï¿½ Obstacle");
-				// affichage de l'entite
+				logger.info("Creation de l'entité Obstacle");
 				this.env.createObstacle(new Coordinates(y, x));
 				break;
 			}
 		}
 	}
 
+	/**
+	 * Listener sur le bouton pour lancer la simulation du fourragement 
+	 * 
+	 */
 	public void launchSimulation() {
-		// on cree l'environnement
-		this.env = new AcoEnvironment(numRows, numCols);
-		
-		// on lance le nid
+		this.env = new AcoEnvironment(grid.getGridRows(), grid.getGridCols());
 		launchNest();
+		launchAnt();
 		
-		// on lance une fourmie
-		launchAnt(numCols / 2, numRows / 2);
-		
-		// on lance la boucle de l'environnement
 		//this.env.run();
 
-		// on ajoute le listener aux cellules de la grille
-		for (int i = 0; i < numCols; i++) {
-			for (int j = 0; j < numRows; j++) {
-				addPane(i, j);
+		for (int i = 0; i < grid.getGridCols(); i++) {
+			for (int j = 0; j < grid.getGridRows(); j++) {
+				addFloor(i, j);
 			}
-		}
-		
-		// on lance l'interface graphique
+		}	
 		refreshUI();
+		
+		
+		
+		
+		
 
 	}
 
+	/**
+	 * Listener sur le bouton d'arret de la simulation du fourragement 
+	 * 
+	 */
 	public void stopSimulation() {
 		this.timer.cancel();
-		this.env = new AcoEnvironment(numRows, numCols);
-		gridPane.getChildren().clear();
+		this.env = new AcoEnvironment(grid.getGridRows(), grid.getGridCols());
+		grid.clearGrid();
 		initialize();
 	}
 
+	/**
+	 * Listener sur le bouton de selection de la nourriture
+	 */
 	public void selectFood() {
 		this.entityType = 1;
 	}
 
-	public void selectRock() {
+	/**
+	 * Listener sur le bouton de selection des obstacles
+	 */
+	public void selectObstacle() {
 		this.entityType = 2;
 	}
-
+	
+	
+	/**
+	 * Permet de mettre à jour l'interface graphique
+	 */
 	public void refreshUI() {
 
 		this.timer = new Timer();
 		this.timer.schedule(new TimerTask() {
+		GraphicElement graphicAnt = new GraphicAnt();
+		GraphicElement graphicFood = new GraphicFood();
+		GraphicElement graphicObstacle = new GraphicObstacle();
+		GraphicElement graphicNest = new GraphicNest();
+		GraphicElement graphicPheromone = new GraphicPheromone();
 
-			@Override
-			public void run() {
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						Box[][] box = env.getGrid();
-						for (int i = 0; i < numRows; i++) {
-							for (int j = 0; j < numCols; j++) {
-								List<IBoxable> boxables = box[i][j].getBoxables();
-								for(IBoxable b : boxables){
-								//if (boxables.size() > 0) {
-									//IBoxable b = boxables.get(0);
-									
-									if (b instanceof Ant) {
-										// afficher ant
-										ImageView imageAnt = new ImageView(imageFourmi);
-										imageAnt.setFitWidth(40);
-										imageAnt.setFitHeight(40);
-										gridPane.add(imageAnt, b.getCoordinates().getY(), b.getCoordinates().getX());
-									} else if (b instanceof Food) {
-										// afficher food
-										ImageView imageAnt = new ImageView(imageNourr);
-										imageAnt.setFitWidth(40);
-										imageAnt.setFitHeight(40);
-										gridPane.add(imageAnt, b.getCoordinates().getY(), b.getCoordinates().getX());
-									} else if (b instanceof Obstacle) {
-										// afficher obstacle
-										ImageView imageAnt = new ImageView(imageObstacle);
-										imageAnt.setFitWidth(40);
-										imageAnt.setFitHeight(40);
-										gridPane.add(imageAnt, b.getCoordinates().getY(), b.getCoordinates().getX());
-									} else if (b instanceof Nest) {
-										// afficher nest
-										ImageView imageAnt = new ImageView(imageNid);
-										imageAnt.setFitWidth(120);
-										imageAnt.setFitHeight(120);
-										gridPane.add(imageAnt, b.getCoordinates().getX(), b.getCoordinates().getY());
-									}
-								}
+		
+		@Override
+		public void run() {
+			Platform.runLater(new Runnable() {
+				
+				@Override
+				public void run() {
+					
+					Box[][] box = env.getGrid();
+					for (int i = 0; i < grid.getGridRows(); i++) {
+						for (int j = 0; j < grid.getGridCols(); j++) {
+							
+							List<IBoxable> boxables = box[i][j].getBoxables();
+							if(boxables.isEmpty()) {						
+								addFloor(j,i);							
 							}
-
+							
+							for(IBoxable b : boxables){
+							
+								if (b instanceof Ant) {										
+									grid.addGraphicElement(graphicAnt.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());								
+								} else if (b instanceof Food) {									
+									grid.addGraphicElement(graphicFood.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());								
+								} else if (b instanceof Obstacle) {									
+									grid.addGraphicElement(graphicObstacle.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());						
+								} else if (b instanceof Nest) {																
+									grid.addGraphicElement(graphicNest.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());							
+								} else if (b instanceof Pheromone) {																
+									grid.addGraphicElement(graphicPheromone.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());							
+								}
+								
+							}
 						}
+
 					}
-				});
-
-			}
-
-		}, 0, 500);
+					env.run();
+				}
+			});
+		}
+	}, 0, 500);
 
 	}
 
