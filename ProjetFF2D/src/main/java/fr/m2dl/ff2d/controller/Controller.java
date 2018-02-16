@@ -40,6 +40,7 @@ public class Controller {
 	@FXML
 	private AnchorPane gridPanel;
 
+	
 	@FXML
 	private void initialize() {
 		grid = new Grid(gridPanel);	
@@ -50,9 +51,15 @@ public class Controller {
 		this.env.createNest(new Coordinates(0, 0));
 	}
 
-	private void addCellListener(final int colIndex, final int rowIndex) {
+    /**
+	 * Ajoute le terrain sur la grille et met un listeners sur la case
+     *
+     * @param colIndex indice de la colonne de la grille
+     * @param rowIndex indice de la ligne de la grille
+     */
+	private void addFloor(final int colIndex, final int rowIndex) {
 		GraphicElement g = new GraphicFloor();
-		ImageView image = g.getImageView();
+		ImageView image = g.createImageView();
 		image.setOnMousePressed(new EventHandler<Event>() {
 			public void handle(Event event) {
 				launchPassiveEntity(colIndex, rowIndex);
@@ -62,11 +69,19 @@ public class Controller {
 		grid.addGraphicElement(image, colIndex, rowIndex);
 	}
 
+	/**
+	 * Demande la création de la fourmi 
+	 * 
+	 */
 	private void launchAnt() {
 		this.env.createAnts(1, new Behavior());
 		logger.info("je suis une fourmi graphique.");
 	}
 
+	/**
+	 * Permet de creer les entites passives (nourriture et obstacle)
+	 * 
+	 */
 	private void launchPassiveEntity(int x, int y) {
 		if (this.entityType != 0) {
 			switch (this.entityType) {
@@ -82,6 +97,10 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Listener sur le bouton pour lancer la simulation du fourragement 
+	 * 
+	 */
 	public void launchSimulation() {
 		this.env = new Environment(grid.getGridRows(), grid.getGridCols());
 		launchNest();
@@ -90,12 +109,16 @@ public class Controller {
 		
 		for (int i = 0; i < grid.getGridCols(); i++) {
 			for (int j = 0; j < grid.getGridRows(); j++) {
-				addCellListener(i, j);
+				addFloor(i, j);
 			}
 		}	
 		refreshUI();
 	}
 
+	/**
+	 * Listener sur le bouton d'arret de la simulation du fourragement 
+	 * 
+	 */
 	public void stopSimulation() {
 		this.timer.cancel();
 		this.env = new Environment(grid.getGridRows(), grid.getGridCols());
@@ -103,19 +126,34 @@ public class Controller {
 		initialize();
 	}
 
+	/**
+	 * Listener sur le bouton de selection de la nourriture
+	 */
 	public void selectFood() {
 		this.entityType = 1;
 	}
 
-	public void selectRock() {
+	/**
+	 * Listener sur le bouton de selection des obstacles
+	 */
+	public void selectObstacle() {
 		this.entityType = 2;
 	}
-
+	
+	
+	/**
+	 * Permet de mettre à jour l'interface graphique
+	 */
 	public void refreshUI() {
 
 		this.timer = new Timer();
 		this.timer.schedule(new TimerTask() {
+		GraphicElement graphicAnt = new GraphicAnt();
+		GraphicElement graphicFood = new GraphicFood();
+		GraphicElement graphicObstacle = new GraphicObstacle();
+		GraphicElement graphicNest = new GraphicNest();
 
+		
 		@Override
 		public void run() {
 			Platform.runLater(new Runnable() {
@@ -128,26 +166,22 @@ public class Controller {
 						for (int j = 0; j < grid.getGridCols(); j++) {
 							
 							List<IBoxable> boxables = box[i][j].getBoxables();
-							if(boxables.isEmpty()) {
-								addCellListener(i,j);
+							if(boxables.isEmpty()) {						
+								addFloor(j,i);							
 							}
 							
 							for(IBoxable b : boxables){
-								GraphicElement element;
-								if (b instanceof Ant) {	
-									element = new GraphicAnt();
-									grid.addGraphicElement(element.getImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());
-								} else if (b instanceof Food) {
-									element = new GraphicFood();
-									grid.addGraphicElement(element.getImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());
-								} else if (b instanceof Obstacle) {
-									element = new GraphicObstacle();
-									grid.addGraphicElement(element.getImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());
-								} else if (b instanceof Nest) {
-									element = new GraphicNest();
-									grid.addGraphicElement(element.getImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());
-								}
 							
+								if (b instanceof Ant) {										
+									grid.addGraphicElement(graphicAnt.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());								
+								} else if (b instanceof Food) {									
+									grid.addGraphicElement(graphicFood.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());								
+								} else if (b instanceof Obstacle) {									
+									grid.addGraphicElement(graphicObstacle.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());						
+								} else if (b instanceof Nest) {																
+									grid.addGraphicElement(graphicNest.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());							
+								}
+								
 							}
 						}
 

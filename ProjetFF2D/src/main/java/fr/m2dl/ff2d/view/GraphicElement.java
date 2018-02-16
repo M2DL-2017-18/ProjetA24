@@ -1,49 +1,54 @@
 package fr.m2dl.ff2d.view;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class GraphicElement {
 
-	private ImageView imageView;
-	
+	private Image image;
+	private FileInputStream is;
+	int height;
+	int width;
 	
 	public GraphicElement (final String imagePath, int w, int h) {
-		Image image = createImage(imagePath);
-		imageView = createImageView(image, w, h);
+		createImage(imagePath);
+		height = h;
+		width = w;
 	}
 	
 	
-	private Image createImage(String imagePath) {
+	private void createImage(final String imagePath) {
 		
-		FileInputStream is = null;
-		Image image = null;
 		try {
 			is = new FileInputStream(imagePath);
-		} catch (FileNotFoundException e) {
+			image = new Image(is);
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		image = new Image(is);	
-		
-		return image;
-		
 	}
+
 	
-	private ImageView createImageView(Image image, int width, int height) {
+	/**
+	 * Creer l'image view de l'element
+	 * @param image l'image à partir de laquelle on creer l'image view
+	 * @param width la largeur de l'image
+	 * @param height la hauteur de l'image
+	 * @return l'image view de l'element
+	 */
+	public ImageView createImageView() {
 		
 		ImageView imageView = new ImageView(image);
 		imageView.setFitWidth(width);
 		imageView.setFitHeight(height);	
 		return imageView;	
 	}
+
+
 	
-	public ImageView getImageView() {
-		return this.imageView;
-	}
 	
 	
 }

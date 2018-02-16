@@ -5,7 +5,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 
 public class Grid implements IGrid{
@@ -21,6 +20,9 @@ public class Grid implements IGrid{
 		initGridPane();
 	}
 	
+	/**
+	 * Initialise la grille selon le nombre de ligne et colonne définis
+	 */
 	private void initGridPane() {
 		
 		this.gridPane = new GridPane();
@@ -53,7 +55,9 @@ public class Grid implements IGrid{
 
 	
 	public void addGraphicElement(ImageView image, int x, int y) {
-		this.gridPane.add(image, x, y);
+		this.gridPane.getChildren().add(image);
+		GridPane.setColumnIndex(image, x);
+		GridPane.setRowIndex(image, y);
 	}
 	
 	public int getGridRows() {
@@ -67,10 +71,4 @@ public class Grid implements IGrid{
 	public int getGridCols() {
 		return this.gridCols;
 	}
-
-	
-	
-	
-	
-
 }
