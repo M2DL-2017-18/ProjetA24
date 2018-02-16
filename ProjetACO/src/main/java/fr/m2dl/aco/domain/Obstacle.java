@@ -1,8 +1,9 @@
 package fr.m2dl.aco.domain;
 
 import fr.m2dl.aco.services.IBoxable;
+import fr.m2dl.infra.PassiveEntity;
 
-public class Obstacle implements IBoxable {
+public class Obstacle extends PassiveEntity implements IBoxable {
 
     private Coordinates coordinates;
 

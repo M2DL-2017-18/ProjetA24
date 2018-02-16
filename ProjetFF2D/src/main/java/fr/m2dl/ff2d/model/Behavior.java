@@ -18,11 +18,11 @@ import fr.m2dl.aco.domain.Ant;
 import fr.m2dl.aco.domain.Box;
 import fr.m2dl.aco.domain.Coordinates;
 import fr.m2dl.aco.domain.Food;
-import fr.m2dl.aco.services.IAction;
-import fr.m2dl.aco.services.IBehavior;
+import fr.m2dl.aco.services.IAcoAction;
+import fr.m2dl.aco.services.IAcoBehavior;
 import fr.m2dl.aco.services.IBoxable;
-import fr.m2dl.aco.services.IEnvironment;
-import fr.m2dl.infra.Action;
+import fr.m2dl.infra.IAction;
+import fr.m2dl.aco.services.IAcoEnvironment;
 
 /**
  * 
@@ -31,7 +31,7 @@ import fr.m2dl.infra.Action;
  * Implémentation du comportement d'une fourmi
  */
 
-public class Behavior implements IBehavior{
+public class Behavior implements IAcoBehavior{
 	
 	
 	public Optional<IBoxable> getFourmi(Box[][] grid)
@@ -43,8 +43,8 @@ public class Behavior implements IBehavior{
 
 
 	@Override
-	public List<Action<Ant, IEnvironment>> decide(IEnvironment environment) {
-		List<Action<Ant, IEnvironment>> listeAction = new ArrayList<>();
+	public List<IAction<Ant, IAcoEnvironment>> decide(IAcoEnvironment environment) {
+		List<IAction<Ant, IAcoEnvironment>> listeAction = new ArrayList<>();
 		
 		List<Coordinates> food = new ArrayList<>();
 		food = findFoodInGrid(environment.getGrid());
@@ -81,7 +81,7 @@ public class Behavior implements IBehavior{
 		return foodCoordinates;
 	}
 	
-	public IAction directionToFood(Coordinates cr, Ant ant) {
+	public IAcoAction directionToFood(Coordinates cr, Ant ant) {
 		
 		int x = ant.getCoordinates().getX();
 		int y = ant.getCoordinates().getY();
@@ -115,8 +115,8 @@ public class Behavior implements IBehavior{
 		return null;
 	}
 	
-	public List<IAction> backToNest(Ant ant, Box[][] grid) {
-		List<IAction> listeActionUturn = new ArrayList<>();
+	public List<IAcoAction> backToNest(Ant ant, Box[][] grid) {
+		List<IAcoAction> listeActionUturn = new ArrayList<>();
 		
 		ant = (Ant)getFourmi(grid).get();
 		

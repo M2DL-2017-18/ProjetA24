@@ -6,16 +6,17 @@ import fr.m2dl.aco.domain.Ant;
 import fr.m2dl.aco.domain.Box;
 import fr.m2dl.aco.domain.Coordinates;
 import fr.m2dl.aco.domain.Obstacle;
-import fr.m2dl.aco.services.IAction;
+import fr.m2dl.aco.services.IAcoAction;
 import fr.m2dl.aco.services.IBoxable;
-import fr.m2dl.aco.services.IEnvironment;
+import fr.m2dl.aco.services.IAcoEnvironment;
+import fr.m2dl.aco.util.Util;
 
 /**
  * Classe qui abstrait les actions de deplacement d'une fourmi.
  * 
  *
  */
-public abstract class AbstractMove implements IAction{
+public abstract class AbstractMove implements IAcoAction{
 
 	
 	/**
@@ -36,10 +37,10 @@ public abstract class AbstractMove implements IAction{
 	 * @param env l'environnement dans lequel se deplace la fourmi
 	 */
 	@Override
-	public void act(Ant ant, IEnvironment env) {
+	public void act(Ant ant, IAcoEnvironment env) {
 		Coordinates origin = ant.getCoordinates();
 		Coordinates destination = getDestination(origin);
-		destination = stayInGrid(env,destination);
+		destination = Util.stayInGrid(env,destination);
 		if(verify(env,destination)){
 			int x_origine = origin.getX();
 			int y_origine = origin.getY();
@@ -53,23 +54,6 @@ public abstract class AbstractMove implements IAction{
 	}
 	
 	/**
-	 * Normalise les coordonnées pour qui'il reste dans la grille
-	 * 
-	 * @param  env l'environnement
-	 * @param coordinates les coordonnées à normaliser
-	 * @return les coordonnées normalisés
-	 */
-	private Coordinates stayInGrid(IEnvironment env,Coordinates coordinates){
-		int row = env.getGrid().length;
-		int col = env.getGrid()[0].length;
-		int x = coordinates.getX() % row;
-		if(x < 0) x += row;
-		int y = coordinates.getY() % col;
-		if(y < 0) y += col; 
-		return new Coordinates(x,y);
-	}
-	
-	/**
 	 * Verifie qu'un deplacement est possible, s'il y a un obstacle a la destination le deplacment
 	 * est impossible, sinon il est posssible
 	 * 
@@ -77,7 +61,7 @@ public abstract class AbstractMove implements IAction{
 	 * @param coordinates la destination
 	 * @return true si le deplacememt est possible,false sinon
 	 */
-	private boolean verify(IEnvironment env,Coordinates coordinates){
+	private boolean verify(IAcoEnvironment env, Coordinates coordinates){
 		Box box_destination = env.getGrid()[coordinates.getX()][coordinates.getY()];
 		Optional<IBoxable> opt = box_destination.getBoxables().stream().filter(b -> b instanceof Obstacle).findAny();
 		return ! opt.isPresent();

@@ -5,13 +5,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
 
+import fr.m2dl.aco.domain.AcoEnvironment;
 import fr.m2dl.aco.domain.Ant;
 import fr.m2dl.aco.domain.Box;
 import fr.m2dl.aco.domain.Coordinates;
-import fr.m2dl.aco.domain.Environment;
 import fr.m2dl.aco.domain.Food;
 import fr.m2dl.aco.domain.Nest;
 import fr.m2dl.aco.domain.Obstacle;
+import fr.m2dl.aco.domain.Pheromone;
+import fr.m2dl.aco.services.IAcoEnvironment;
 import fr.m2dl.aco.services.IBoxable;
 import fr.m2dl.ff2d.model.Behavior;
 import fr.m2dl.ff2d.view.GraphicAnt;
@@ -34,7 +36,7 @@ public class Controller {
 
 	private final static Logger logger = Logger.getLogger(Ant.class.getSimpleName());
 	private int entityType = 0;
-	private Environment env;
+	private IAcoEnvironment env;
 	private Timer timer;
 	private IGrid grid;
 	
@@ -103,17 +105,24 @@ public class Controller {
 	 * 
 	 */
 	public void launchSimulation() {
-		this.env = new Environment(grid.getGridRows(), grid.getGridCols());
+		this.env = new AcoEnvironment(grid.getGridRows(), grid.getGridCols());
 		launchNest();
 		launchAnt();
-		//this.env.run();
 		
+		//this.env.run();
+
 		for (int i = 0; i < grid.getGridCols(); i++) {
 			for (int j = 0; j < grid.getGridRows(); j++) {
 				addFloor(i, j);
 			}
 		}	
 		refreshUI();
+		
+		
+		
+		
+		
+
 	}
 
 	/**
@@ -122,7 +131,7 @@ public class Controller {
 	 */
 	public void stopSimulation() {
 		this.timer.cancel();
-		this.env = new Environment(grid.getGridRows(), grid.getGridCols());
+		this.env = new AcoEnvironment(grid.getGridRows(), grid.getGridCols());
 		grid.clearGrid();
 		initialize();
 	}
@@ -154,6 +163,7 @@ public class Controller {
 		GraphicElement graphicObstacle = new GraphicObstacle();
 		GraphicElement graphicNest = new GraphicNest();
 		GraphicElement graphicPheromone = new GraphicPheromone();
+
 		
 		@Override
 		public void run() {
@@ -189,6 +199,7 @@ public class Controller {
 						}
 
 					}
+					env.run();
 				}
 			});
 		}

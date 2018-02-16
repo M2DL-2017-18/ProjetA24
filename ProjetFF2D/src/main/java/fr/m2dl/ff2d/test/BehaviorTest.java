@@ -9,8 +9,6 @@ import fr.m2dl.aco.domain.Ant;
 import fr.m2dl.aco.domain.Box;
 import fr.m2dl.aco.domain.Coordinates;
 import fr.m2dl.aco.domain.Food;
-import fr.m2dl.aco.services.IBehavior;
-import fr.m2dl.aco.services.IEnvironment;
 import fr.m2dl.ff2d.model.Behavior;
 
 public class BehaviorTest {
