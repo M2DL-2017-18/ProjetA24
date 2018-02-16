@@ -19,6 +19,7 @@ public class Orchestrator {
      */
     public Orchestrator() {
         agentList = new ArrayList<Agent>();
+        activeEntityList = new ArrayList<ActiveEntity>();
     }
 
     /**
