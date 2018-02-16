@@ -16,7 +16,7 @@ enum State {
 /**
  * Describes what is an agent and what it supposed to do
  */
-public abstract class Agent {
+public abstract class Agent implements RunnableEntity {
     private UUID id;
     private State state;
     private final static Logger logger = Logger.getLogger(Agent.class.getSimpleName());
@@ -40,7 +40,7 @@ public abstract class Agent {
     /**
      * An agent has a lifecycle : perceive, decide, act
      */
-    protected void runLifeCycle(IEnvironment environment) {
+    public void runLifeCycle(IEnvironment environment) {
         // sensedEnv is the maximal decision scope of the agent
         IEnvironment sensedEnv = sense(environment);
         for(IAction<Agent, IEnvironment> a : behavior.decide(sensedEnv)) {
