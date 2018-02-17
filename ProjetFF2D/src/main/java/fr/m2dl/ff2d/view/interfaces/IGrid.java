@@ -27,4 +27,11 @@ public interface IGrid {
 	 */
 	public int getGridCols();
 	
+	/**
+	 * Supprime un element de la grille
+	 * @param row la ligne ou se trouve l'element
+	 * @param col la colonne ou se trouve l'element
+	 */
+	public void removeCell(int row, int col);
+	
 }

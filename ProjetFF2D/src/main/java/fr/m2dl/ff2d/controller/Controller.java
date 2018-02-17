@@ -111,11 +111,11 @@ public class Controller {
 		
 		//this.env.run();
 
-		for (int i = 0; i < grid.getGridCols(); i++) {
+		/*for (int i = 0; i < grid.getGridCols(); i++) {
 			for (int j = 0; j < grid.getGridRows(); j++) {
 				addFloor(i, j);
 			}
-		}	
+		}*/	
 		refreshUI();
 		
 		
@@ -177,7 +177,8 @@ public class Controller {
 						for (int j = 0; j < grid.getGridCols(); j++) {
 							
 							List<IBoxable> boxables = box[i][j].getBoxables();
-							if(boxables.isEmpty()) {						
+							if(boxables.isEmpty()) {	
+								grid.removeCell(i, j);
 								addFloor(j,i);							
 							}
 							
