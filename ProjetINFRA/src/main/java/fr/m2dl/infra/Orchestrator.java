@@ -2,17 +2,19 @@ package fr.m2dl.infra;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Scheduler of the Multi-Agent System
  *
  * It "runs" all the agents in the system
  * @author Infra core team
- * @since 02-02-2018
+ * @since 16-02-2018
  */
 public class Orchestrator {
     List<ActiveEntity> activeEntityList;
     List<Agent> agentList;
+    AgentFactoriesRegistry registryFactories;
 
     /**
      * Default constructor
@@ -20,6 +22,7 @@ public class Orchestrator {
     public Orchestrator() {
         agentList = new ArrayList<Agent>();
         activeEntityList = new ArrayList<ActiveEntity>();
+        registryFactories = new AgentFactoriesRegistry();
     }
 
     /**
@@ -28,6 +31,44 @@ public class Orchestrator {
      */
     public void createAgent(Agent agent) {
         agentList.add(agent);
+    }
+
+    /**
+     * Register a new factory to create agent
+     * @param factory the factory that can create Agent
+     */
+    public int addFactoryOfAgent(IFactoryAgent<Agent> factory) {
+        return this.registryFactories.registerAgentFactory(factory);
+    }
+
+    /**
+     * Create agents of the same type by using their factory.
+     * @param token the token id of their factory
+     */
+    public boolean createAgents(int token, long count) {
+        Optional<List<Agent>> agents = this.registryFactories.createSwarm(token, count);
+
+        if (agents.isPresent()) {
+            this.agentList.addAll(agents.get());
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Create an agent by using his factory
+     * @param token the token id of his factory
+     */
+    public boolean createAgent(int token) {
+        Optional<Agent> agent = this.registryFactories.createAgent(token);
+
+        if (agent.isPresent()) {
+            this.agentList.add(agent.get());
+            return true;
+        }
+
+        return false;
     }
 
     /**
