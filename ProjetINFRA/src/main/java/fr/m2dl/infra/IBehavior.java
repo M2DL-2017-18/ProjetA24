@@ -15,5 +15,5 @@ public interface IBehavior<A extends Agent, E extends IEnvironment> {
      * @param env A view of the local environment.
      * @return A list of action to perform.
      */
-    List<IAction<A, E>> decide(E env);
+    List<IAction<A, E>> decide(A agent, E env);
 }

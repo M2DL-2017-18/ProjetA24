@@ -43,7 +43,7 @@ public abstract class Agent implements RunnableEntity {
     public final void runLifeCycle(IEnvironment environment) {
         // sensedEnv is the maximal decision scope of the agent
         IEnvironment sensedEnv = sense(environment);
-        for(IAction<Agent, IEnvironment> a : behavior.decide(sensedEnv)) {
+        for(IAction<Agent, IEnvironment> a : behavior.decide(this, sensedEnv)) {
             a.act(this, environment);
         }
     }

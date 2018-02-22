@@ -24,7 +24,7 @@ public class OrchestratorTest {
 		final List<IAction<AgentTest, IEnvironment>> l = new ArrayList();
 
 		AgentTest a = new AgentTest(new IBehavior<AgentTest, IEnvironment>() {
-			public List<IAction<AgentTest, IEnvironment>> decide(IEnvironment env) {
+			public List<IAction<AgentTest, IEnvironment>> decide(AgentTest a, IEnvironment env) {
 				l.add(new IAction<AgentTest, IEnvironment>() {
 					public void act(AgentTest activeAgent, IEnvironment environment) {
 						testPassedByActFunction = true;
@@ -57,7 +57,7 @@ public class OrchestratorTest {
 
 	public void generateSuicideAgent(Orchestrator orchestrator) {
 		Agent a = new Agent(new IBehavior() {
-			public List<IAction> decide(IEnvironment env) {
+			public List<IAction> decide(Agent a, IEnvironment env) {
 				List<IAction> l = new ArrayList<IAction>();
 				l.add(new ActionSuicideTest());
 				return l;
