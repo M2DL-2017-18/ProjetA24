@@ -3,6 +3,7 @@ package fr.m2dl.infra;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * Scheduler of the Multi-Agent System
@@ -11,15 +12,19 @@ import java.util.Optional;
  * @author Infra core team
  * @since 16-02-2018
  */
-public class Orchestrator {
+public class Orchestrator extends Thread {
     List<ActiveEntity> activeEntityList;
     List<Agent> agentList;
     AgentFactoriesRegistry registryFactories;
+    BlockingQueue queue;
+    IEnvironment environment;
 
     /**
      * Default constructor
      */
-    public Orchestrator() {
+    public Orchestrator(BlockingQueue queue, IEnvironment env) {
+        this.queue = queue;
+        this.environment = env;
         agentList = new ArrayList<Agent>();
         activeEntityList = new ArrayList<ActiveEntity>();
         registryFactories = new AgentFactoriesRegistry();
@@ -82,11 +87,11 @@ public class Orchestrator {
     /**
      * Runs all the agents and active entities lifecycle sequentially
      */
-    public void run(IEnvironment globalEnv) {
+    public void runOrchestrator() {
         List<Agent> agentsToGarbage = new ArrayList<Agent>();
 
         for (Agent a : agentList) {
-            a.runLifeCycle(globalEnv);
+            a.runLifeCycle(environment);
 
             if (this.agentIsDead(a)) {
                 // we check if the agent is dead after the lifecycle 
@@ -96,7 +101,7 @@ public class Orchestrator {
         }
 
         for(ActiveEntity activeEntity : this.activeEntityList) {
-            activeEntity.runLifeCycle(globalEnv);
+            activeEntity.runLifeCycle(environment);
         }
 
         this.garbageAgents(agentsToGarbage);
@@ -119,6 +124,33 @@ public class Orchestrator {
      * @param agent the agent to verify
      */
     private boolean agentIsDead(Agent agent) {
-        return agent.getState().equals(State.DEAD);
+        return agent.getState().equals(AgentState.DEAD);
+    }
+
+    @Override
+    public void run() {
+        int countRunOrchestrator = 1;
+        try {
+            while (true) {
+                Object o = queue.take();
+                System.out.println("CONSUMING : " + o.toString());
+
+                OrchestratorState state = (OrchestratorState) o;
+
+                switch(state) {
+                    case START:
+                        do {
+                            System.out.println("RUN ORCHESTRATOR, PASS #"+countRunOrchestrator);
+                            this.runOrchestrator();
+                            countRunOrchestrator++;
+                        } while (queue.isEmpty());
+                        break;
+                    case PAUSE:
+                        System.out.println("PAUSING ORCHESTRATOR");
+                        this.interrupt();
+                        break;
+                }
+            }
+        } catch (InterruptedException ex) {}
     }
 }

@@ -8,7 +8,7 @@ import java.util.UUID;
  * @author Infra core team
  * @since 02-02-2018
  */
-enum State {
+enum AgentState {
     ALIVE,
     DEAD,
 }
@@ -18,7 +18,7 @@ enum State {
  */
 public abstract class Agent implements RunnableEntity {
     private UUID id;
-    private State state;
+    private AgentState state;
     private final static Logger logger = Logger.getLogger(Agent.class.getSimpleName());
     private IBehavior<Agent, IEnvironment> behavior;
 
@@ -27,7 +27,7 @@ public abstract class Agent implements RunnableEntity {
      */
     public Agent(IBehavior b) {
         id = UUID.randomUUID();
-        state = State.ALIVE;
+        state = AgentState.ALIVE;
         this.behavior = b;
         logger.info("Création d'un agent");
     }
@@ -58,9 +58,9 @@ public abstract class Agent implements RunnableEntity {
 
     /**
      * Get state
-     * @return State the state of the agent
+     * @return AgentState the state of the agent
      */
-    public State getState() {
+    public AgentState getState() {
         return this.state;
     }
 
@@ -68,7 +68,7 @@ public abstract class Agent implements RunnableEntity {
      * Set state
      * @param s the new state
      */
-    public void setState(State s) {
+    public void setState(AgentState s) {
         this.state = s;
     }
 
@@ -76,7 +76,7 @@ public abstract class Agent implements RunnableEntity {
      * Set the state of agent to DEAD
      */
     public void suicide() {
-        this.state = State.DEAD;
+        this.state = AgentState.DEAD;
     }
 
     /**
