@@ -50,7 +50,7 @@ public class Ant extends Agent implements IBoxable{
         this.quantityFoodMax = qtityFoodMax;
         logger.info("je suis une fourmi.");
     }
-    
+
     @Override
     public AcoEnvironment sense(IEnvironment env) {
     	AcoEnvironment acoEnvironment = (AcoEnvironment) env;
@@ -103,4 +103,5 @@ public class Ant extends Agent implements IBoxable{
 	public void setNestCoordinates(Coordinates nestCoordinates) {
 		this.nestCoordinates = nestCoordinates;
 	}
+
 }
