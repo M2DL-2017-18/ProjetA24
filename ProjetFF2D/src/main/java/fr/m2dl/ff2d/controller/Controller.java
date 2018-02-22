@@ -44,6 +44,7 @@ public class Controller {
 	private IAcoEnvironment env;
 	private Timer timer;
 	private IGrid grid;
+	private int nbFood = 1;
 	
 	@FXML
 	private AnchorPane gridPanel;
@@ -105,7 +106,7 @@ public class Controller {
 			switch (this.entityType) {
 			case 1:
 				logger.info("Creation de l'entité Nourriture");
-				this.env.createFood(new Coordinates(y, x), 1);
+				this.env.createFood(new Coordinates(y, x), this.nbFood);
 				break;
 			case 2:
 				logger.info("Creation de l'entité Obstacle");
@@ -125,10 +126,10 @@ public class Controller {
 	 */
 	public void launchSimulation() {
 		
-		TextInputDialog dialog = new TextInputDialog("walter");
+		TextInputDialog dialog = new TextInputDialog("1");
 		dialog.setTitle("Nombre de fourmies");
 		dialog.setHeaderText("Combien de fourmies voulez vous lancer dans la simulation ?");
-		dialog.setContentText("1");
+		dialog.setContentText("Nb : ");
 
 		// Traditional way to get the response value.
 		Optional<String> result = dialog.showAndWait();
@@ -172,6 +173,16 @@ public class Controller {
 	 */
 	public void selectFood() {
 		this.entityType = 1;
+		TextInputDialog dialog = new TextInputDialog("1");
+		dialog.setTitle("Quantité de nourriture ?");
+		dialog.setHeaderText("Combien d'unités de nourriture voulez vous poser ?");
+		dialog.setContentText("Nb : ");
+
+		// Traditional way to get the response value.
+		Optional<String> result = dialog.showAndWait();
+		if (result.isPresent()){
+			this.nbFood = Integer.parseInt(result.get());
+		}
 	}
 
 	/**
