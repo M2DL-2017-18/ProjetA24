@@ -1,15 +1,13 @@
 package fr.m2dl.aco.domain;
 
-import fr.m2dl.infra.IAction;
-import fr.m2dl.infra.IEnvironment;
-import fr.m2dl.infra.Agent;
-
 import java.util.logging.Logger;
 
 import fr.m2dl.aco.services.IAcoBehavior;
 import fr.m2dl.aco.services.IBoxable;
-import fr.m2dl.aco.services.IAcoEnvironment;
 import fr.m2dl.aco.util.Util;
+import fr.m2dl.infra.Agent;
+import fr.m2dl.infra.IAction;
+import fr.m2dl.infra.IEnvironment;
 
 public class Ant extends Agent implements IBoxable{
 
@@ -82,12 +80,9 @@ public class Ant extends Agent implements IBoxable{
         return quantityFoodCarrying;
     }
 
-    public IAction decide() {
-        return null;
-    }
-
     public void setQuantityFoodCarrying(int quantityFoodCarrying) {
         this.quantityFoodCarrying = quantityFoodCarrying;
     }
+    
 
 }
