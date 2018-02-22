@@ -6,7 +6,7 @@ import java.util.UUID;
 /**
  * Describe if the agent is dead or alive.
  * @author Infra core team
- * @since 02-02-2018
+ * @since 22-02-2018
  */
 enum State {
     ALIVE,
@@ -33,6 +33,12 @@ public abstract class Agent implements RunnableEntity {
     }
 
     /**
+     * Handle a message send by another agent.
+     * @param message receive
+     */
+    protected abstract <P> void handleMessage(Message<P> message);
+
+    /**
      * An agent can perceive
      */
     protected abstract <E extends IEnvironment> E sense(E environment);
@@ -40,11 +46,11 @@ public abstract class Agent implements RunnableEntity {
     /**
      * An agent has a lifecycle : perceive, decide, act
      */
-    public final void runLifeCycle(IEnvironment environment) {
+    public final void runLifeCycle(IEnvironment environment, Inbox inbox) {
         // sensedEnv is the maximal decision scope of the agent
         IEnvironment sensedEnv = sense(environment);
         for(IAction<Agent, IEnvironment> a : behavior.decide(this, sensedEnv)) {
-            a.act(this, environment);
+            a.act(this, environment, inbox);
         }
     }
 

@@ -1,8 +1,10 @@
 package fr.m2dl.infra;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Scheduler of the Multi-Agent System
@@ -15,6 +17,7 @@ public class Orchestrator {
     List<ActiveEntity> activeEntityList;
     List<Agent> agentList;
     AgentFactoriesRegistry registryFactories;
+    Inbox inbox;
 
     /**
      * Default constructor
@@ -23,6 +26,7 @@ public class Orchestrator {
         agentList = new ArrayList<Agent>();
         activeEntityList = new ArrayList<ActiveEntity>();
         registryFactories = new AgentFactoriesRegistry();
+        inbox = new Inbox();
     }
 
     /**
@@ -86,7 +90,7 @@ public class Orchestrator {
         List<Agent> agentsToGarbage = new ArrayList<Agent>();
 
         for (Agent a : agentList) {
-            a.runLifeCycle(globalEnv);
+            a.runLifeCycle(globalEnv, inbox);
 
             if (this.agentIsDead(a)) {
                 // we check if the agent is dead after the lifecycle 
@@ -98,6 +102,18 @@ public class Orchestrator {
         for(ActiveEntity activeEntity : this.activeEntityList) {
             activeEntity.runLifeCycle(globalEnv);
         }
+
+        for (Message message :this.inbox.queueOfMessages) {
+            for (UUID id : (LinkedList<UUID>) message.getRecipients()) {
+                this.agentList
+                    .stream()
+                    .filter(a -> a.getId().equals(id))
+                    .findFirst()
+                    .ifPresent(a -> a.handleMessage(message));
+            }
+        }
+
+        this.inbox.clear();
 
         this.garbageAgents(agentsToGarbage);
     }
