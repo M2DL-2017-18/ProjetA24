@@ -5,8 +5,8 @@ import java.util.logging.Logger;
 import fr.m2dl.aco.services.IAcoBehavior;
 import fr.m2dl.aco.services.IBoxable;
 import fr.m2dl.aco.util.Util;
+import fr.m2dl.aco.visitors.IBoxableVisitor;
 import fr.m2dl.infra.Agent;
-import fr.m2dl.infra.IAction;
 import fr.m2dl.infra.IEnvironment;
 
 public class Ant extends Agent implements IBoxable{
@@ -44,7 +44,7 @@ public class Ant extends Agent implements IBoxable{
         this.quantityFoodMax = qtityFoodMax;
         logger.info("je suis une fourmi.");
     }
-
+    
     @Override
     public AcoEnvironment sense(IEnvironment env) {
     	AcoEnvironment acoEnvironment = (AcoEnvironment) env;
@@ -83,6 +83,11 @@ public class Ant extends Agent implements IBoxable{
     public void setQuantityFoodCarrying(int quantityFoodCarrying) {
         this.quantityFoodCarrying = quantityFoodCarrying;
     }
-    
+
+
+	@Override
+	public boolean acceptVisitor(IBoxableVisitor visitor) {
+		return visitor.verify(this);
+	}
 
 }

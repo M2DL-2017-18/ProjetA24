@@ -10,6 +10,8 @@ import fr.m2dl.aco.services.IAcoAction;
 import fr.m2dl.aco.services.IBoxable;
 import fr.m2dl.aco.services.IAcoEnvironment;
 import fr.m2dl.aco.util.Util;
+import fr.m2dl.aco.visitors.IBoxableVisitor;
+import fr.m2dl.aco.visitors.ObstacleVisitor;
 
 /**
  * Classe qui abstrait les actions de deplacement d'une fourmi.
@@ -62,8 +64,9 @@ public abstract class AbstractMove implements IAcoAction{
 	 * @return true si le deplacememt est possible,false sinon
 	 */
 	private boolean verify(IAcoEnvironment env, Coordinates coordinates){
+		IBoxableVisitor visitor = new ObstacleVisitor();
 		Box box_destination = env.getGrid()[coordinates.getX()][coordinates.getY()];
-		Optional<IBoxable> opt = box_destination.getBoxables().stream().filter(b -> b instanceof Obstacle).findAny();
+		Optional<IBoxable> opt = box_destination.getBoxables().stream().filter(e -> e.acceptVisitor(visitor)).findAny();
 		return ! opt.isPresent();
 	}
 }
