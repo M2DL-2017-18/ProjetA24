@@ -183,10 +183,7 @@ public class Controller {
 							}
 							
 							for(IBoxable b : boxables){
-							
-								if (b instanceof Ant) {										
-									grid.addGraphicElement(graphicAnt.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());								
-								} else if (b instanceof Food) {									
+								if (b instanceof Food) {									
 									grid.addGraphicElement(graphicFood.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());								
 								} else if (b instanceof Obstacle) {									
 									grid.addGraphicElement(graphicObstacle.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());						
@@ -194,6 +191,8 @@ public class Controller {
 									grid.addGraphicElement(graphicNest.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());							
 								} else if (b instanceof Pheromone) {																
 									grid.addGraphicElement(graphicPheromone.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());							
+								} else if (b instanceof Ant) {										
+									grid.addGraphicElement(graphicAnt.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());								
 								}
 								
 							}
