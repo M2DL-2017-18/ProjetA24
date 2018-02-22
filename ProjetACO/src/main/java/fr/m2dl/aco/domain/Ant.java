@@ -26,7 +26,7 @@ public class Ant extends Agent implements IBoxable{
     private int quantityFoodMax;
     
     /**
-     * Coordonnées du nid
+     * Coordonnï¿½es du nid
      */
     
     private Coordinates nestCoordinates = new Coordinates(0, 0) ;
@@ -53,7 +53,6 @@ public class Ant extends Agent implements IBoxable{
         logger.info("je suis une fourmi.");
     }
 
-    @Override
     public AcoEnvironment sense(IEnvironment env) {
     	AcoEnvironment acoEnvironment = (AcoEnvironment) env;
         AcoEnvironment envToReturn = new AcoEnvironment(3,3);
@@ -96,7 +95,6 @@ public class Ant extends Agent implements IBoxable{
         this.quantityFoodCarrying = quantityFoodCarrying;
     }
 
-
     public Coordinates getNestCoordinates() {
 		return nestCoordinates;
 	}
@@ -105,4 +103,5 @@ public class Ant extends Agent implements IBoxable{
 	public void setNestCoordinates(Coordinates nestCoordinates) {
 		this.nestCoordinates = nestCoordinates;
 	}
+
 }
