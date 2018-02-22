@@ -37,7 +37,7 @@ public class Orchestrator {
      * Register a new factory to create agent
      * @param factory the factory that can create Agent
      */
-    public int addFactoryOfAgent(IFactoryAgent<Agent> factory) {
+    public <A extends Agent> int addFactoryOfAgent(IFactoryAgent<A> factory) {
         return this.registryFactories.registerAgentFactory(factory);
     }
 
