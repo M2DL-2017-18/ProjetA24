@@ -6,19 +6,29 @@ import static java.lang.Thread.sleep;
 
 public class ControlOrchestrator extends Thread  {
     BlockingQueue queue;
+    Orchestrator orchestrator;
 
-    ControlOrchestrator(BlockingQueue queue) {
+    ControlOrchestrator(BlockingQueue queue, Orchestrator orchestrator) {
         this.queue = queue;
+        this.orchestrator = orchestrator;
     }
 
     @Override
     public void run() {
+        startOrchestrator();
+
         try {
             queue.put(produceStart());
-            this.sleep(10000);
-            queue.put(producePause());
             this.interrupt();
         } catch (InterruptedException ex) {}
+    }
+
+    private void startOrchestrator() {
+        orchestrator.start();
+    }
+
+    public void pauseOrchestrator() throws InterruptedException {
+        queue.put(producePause());
     }
 
     private OrchestratorState produceStart() {
