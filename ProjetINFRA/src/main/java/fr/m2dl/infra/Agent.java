@@ -35,7 +35,7 @@ public abstract class Agent implements RunnableEntity {
     /**
      * An agent can perceive
      */
-    abstract <E extends IEnvironment> E sense(E environment);
+    protected abstract <E extends IEnvironment> E sense(E environment);
 
     /**
      * An agent has a lifecycle : perceive, decide, act
@@ -77,5 +77,13 @@ public abstract class Agent implements RunnableEntity {
      */
     public void suicide() {
         this.state = State.DEAD;
+    }
+
+    /**
+     * Return the behavior
+     * @return the behavior
+     */
+    public IBehavior<Agent, IEnvironment> getBehavior() {
+        return this.behavior;
     }
 }
