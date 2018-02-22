@@ -1,6 +1,7 @@
 package fr.m2dl.aco.domain;
 
 import fr.m2dl.aco.services.IBoxable;
+import fr.m2dl.aco.visitors.IBoxableVisitor;
 import fr.m2dl.infra.PassiveEntity;
 
 public class Obstacle extends PassiveEntity implements IBoxable {
@@ -23,4 +24,10 @@ public class Obstacle extends PassiveEntity implements IBoxable {
     public void setCoordinates(Coordinates coordinates) {
         this.coordinates = coordinates;
     }
+    
+    @Override
+	public boolean acceptVisitor(IBoxableVisitor visitor) {
+		return visitor.verify(this);
+	}
+
 }

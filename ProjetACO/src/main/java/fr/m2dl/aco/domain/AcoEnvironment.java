@@ -1,8 +1,12 @@
 package fr.m2dl.aco.domain;
 
+import fr.m2dl.aco.factories.FactoryAnt;
 import fr.m2dl.aco.services.IAcoBehavior;
 import fr.m2dl.aco.services.IAcoEnvironment;
+import fr.m2dl.infra.IFactoryAgent;
 import fr.m2dl.infra.Orchestrator;
+
+import java.util.List;
 
 public class AcoEnvironment implements IAcoEnvironment {
 
@@ -10,6 +14,8 @@ public class AcoEnvironment implements IAcoEnvironment {
     private Nest nest;
 
     private Orchestrator orchestrator;
+    private int token;
+    private FactoryAnt factoryAnt;
 
     public AcoEnvironment(int row, int col) {
         this.orchestrator = new Orchestrator();
@@ -19,6 +25,10 @@ public class AcoEnvironment implements IAcoEnvironment {
                 grid[i][j] = new Box();
             }
         }
+
+        factoryAnt = new FactoryAnt();
+
+        token = orchestrator.addFactoryOfAgent(factoryAnt);
 
     }
 
@@ -38,8 +48,20 @@ public class AcoEnvironment implements IAcoEnvironment {
         }
         int nestX = nest.getCoordinates().getX();
         int nestY = nest.getCoordinates().getY();
+
+
+        factoryAnt.setBehavior(behavior);
+
+       orchestrator.createAgents(token, number);
+
+
+
+
+
+
         for (int i = 0; i < number; i++) {
             Ant ant = new Ant(behavior);
+            ant.setCoordinates(nest.getCoordinates());
             grid[nestX][nestY].addBoxable(ant);
             orchestrator.createAgent(ant);
         }

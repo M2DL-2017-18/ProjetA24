@@ -1,7 +1,9 @@
 package fr.m2dl.aco.domain;
 
 import fr.m2dl.aco.services.IBoxable;
+import fr.m2dl.aco.visitors.IBoxableVisitor;
 import fr.m2dl.infra.ActiveEntity;
+import fr.m2dl.infra.IEnvironment;
 
 public class Pheromone extends ActiveEntity implements IBoxable {
 
@@ -29,4 +31,16 @@ public class Pheromone extends ActiveEntity implements IBoxable {
     public void setCoordinates(Coordinates coordinates) {
         this.coordinates = coordinates;
     }
+
+    @Override
+	public boolean acceptVisitor(IBoxableVisitor visitor) {
+		return visitor.verify(this);
+	}
+
+    
+	@Override
+	public void runLifeCycle(IEnvironment env) {
+		// TODO Auto-generated method stub
+		
+	}
 }

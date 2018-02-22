@@ -6,5 +6,5 @@ import fr.m2dl.infra.IBehavior;
 /**
  * Created by hichem on 02/02/2018.
  */
-public interface IAcoBehavior extends IBehavior<Ant,IAcoEnvironment> {
+public interface IAcoBehavior extends IBehavior<Ant,IAcoEnvironment> {	
 }
