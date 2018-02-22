@@ -40,6 +40,7 @@ public class AcoEnvironment implements IAcoEnvironment {
         int nestY = nest.getCoordinates().getY();
         for (int i = 0; i < number; i++) {
             Ant ant = new Ant(behavior);
+            ant.setCoordinates(nest.getCoordinates());
             grid[nestX][nestY].addBoxable(ant);
             orchestrator.createAgent(ant);
         }
