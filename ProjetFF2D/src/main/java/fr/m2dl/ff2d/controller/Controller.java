@@ -1,6 +1,7 @@
 package fr.m2dl.ff2d.controller;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
@@ -31,6 +32,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+
+
+import javafx.scene.control.TextInputDialog;
+
 
 public class Controller {
 
@@ -86,8 +91,8 @@ public class Controller {
 	 * Demande la création de la fourmi 
 	 * 
 	 */
-	private void launchAnt() {
-		this.env.createAnts(1, new Behavior());
+	private void launchAnt(int nbAnts) {
+		this.env.createAnts(nbAnts, new Behavior());
 		logger.info("je suis une fourmi graphique.");
 	}
 
@@ -119,24 +124,28 @@ public class Controller {
 	 * 
 	 */
 	public void launchSimulation() {
-		if(!isNestPositionChosen ){
-			launchNest(0,0);
-		}
-		launchAnt();
 		
-		//this.env.run();
+		TextInputDialog dialog = new TextInputDialog("walter");
+		dialog.setTitle("Nombre de fourmies");
+		dialog.setHeaderText("Combien de fourmies voulez vous lancer dans la simulation ?");
+		dialog.setContentText("1");
 
+		// Traditional way to get the response value.
+		Optional<String> result = dialog.showAndWait();
+		if (result.isPresent()){
+			if(!isNestPositionChosen ){
+				launchNest(0,0);
+			}
+			launchAnt(Integer.parseInt(result.get()));
+		}		
+
+		//this.env.run();
+		
 		/*for (int i = 0; i < grid.getGridCols(); i++) {
 			for (int j = 0; j < grid.getGridRows(); j++) {
 				addFloor(i, j);
 			}
 		}*/	
-		
-		
-		
-		
-		
-
 	}
 
 	/**
@@ -185,15 +194,12 @@ public class Controller {
 		GraphicElement graphicObstacle = new GraphicObstacle();
 		GraphicElement graphicNest = new GraphicNest();
 		GraphicElement graphicPheromone = new GraphicPheromone();
-
 		
 		@Override
 		public void run() {
 			Platform.runLater(new Runnable() {
-				
 				@Override
 				public void run() {
-					
 					Box[][] box = env.getGrid();
 					for (int i = 0; i < grid.getGridRows(); i++) {
 						for (int j = 0; j < grid.getGridCols(); j++) {
