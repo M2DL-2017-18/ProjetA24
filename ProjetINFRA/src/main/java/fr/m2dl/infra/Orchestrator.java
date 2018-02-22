@@ -90,7 +90,7 @@ public class Orchestrator {
         List<Agent> agentsToGarbage = new ArrayList<Agent>();
 
         for (Agent a : agentList) {
-            a.runLifeCycle(globalEnv);
+            a.runLifeCycle(globalEnv, inbox);
 
             if (this.agentIsDead(a)) {
                 // we check if the agent is dead after the lifecycle 
@@ -102,6 +102,18 @@ public class Orchestrator {
         for(ActiveEntity activeEntity : this.activeEntityList) {
             activeEntity.runLifeCycle(globalEnv);
         }
+
+        for (Message message :this.inbox.queueOfMessages) {
+            for (UUID id : (LinkedList<UUID>) message.getRecipients()) {
+                this.agentList
+                    .stream()
+                    .filter(a -> a.getId().equals(id))
+                    .findFirst()
+                    .ifPresent(a -> a.handleMessage(message));
+            }
+        }
+
+        this.inbox.clear();
 
         this.garbageAgents(agentsToGarbage);
     }
