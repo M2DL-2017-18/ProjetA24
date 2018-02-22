@@ -7,7 +7,6 @@ import static java.lang.Boolean.TRUE;
 
 public class DropPheromon implements IAction<Ant, IEnvironment> {
 
-    @Override
     public void act(Ant activeAgent, IEnvironment environment) {
         activeAgent.propertyAnt = TRUE;
         activeAgent.funcAnt();
