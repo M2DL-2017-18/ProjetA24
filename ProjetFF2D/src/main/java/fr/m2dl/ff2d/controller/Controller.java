@@ -42,7 +42,7 @@ public class Controller {
 	
 	@FXML
 	private AnchorPane gridPanel;
-
+	private boolean isNestPositionChosen = false;
 	
 	@FXML
 	private void initialize() {
@@ -57,8 +57,11 @@ public class Controller {
 		refreshUI();
 	}
 
-	public void launchNest() {
-		this.env.createNest(new Coordinates(0, 0));
+	public void launchNest(int x, int y) {
+		if(!isNestPositionChosen){
+		this.env.createNest(new Coordinates(x, y));
+		this.isNestPositionChosen = true;
+		}
 	}
 
     /**
@@ -103,6 +106,10 @@ public class Controller {
 				logger.info("Creation de l'entité Obstacle");
 				this.env.createObstacle(new Coordinates(y, x));
 				break;
+			case 3:
+				logger.info("Selection de l'emplacement du nid");
+				this.launchNest(y, x);
+				break;
 			}
 		}
 	}
@@ -112,7 +119,9 @@ public class Controller {
 	 * 
 	 */
 	public void launchSimulation() {
-		launchNest();
+		if(!isNestPositionChosen ){
+			launchNest(0,0);
+		}
 		launchAnt();
 		
 		//this.env.run();
@@ -135,10 +144,18 @@ public class Controller {
 	 * 
 	 */
 	public void stopSimulation() {
+		this.isNestPositionChosen = false;
 		this.timer.cancel();
 		this.env = new AcoEnvironment(grid.getGridRows(), grid.getGridCols());
 		grid.clearGrid();
 		initialize();
+	}
+	
+	/**
+	 * Listener sur le bouton de selection de la nourriture
+	 */
+	public void selectNest() {
+		this.entityType = 3;
 	}
 
 	/**
