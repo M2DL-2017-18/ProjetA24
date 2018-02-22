@@ -22,8 +22,14 @@ public class Ant extends Agent implements IBoxable{
      * Quantité maximale que la fourmi peut transporter
      */
     private int quantityFoodMax;
-
+    
     /**
+     * Coordonn�es du nid
+     */
+    
+    private Coordinates nestCoordinates = new Coordinates(0, 0) ;
+
+	/**
      * Quantité de nourriture transportée par la fourmi
      */
     private int quantityFoodCarrying;
@@ -84,10 +90,17 @@ public class Ant extends Agent implements IBoxable{
         this.quantityFoodCarrying = quantityFoodCarrying;
     }
 
-
 	@Override
 	public boolean acceptVisitor(IBoxableVisitor visitor) {
 		return visitor.verify(this);
 	}
 
+    public Coordinates getNestCoordinates() {
+		return nestCoordinates;
+	}
+
+
+	public void setNestCoordinates(Coordinates nestCoordinates) {
+		this.nestCoordinates = nestCoordinates;
+	}
 }
