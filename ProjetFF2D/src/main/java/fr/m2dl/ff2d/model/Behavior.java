@@ -143,7 +143,6 @@ public class Behavior implements IAcoBehavior{
 			listeActionUturn.add(new MoveTop());
 			listeActionUturn.add(new PutPheromone(yAnt, yAnt));
 		}
-
 		return listeActionUturn;
 	}
 	

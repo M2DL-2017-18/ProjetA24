@@ -46,8 +46,15 @@ public class Controller {
 	
 	@FXML
 	private void initialize() {
-		grid = new Grid(gridPanel);	
-
+		grid = new Grid(gridPanel);
+		this.env = new AcoEnvironment(grid.getGridRows(), grid.getGridCols());
+		// we add the first listeners to the grid before running the envirronment
+		for(int i = 0;i<grid.getGridRows();i++){
+			for(int j = 0;j<grid.getGridRows();j++){
+				addFloor(i,j);
+			}
+		}
+		refreshUI();
 	}
 
 	public void launchNest() {
@@ -105,7 +112,6 @@ public class Controller {
 	 * 
 	 */
 	public void launchSimulation() {
-		this.env = new AcoEnvironment(grid.getGridRows(), grid.getGridCols());
 		launchNest();
 		launchAnt();
 		
@@ -116,7 +122,6 @@ public class Controller {
 				addFloor(i, j);
 			}
 		}*/	
-		refreshUI();
 		
 		
 		
@@ -194,7 +199,6 @@ public class Controller {
 								} else if (b instanceof Ant) {										
 									grid.addGraphicElement(graphicAnt.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());								
 								}
-								
 							}
 						}
 
