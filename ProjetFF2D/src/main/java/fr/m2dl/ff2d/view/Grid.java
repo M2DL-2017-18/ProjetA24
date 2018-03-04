@@ -57,9 +57,12 @@ public class Grid implements IGrid{
 
 	
 	public void addGraphicElement(ImageView image, int x, int y) {
+		this.gridPane.getChildren().remove(image);
 		this.gridPane.getChildren().add(image);
 		GridPane.setColumnIndex(image, x);
 		GridPane.setRowIndex(image, y);
+		
+		
 	}
 	
 	public int getGridRows() {
@@ -74,25 +77,4 @@ public class Grid implements IGrid{
 		return this.gridCols;
 	}
 	
-	public void removeCell(int row, int col) {
-		Node node = getNodeByRowColumnIndex (row, col);
-		gridPane.getChildren().remove(node);
-		gridPane.getChildren().contains(node);
-	}
-	
-	private Node getNodeByRowColumnIndex (final int row, final int column) {
-	    Node result = null;
-	    ObservableList<Node> childrens = gridPane.getChildren();
-
-	    for (Node node : childrens) {
-	        if(GridPane.getRowIndex(node) != null
-	        		&& GridPane.getColumnIndex(node) != null
-	        		&& GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
-	            result = node;
-	            break;
-	        }
-	    }
-
-	    return result;
-	}
 }
