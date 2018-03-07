@@ -38,8 +38,7 @@ public class SearchFood extends IBehave {
 	public SearchFood() {
 		super();
 		dir = Direction.SW;
-		prec.setX(0);
-		prec.setY(0);
+		prec = new Coordinates(0,0);
 	}
 	
 	@Override
@@ -69,7 +68,8 @@ public class SearchFood extends IBehave {
 			else {
 				List<Coordinates> obstacles = new ArrayList<>();
 				obstacles = findObstacleInGrid(environment.getGrid());
-				checkObstacle(obstacles);
+				if (prec.getX() != 0 && prec.getY() != 0 && obstacles.size() != 0)
+					checkObstacle(ant);
 				listeAction.add(move());
 			}
 		}
@@ -186,41 +186,37 @@ public List<Coordinates> findObstacleInGrid(Box[][] grid) {
 		return action;
 	}
 	
-	public void checkObstacle(List<Coordinates> obs) {
-		switch (dir) {
-		case N:
-			if (obs.stream().filter(o -> o.getX() == 0 && o.getY() == 1).count() >0)
-				dir = Direction.NE;
-			break;
-		case NE:
-			if (obs.stream().filter(o -> o.getX() == 0 && o.getY() == 2).count() >0)
-				dir = Direction.E;
-			break;
-		case E:
-			if (obs.stream().filter(o -> o.getX() == 1 && o.getY() == 2).count() >0)
-				dir = Direction.SE;
-			break;
-		case SE:
-			if (obs.stream().filter(o -> o.getX() == 2 && o.getY() == 2).count() >0)
-				dir = Direction.S;
-			break;
-		case S:
-			if (obs.stream().filter(o -> o.getX() == 2 && o.getY() == 1).count() >0)
-				dir = Direction.SW;
-			break;
-		case SW:
-			if (obs.stream().filter(o -> o.getX() == 2 && o.getY() == 0).count() >0)
-				dir = Direction.W;
-			break;
-		case W:
-			if (obs.stream().filter(o -> o.getX() == 1 && o.getY() == 0).count() >0)
-				dir = Direction.NW;
-			break;
-		case NW:
-			if (obs.stream().filter(o -> o.getX() == 0 && o.getY() == 0).count() >0)
-				dir = Direction.N;
-			break;
-		}
+	public void checkObstacle(Ant ant) {
+		if (ant.getCoordinates().getX() == prec.getX() && 
+				ant.getCoordinates().getY() == prec.getY()
+				)
+			switch (dir) {
+			case N:
+					dir = Direction.NE;
+				break;
+			case NE:
+					dir = Direction.E;
+				break;
+			case E:
+					dir = Direction.SE;
+				break;
+			case SE:
+					dir = Direction.S;
+				break;
+			case S:
+					dir = Direction.SW;
+				break;
+			case SW:
+					dir = Direction.W;
+				break;
+			case W:
+					dir = Direction.NW;
+				break;
+			case NW:
+					dir = Direction.N;
+				break;
+			}
+		
 	}
 	
 }
