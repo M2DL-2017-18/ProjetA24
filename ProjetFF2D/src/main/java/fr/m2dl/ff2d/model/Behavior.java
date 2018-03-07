@@ -30,7 +30,7 @@ import fr.m2dl.aco.services.IAcoEnvironment;
  * 
  * @author mathieukostiu
  *
- * ImplÃ©mentation du comportement d'une fourmi
+ * Implémentation du comportement d'une fourmi
  */
 
 public class Behavior implements IAcoBehavior{
