@@ -2,7 +2,9 @@ package fr.m2dl.ff2d.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import fr.m2dl.aco.action.food.PickFood;
@@ -34,11 +36,17 @@ public class SearchFood extends IBehave {
 	
 	private Direction dir;
 	private Coordinates prec;
+	private int cpt;
+	private final int LIMIT = 7;
+	private static final Random rand = new Random();
+	private static final List<Direction> VALUES =
+		    Collections.unmodifiableList(Arrays.asList(Direction.values()));
 	
 	public SearchFood() {
 		super();
 		dir = Direction.SW;
 		prec = new Coordinates(0,0);
+		cpt = 0;
 	}
 	
 	@Override
@@ -183,6 +191,14 @@ public List<Coordinates> findObstacleInGrid(Box[][] grid) {
 			action = new MoveTopLeft();
 			break;
 		}
+		
+		cpt++;
+		
+		if (cpt == LIMIT) {
+			cpt = 0;
+			dir = VALUES.get(rand.nextInt(VALUES.size()));
+		}
+		
 		return action;
 	}
 	
@@ -190,32 +206,7 @@ public List<Coordinates> findObstacleInGrid(Box[][] grid) {
 		if (ant.getCoordinates().getX() == prec.getX() && 
 				ant.getCoordinates().getY() == prec.getY()
 				)
-			switch (dir) {
-			case N:
-					dir = Direction.NE;
-				break;
-			case NE:
-					dir = Direction.E;
-				break;
-			case E:
-					dir = Direction.SE;
-				break;
-			case SE:
-					dir = Direction.S;
-				break;
-			case S:
-					dir = Direction.SW;
-				break;
-			case SW:
-					dir = Direction.W;
-				break;
-			case W:
-					dir = Direction.NW;
-				break;
-			case NW:
-					dir = Direction.N;
-				break;
-			}
+			dir = VALUES.get(rand.nextInt(VALUES.size()));
 		
 	}
 	

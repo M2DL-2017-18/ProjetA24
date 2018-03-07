@@ -30,24 +30,23 @@ import fr.m2dl.aco.services.IAcoEnvironment;
  * 
  * @author mathieukostiu
  *
- * Implémentation du comportement d'une fourmi
+ * Implï¿½mentation du comportement d'une fourmi
  */
 
 public class Behavior implements IAcoBehavior{
 	
-	private Ant ant;
 	private IBehave state;
 	private Boolean wasSearching = false;
 	
-	public void setAnt(Ant a) {
-		ant = a;
-	}
-
 	
-	public List<IAction<Ant, IAcoEnvironment>> decide(IAcoEnvironment environment) {
+	
+
+
+	@Override
+	public List<IAction<Ant, IAcoEnvironment>> decide(Ant ant, IAcoEnvironment environment) {
 		List<IAction<Ant, IAcoEnvironment>> listeAction = new ArrayList<>();
 		
-			
+		
 		if (ant.getQuantityFoodCarrying() != 0) {
 			if (wasSearching)
 				state = new BackNest();
@@ -59,23 +58,6 @@ public class Behavior implements IAcoBehavior{
 				state = new SearchFood();
 			listeAction.addAll(state.decide(environment, ant));
 			wasSearching = true;
-		}
-		
-		return listeAction;
-	}
-
-	@Override
-	public List<IAction<Ant, IAcoEnvironment>> decide(Ant agent, IAcoEnvironment env) {
-		List<IAction<Ant, IAcoEnvironment>> listeAction = new ArrayList<>();
-		
-		
-		if (agent.getQuantityFoodCarrying() != 0) {
-			state = new BackNest();
-			listeAction.addAll(state.decide(env, ant));
-		}
-		else {
-			state = new SearchFood();
-			listeAction.addAll(state.decide(env, ant));
 		}
 		
 		return listeAction;
