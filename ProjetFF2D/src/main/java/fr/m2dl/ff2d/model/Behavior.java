@@ -37,6 +37,7 @@ public class Behavior implements IAcoBehavior{
 	
 	private Ant ant;
 	private IBehave state;
+	private Boolean wasSearching = false;
 	
 	public void setAnt(Ant a) {
 		ant = a;
@@ -48,12 +49,16 @@ public class Behavior implements IAcoBehavior{
 		
 			
 		if (ant.getQuantityFoodCarrying() != 0) {
-			state = new BackNest();
+			if (wasSearching)
+				state = new BackNest();
 			listeAction.addAll(state.decide(environment, ant));
+			wasSearching = false;
 		}
 		else {
-			state = new SearchFood();
+			if (!wasSearching)
+				state = new SearchFood();
 			listeAction.addAll(state.decide(environment, ant));
+			wasSearching = true;
 		}
 		
 		return listeAction;

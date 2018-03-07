@@ -1,7 +1,9 @@
 package fr.m2dl.ff2d.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
@@ -44,7 +46,11 @@ public class Controller {
 	private IAcoEnvironment env;
 	private Timer timer;
 	private IGrid grid;
+
 	private int nbFood = 1;
+
+	private Map<IBoxable, GraphicElement> boxablesMap = new HashMap<>(); 
+
 	
 	@FXML
 	private AnchorPane gridPanel;
@@ -78,7 +84,7 @@ public class Controller {
      */
 	private void addFloor(final int colIndex, final int rowIndex) {
 		GraphicElement g = new GraphicFloor();
-		ImageView image = g.createImageView();
+		ImageView image = g.getImageView();
 		image.setOnMousePressed(new EventHandler<Event>() {
 			public void handle(Event event) {
 				launchPassiveEntity(colIndex, rowIndex);
@@ -125,6 +131,7 @@ public class Controller {
 	 * 
 	 */
 	public void launchSimulation() {
+
 		
 		TextInputDialog dialog = new TextInputDialog("1");
 		dialog.setTitle("Nombre de fourmies");
@@ -197,52 +204,57 @@ public class Controller {
 	 * Permet de mettre à jour l'interface graphique
 	 */
 	public void refreshUI() {
+		
+		for (int i = 0; i < grid.getGridRows(); i++) {
+			for (int j = 0; j < grid.getGridCols(); j++) {
+				addFloor(j,i);
 
+			}
+		}
+		
 		this.timer = new Timer();
 		this.timer.schedule(new TimerTask() {
-		GraphicElement graphicAnt = new GraphicAnt();
-		GraphicElement graphicFood = new GraphicFood();
-		GraphicElement graphicObstacle = new GraphicObstacle();
-		GraphicElement graphicNest = new GraphicNest();
-		GraphicElement graphicPheromone = new GraphicPheromone();
-		
-		@Override
-		public void run() {
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					Box[][] box = env.getGrid();
-					for (int i = 0; i < grid.getGridRows(); i++) {
-						for (int j = 0; j < grid.getGridCols(); j++) {
-							
-							List<IBoxable> boxables = box[i][j].getBoxables();
-							if(boxables.isEmpty()) {	
-								grid.removeCell(i, j);
-								addFloor(j,i);							
-							}
-							
-							for(IBoxable b : boxables){
-								if (b instanceof Food) {									
-									grid.addGraphicElement(graphicFood.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());								
-								} else if (b instanceof Obstacle) {									
-									grid.addGraphicElement(graphicObstacle.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());						
-								} else if (b instanceof Nest) {																
-									grid.addGraphicElement(graphicNest.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());							
-								} else if (b instanceof Pheromone) {																
-									grid.addGraphicElement(graphicPheromone.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());							
-								} else if (b instanceof Ant) {										
-									grid.addGraphicElement(graphicAnt.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());								
+			
+			@Override
+			public void run() {
+				Platform.runLater(new Runnable() {
+					
+					@Override
+					public void run() {
+						
+						Box[][] box = env.getGrid();
+						for (int i = 0; i < grid.getGridRows(); i++) {
+							for (int j = 0; j < grid.getGridCols(); j++) {
+								
+								List<IBoxable> boxables = box[i][j].getBoxables();							
+								for(IBoxable b : boxables){
+									if(!boxablesMap.containsKey(b)) {
+										if (b instanceof Ant) {										
+											boxablesMap.put(b, new GraphicAnt());								
+										} else if (b instanceof Food) {									
+											boxablesMap.put(b, new GraphicFood());								
+										} else if (b instanceof Obstacle) {									
+											boxablesMap.put(b, new GraphicObstacle());					
+										} else if (b instanceof Nest) {																
+											boxablesMap.put(b, new GraphicNest());					
+										} else if (b instanceof Pheromone) {																
+											boxablesMap.put(b, new GraphicPheromone());					
+										}
+									}
+									grid.addGraphicElement(boxablesMap.get(b).getImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());								
+								
+
 								}
 							}
+	
 						}
-
+						env.run();
 					}
-					env.run();
-				}
-			});
-		}
-	}, 0, 500);
+				});
+			}
+		}, 0, 500);
 
 	}
+	
 
 }
