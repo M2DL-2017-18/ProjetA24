@@ -43,7 +43,7 @@ public class Behavior implements IAcoBehavior{
 		ant = a;
 	}
 
-	@Override
+	
 	public List<IAction<Ant, IAcoEnvironment>> decide(IAcoEnvironment environment) {
 		List<IAction<Ant, IAcoEnvironment>> listeAction = new ArrayList<>();
 		
@@ -59,6 +59,23 @@ public class Behavior implements IAcoBehavior{
 				state = new SearchFood();
 			listeAction.addAll(state.decide(environment, ant));
 			wasSearching = true;
+		}
+		
+		return listeAction;
+	}
+
+	@Override
+	public List<IAction<Ant, IAcoEnvironment>> decide(Ant agent, IAcoEnvironment env) {
+		List<IAction<Ant, IAcoEnvironment>> listeAction = new ArrayList<>();
+		
+		
+		if (agent.getQuantityFoodCarrying() != 0) {
+			state = new BackNest();
+			listeAction.addAll(state.decide(env, ant));
+		}
+		else {
+			state = new SearchFood();
+			listeAction.addAll(state.decide(env, ant));
 		}
 		
 		return listeAction;
