@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import fr.m2dl.aco.action.PutPheromone;
+import fr.m2dl.aco.action.food.DropFood;
 import fr.m2dl.aco.action.move.MoveLeft;
 import fr.m2dl.aco.action.move.MoveRight;
 import fr.m2dl.aco.action.move.MoveTop;
@@ -60,6 +61,9 @@ public class BackNest extends IBehave {
 		if (xAnt == 0 && yAnt > 0) {
 			listeActionUturn.add(new MoveTop());
 			listeActionUturn.add(new PutPheromone(xAnt, yAnt));
+		}
+		if (xAnt == 0 && yAnt == 0) {
+			listeActionUturn.add(new DropFood());
 		}
 
 		return listeActionUturn;
