@@ -18,6 +18,8 @@ import fr.m2dl.aco.domain.Ant;
 import fr.m2dl.aco.domain.Box;
 import fr.m2dl.aco.domain.Coordinates;
 import fr.m2dl.aco.domain.Food;
+import fr.m2dl.aco.domain.Obstacle;
+import fr.m2dl.aco.domain.Pheromone;
 import fr.m2dl.aco.services.IAcoAction;
 import fr.m2dl.aco.services.IAcoEnvironment;
 import fr.m2dl.infra.IAction;
@@ -29,6 +31,16 @@ import fr.m2dl.infra.IAction;
  *	Class defining the searching for food
  */
 public class SearchFood extends IBehave {
+	
+	private Direction dir;
+	private Coordinates prec;
+	
+	public SearchFood() {
+		super();
+		dir = Direction.SW;
+		prec.setX(0);
+		prec.setY(0);
+	}
 	
 	@Override
 	public List<IAction<Ant, IAcoEnvironment>> decide(IAcoEnvironment environment, Ant ant) {
@@ -43,9 +55,26 @@ public class SearchFood extends IBehave {
 			listeAction.add(new PickFood());
 		}
 		else {
-			listeAction.add(new MoveRight());
-			listeAction.add(new MoveBottom());
+			List<Coordinates> pheromone = new ArrayList<>();
+			pheromone = findPheromoneInGrid(environment.getGrid());
+			
+			if (pheromone.size() !=0) {
+				Coordinates dest = pheromone.get(0);
+				for (Coordinates c : pheromone) {
+					if (c.getX() != prec.getX() && c.getY() != prec.getY())
+						dest = c;
+				}
+				listeAction.add(directionToFood(dest, ant));
+			}
+			else {
+				List<Coordinates> obstacles = new ArrayList<>();
+				obstacles = findObstacleInGrid(environment.getGrid());
+				checkObstacle(obstacles);
+				listeAction.add(move());
+			}
 		}
+		
+		prec = ant.getCoordinates();
 		
 		return listeAction;
 	}
@@ -63,6 +92,32 @@ public List<Coordinates> findFoodInGrid(Box[][] grid) {
 		
 		return foodCoordinates;
 	}
+
+public List<Coordinates> findPheromoneInGrid(Box[][] grid) {
+	List<Coordinates> pheromoneCoordinates = new ArrayList<Coordinates>();
+	
+	pheromoneCoordinates = Arrays.stream(grid)
+			.flatMap(row -> Arrays.stream(row).map(column -> column.getBoxables()))
+			.flatMap(box -> box.stream())
+			.filter(elem -> elem instanceof Pheromone)
+			.map(food -> food.getCoordinates())
+			.collect(Collectors.toList());
+	
+	return pheromoneCoordinates;
+}
+
+public List<Coordinates> findObstacleInGrid(Box[][] grid) {
+	List<Coordinates> obstacleCoordinates = new ArrayList<Coordinates>();
+	
+	obstacleCoordinates = Arrays.stream(grid)
+			.flatMap(row -> Arrays.stream(row).map(column -> column.getBoxables()))
+			.flatMap(box -> box.stream())
+			.filter(elem -> elem instanceof Obstacle)
+			.map(food -> food.getCoordinates())
+			.collect(Collectors.toList());
+	
+	return obstacleCoordinates;
+}
 	
 	public IAcoAction directionToFood(Coordinates cr, Ant ant) {
 		
@@ -96,6 +151,76 @@ public List<Coordinates> findFoodInGrid(Box[][] grid) {
 		
 		
 		return null;
+	}
+	
+	public IAcoAction move() {
+		
+		IAcoAction action = null;
+		
+		switch(dir) {
+		case N:
+			action = new MoveTop();
+			break;
+		case NE:
+			action = new MoveTopRight();
+			break;
+		case E:
+			action = new MoveRight();
+			break;
+		case SE:
+			action = new MoveBottomRight();
+			break;
+		case S:
+			action = new MoveBottom();
+			break;
+		case SW:
+			action = new MoveBottomLeft();
+			break;
+		case W:
+			action = new MoveLeft();
+			break;
+		case NW:
+			action = new MoveTopLeft();
+			break;
+		}
+		return action;
+	}
+	
+	public void checkObstacle(List<Coordinates> obs) {
+		switch (dir) {
+		case N:
+			if (obs.stream().filter(o -> o.getX() == 0 && o.getY() == 1).count() >0)
+				dir = Direction.NE;
+			break;
+		case NE:
+			if (obs.stream().filter(o -> o.getX() == 0 && o.getY() == 2).count() >0)
+				dir = Direction.E;
+			break;
+		case E:
+			if (obs.stream().filter(o -> o.getX() == 1 && o.getY() == 2).count() >0)
+				dir = Direction.SE;
+			break;
+		case SE:
+			if (obs.stream().filter(o -> o.getX() == 2 && o.getY() == 2).count() >0)
+				dir = Direction.S;
+			break;
+		case S:
+			if (obs.stream().filter(o -> o.getX() == 2 && o.getY() == 1).count() >0)
+				dir = Direction.SW;
+			break;
+		case SW:
+			if (obs.stream().filter(o -> o.getX() == 2 && o.getY() == 0).count() >0)
+				dir = Direction.W;
+			break;
+		case W:
+			if (obs.stream().filter(o -> o.getX() == 1 && o.getY() == 0).count() >0)
+				dir = Direction.NW;
+			break;
+		case NW:
+			if (obs.stream().filter(o -> o.getX() == 0 && o.getY() == 0).count() >0)
+				dir = Direction.N;
+			break;
+		}
 	}
 	
 }
