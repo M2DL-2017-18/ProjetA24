@@ -10,6 +10,8 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 public class OrchestratorTest {
 	Orchestrator orchestrator;
@@ -17,7 +19,8 @@ public class OrchestratorTest {
 
 	@Before
 	public void init() {
-		orchestrator = new Orchestrator();
+		BlockingQueue queue = new ArrayBlockingQueue(1024);
+		orchestrator = new Orchestrator(queue, new IEnvironment() {});
 	}
 
 	private Agent generateAgent(Orchestrator orchestrator) {
@@ -76,12 +79,7 @@ public class OrchestratorTest {
 		generateSuicideAgent(orchestrator);
 
 		// When we run the system
-		orchestrator.run(new IEnvironment() {
-			@Override
-			public String toString() {
-				return "Environment";
-			}
-		});
+		orchestrator.runOrchestrator();
 
 		// Then the agent should be removed from the system.
 		assertEquals(0, orchestrator.getListAgents().size());
