@@ -95,7 +95,7 @@ public class Controller {
 	}
 
 	/**
-	 * Demande la création de la fourmi 
+	 * Demande la crï¿½ation de la fourmi 
 	 * 
 	 */
 	private void launchAnt(int nbAnts) {
@@ -111,11 +111,11 @@ public class Controller {
 		if (this.entityType != 0) {
 			switch (this.entityType) {
 			case 1:
-				logger.info("Creation de l'entité Nourriture");
+				logger.info("Creation de l'entitï¿½ Nourriture");
 				this.env.createFood(new Coordinates(y, x), this.nbFood);
 				break;
 			case 2:
-				logger.info("Creation de l'entité Obstacle");
+				logger.info("Creation de l'entitï¿½ Obstacle");
 				this.env.createObstacle(new Coordinates(y, x));
 				break;
 			case 3:
@@ -181,8 +181,8 @@ public class Controller {
 	public void selectFood() {
 		this.entityType = 1;
 		TextInputDialog dialog = new TextInputDialog("1");
-		dialog.setTitle("Quantité de nourriture ?");
-		dialog.setHeaderText("Combien d'unités de nourriture voulez vous poser ?");
+		dialog.setTitle("Quantitï¿½ de nourriture ?");
+		dialog.setHeaderText("Combien d'unitï¿½s de nourriture voulez vous poser ?");
 		dialog.setContentText("Nb : ");
 
 		// Traditional way to get the response value.
@@ -201,7 +201,7 @@ public class Controller {
 	
 	
 	/**
-	 * Permet de mettre à jour l'interface graphique
+	 * Permet de mettre ï¿½ jour l'interface graphique
 	 */
 	public void refreshUI() {
 		

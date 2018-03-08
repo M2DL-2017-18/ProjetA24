@@ -37,14 +37,14 @@ public class SearchFood extends IBehave {
 	private Direction dir;
 	private Coordinates prec;
 	private int cpt;
-	private final int LIMIT = 7;
+	private final int LIMIT = 1;
 	private static final Random rand = new Random();
 	private static final List<Direction> VALUES =
 		    Collections.unmodifiableList(Arrays.asList(Direction.values()));
 	
 	public SearchFood() {
 		super();
-		dir = Direction.SW;
+		dir = VALUES.get(rand.nextInt(VALUES.size()));
 		prec = new Coordinates(0,0);
 		cpt = 0;
 	}
@@ -197,6 +197,7 @@ public List<Coordinates> findObstacleInGrid(Box[][] grid) {
 		if (cpt == LIMIT) {
 			cpt = 0;
 			dir = VALUES.get(rand.nextInt(VALUES.size()));
+			VALUES.get(rand.nextInt(VALUES.size()));
 		}
 		
 		return action;
