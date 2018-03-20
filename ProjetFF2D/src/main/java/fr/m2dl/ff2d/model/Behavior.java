@@ -30,125 +30,37 @@ import fr.m2dl.aco.services.IAcoEnvironment;
  * 
  * @author mathieukostiu
  *
- * Implémentation du comportement d'une fourmi
+ * Impl�mentation du comportement d'une fourmi
  */
 
 public class Behavior implements IAcoBehavior{
 	
-	private Ant ant;
-	
-	public void setAnt(Ant a) {
-		ant = a;
-	}
+	private IBehave state;
+	private Boolean wasSearching = false;
 	
 	
-	public Optional<IBoxable> getFourmi(Box[][] grid)
-	{
-		
-		 return grid[1][1].getBoxables().stream().filter(a -> a instanceof Ant).findFirst();
-		
-	}
+	
 
 
 	@Override
-	public List<IAction<Ant, IAcoEnvironment>> decide(IAcoEnvironment environment) {
+	public List<IAction<Ant, IAcoEnvironment>> decide(Ant ant, IAcoEnvironment environment) {
 		List<IAction<Ant, IAcoEnvironment>> listeAction = new ArrayList<>();
 		
-		List<Coordinates> food = new ArrayList<>();
-		food = findFoodInGrid(environment.getGrid());
 		
-		
-		Ant ant = (Ant) getFourmi(environment.getGrid()).get();
-		
-		if (ant.getQuantityFoodCarrying() != 0)
-			listeAction.addAll(backToNest(ant, environment.getGrid()));
-		else
-			if (food.size() != 0) {
-				listeAction.add(directionToFood(food.get(0), ant));
-				listeAction.add(new PickFood());
-			}
-			else {
-				listeAction.add(new MoveRight());
-				listeAction.add(new MoveBottom());
-			}
+		if (ant.getQuantityFoodCarrying() != 0) {
+			if (wasSearching)
+				state = new BackNest();
+			listeAction.addAll(state.decide(environment, ant));
+			wasSearching = false;
+		}
+		else {
+			if (!wasSearching)
+				state = new SearchFood();
+			listeAction.addAll(state.decide(environment, ant));
+			wasSearching = true;
+		}
 		
 		return listeAction;
-	}
-
-	public List<Coordinates> findFoodInGrid(Box[][] grid) {
-		
-		List<Coordinates> foodCoordinates = new ArrayList<Coordinates>();
-		
-		foodCoordinates = Arrays.stream(grid)
-				.flatMap(row -> Arrays.stream(row).map(column -> column.getBoxables()))
-				.flatMap(box -> box.stream())
-				.filter(elem -> elem instanceof Food)
-				.map(food -> food.getCoordinates())
-				.collect(Collectors.toList());
-		
-		return foodCoordinates;
-	}
-	
-	public IAcoAction directionToFood(Coordinates cr, Ant ant) {
-		
-		int x = ant.getCoordinates().getX();
-		int y = ant.getCoordinates().getY();
-		x = x- cr.getX();
-		y = y - cr.getY();
-		
-		if (x > 0) {
-			if (y > 0)
-				return new MoveTopLeft();
-			else if (y < 0)
-				return new MoveBottomLeft();
-			else
-				return new MoveLeft();
-		}
-		if (x < 0) {
-			if (y > 0)
-				return new MoveTopRight();
-			else if (y < 0)
-				return new MoveBottomRight();
-			else
-				return new MoveRight();
-		}
-		if (x == 0) {
-			if (y > 0)
-				return new MoveTop();
-			else
-				return new MoveBottom();
-		}
-		
-		
-		return null;
-	}
-	
-	public List<IAcoAction> backToNest(Ant ant, Box[][] grid) {
-		List<IAcoAction> listeActionUturn = new ArrayList<>();
-		
-		ant = (Ant)getFourmi(grid).get();
-		
-		int xAnt = ant.getCoordinates().getX();
-		int yAnt = ant.getCoordinates().getY();
-		
-		if (xAnt > 0 && yAnt > 0) {
-			listeActionUturn.add(new MoveTopLeft());
-			listeActionUturn.add(new PutPheromone(xAnt, yAnt));
-		}
-		if (xAnt > 0 && yAnt == 0) {
-			listeActionUturn.add(new MoveRight());
-			listeActionUturn.add(new PutPheromone(yAnt, yAnt));
-		}
-		if (xAnt == 0 && yAnt > 0) {
-			listeActionUturn.add(new MoveTop());
-			listeActionUturn.add(new PutPheromone(yAnt, yAnt));
-		}
-
-		return listeActionUturn;
-	}
-	
-	public void deposePheromene(int x, int y) {
-		
 	}
 	
 }

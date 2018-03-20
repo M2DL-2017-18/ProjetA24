@@ -27,4 +27,5 @@ public interface IGrid {
 	 */
 	public int getGridCols();
 	
+	
 }

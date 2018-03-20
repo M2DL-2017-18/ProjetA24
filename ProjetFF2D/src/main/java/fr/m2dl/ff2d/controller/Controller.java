@@ -1,6 +1,9 @@
 package fr.m2dl.ff2d.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
@@ -32,6 +35,10 @@ import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+
+import javafx.scene.control.TextInputDialog;
+
+
 public class Controller {
 
 	private final static Logger logger = Logger.getLogger(Ant.class.getSimpleName());
@@ -39,19 +46,34 @@ public class Controller {
 	private IAcoEnvironment env;
 	private Timer timer;
 	private IGrid grid;
+
+	private int nbFood = 1;
+
+	private Map<IBoxable, GraphicElement> boxablesMap = new HashMap<>(); 
+
 	
 	@FXML
 	private AnchorPane gridPanel;
-
+	private boolean isNestPositionChosen = false;
 	
 	@FXML
 	private void initialize() {
-		grid = new Grid(gridPanel);	
-
+		grid = new Grid(gridPanel);
+		this.env = new AcoEnvironment(grid.getGridRows(), grid.getGridCols());
+		// we add the first listeners to the grid before running the envirronment
+		for(int i = 0;i<grid.getGridRows();i++){
+			for(int j = 0;j<grid.getGridRows();j++){
+				addFloor(i,j);
+			}
+		}
+		refreshUI();
 	}
 
-	public void launchNest() {
-		this.env.createNest(new Coordinates(0, 0));
+	public void launchNest(int x, int y) {
+		if(!isNestPositionChosen){
+		this.env.createNest(new Coordinates(x, y));
+		this.isNestPositionChosen = true;
+		}
 	}
 
     /**
@@ -62,7 +84,7 @@ public class Controller {
      */
 	private void addFloor(final int colIndex, final int rowIndex) {
 		GraphicElement g = new GraphicFloor();
-		ImageView image = g.createImageView();
+		ImageView image = g.getImageView();
 		image.setOnMousePressed(new EventHandler<Event>() {
 			public void handle(Event event) {
 				launchPassiveEntity(colIndex, rowIndex);
@@ -73,11 +95,11 @@ public class Controller {
 	}
 
 	/**
-	 * Demande la création de la fourmi 
+	 * Demande la crï¿½ation de la fourmi 
 	 * 
 	 */
-	private void launchAnt() {
-		this.env.createAnts(1, new Behavior());
+	private void launchAnt(int nbAnts) {
+		this.env.createAnts(nbAnts, new Behavior());
 		logger.info("je suis une fourmi graphique.");
 	}
 
@@ -89,12 +111,16 @@ public class Controller {
 		if (this.entityType != 0) {
 			switch (this.entityType) {
 			case 1:
-				logger.info("Creation de l'entité Nourriture");
-				this.env.createFood(new Coordinates(y, x), 1);
+				logger.info("Creation de l'entitï¿½ Nourriture");
+				this.env.createFood(new Coordinates(y, x), this.nbFood);
 				break;
 			case 2:
-				logger.info("Creation de l'entité Obstacle");
+				logger.info("Creation de l'entitï¿½ Obstacle");
 				this.env.createObstacle(new Coordinates(y, x));
+				break;
+			case 3:
+				logger.info("Selection de l'emplacement du nid");
+				this.launchNest(y, x);
 				break;
 			}
 		}
@@ -105,24 +131,29 @@ public class Controller {
 	 * 
 	 */
 	public void launchSimulation() {
-		this.env = new AcoEnvironment(grid.getGridRows(), grid.getGridCols());
-		launchNest();
-		launchAnt();
-		
-		//this.env.run();
 
-		for (int i = 0; i < grid.getGridCols(); i++) {
+		
+		TextInputDialog dialog = new TextInputDialog("1");
+		dialog.setTitle("Nombre de fourmies");
+		dialog.setHeaderText("Combien de fourmies voulez vous lancer dans la simulation ?");
+		dialog.setContentText("Nb : ");
+
+		// Traditional way to get the response value.
+		Optional<String> result = dialog.showAndWait();
+		if (result.isPresent()){
+			if(!isNestPositionChosen ){
+				launchNest(0,0);
+			}
+			launchAnt(Integer.parseInt(result.get()));
+		}		
+
+		//this.env.run();
+		
+		/*for (int i = 0; i < grid.getGridCols(); i++) {
 			for (int j = 0; j < grid.getGridRows(); j++) {
 				addFloor(i, j);
 			}
-		}	
-		refreshUI();
-		
-		
-		
-		
-		
-
+		}*/	
 	}
 
 	/**
@@ -130,10 +161,18 @@ public class Controller {
 	 * 
 	 */
 	public void stopSimulation() {
+		this.isNestPositionChosen = false;
 		this.timer.cancel();
 		this.env = new AcoEnvironment(grid.getGridRows(), grid.getGridCols());
 		grid.clearGrid();
 		initialize();
+	}
+	
+	/**
+	 * Listener sur le bouton de selection de la nourriture
+	 */
+	public void selectNest() {
+		this.entityType = 3;
 	}
 
 	/**
@@ -141,6 +180,16 @@ public class Controller {
 	 */
 	public void selectFood() {
 		this.entityType = 1;
+		TextInputDialog dialog = new TextInputDialog("1");
+		dialog.setTitle("Quantitï¿½ de nourriture ?");
+		dialog.setHeaderText("Combien d'unitï¿½s de nourriture voulez vous poser ?");
+		dialog.setContentText("Nb : ");
+
+		// Traditional way to get the response value.
+		Optional<String> result = dialog.showAndWait();
+		if (result.isPresent()){
+			this.nbFood = Integer.parseInt(result.get());
+		}
 	}
 
 	/**
@@ -152,59 +201,60 @@ public class Controller {
 	
 	
 	/**
-	 * Permet de mettre à jour l'interface graphique
+	 * Permet de mettre ï¿½ jour l'interface graphique
 	 */
 	public void refreshUI() {
+		
+		for (int i = 0; i < grid.getGridRows(); i++) {
+			for (int j = 0; j < grid.getGridCols(); j++) {
+				addFloor(j,i);
 
+			}
+		}
+		
 		this.timer = new Timer();
 		this.timer.schedule(new TimerTask() {
-		GraphicElement graphicAnt = new GraphicAnt();
-		GraphicElement graphicFood = new GraphicFood();
-		GraphicElement graphicObstacle = new GraphicObstacle();
-		GraphicElement graphicNest = new GraphicNest();
-		GraphicElement graphicPheromone = new GraphicPheromone();
-
-		
-		@Override
-		public void run() {
-			Platform.runLater(new Runnable() {
-				
-				@Override
-				public void run() {
+			
+			@Override
+			public void run() {
+				Platform.runLater(new Runnable() {
 					
-					Box[][] box = env.getGrid();
-					for (int i = 0; i < grid.getGridRows(); i++) {
-						for (int j = 0; j < grid.getGridCols(); j++) {
-							
-							List<IBoxable> boxables = box[i][j].getBoxables();
-							if(boxables.isEmpty()) {						
-								addFloor(j,i);							
-							}
-							
-							for(IBoxable b : boxables){
-							
-								if (b instanceof Ant) {										
-									grid.addGraphicElement(graphicAnt.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());								
-								} else if (b instanceof Food) {									
-									grid.addGraphicElement(graphicFood.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());								
-								} else if (b instanceof Obstacle) {									
-									grid.addGraphicElement(graphicObstacle.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());						
-								} else if (b instanceof Nest) {																
-									grid.addGraphicElement(graphicNest.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());							
-								} else if (b instanceof Pheromone) {																
-									grid.addGraphicElement(graphicPheromone.createImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());							
-								}
+					@Override
+					public void run() {
+						
+						Box[][] box = env.getGrid();
+						for (int i = 0; i < grid.getGridRows(); i++) {
+							for (int j = 0; j < grid.getGridCols(); j++) {
 								
-							}
-						}
+								List<IBoxable> boxables = box[i][j].getBoxables();							
+								for(IBoxable b : boxables){
+									if(!boxablesMap.containsKey(b)) {
+										if (b instanceof Ant) {										
+											boxablesMap.put(b, new GraphicAnt());								
+										} else if (b instanceof Food) {									
+											boxablesMap.put(b, new GraphicFood());								
+										} else if (b instanceof Obstacle) {									
+											boxablesMap.put(b, new GraphicObstacle());					
+										} else if (b instanceof Nest) {																
+											boxablesMap.put(b, new GraphicNest());					
+										} else if (b instanceof Pheromone) {																
+											boxablesMap.put(b, new GraphicPheromone());					
+										}
+									}
+									grid.addGraphicElement(boxablesMap.get(b).getImageView(), b.getCoordinates().getY(), b.getCoordinates().getX());								
+								
 
+								}
+							}
+	
+						}
+						env.run();
 					}
-					env.run();
-				}
-			});
-		}
-	}, 0, 500);
+				});
+			}
+		}, 0, 500);
 
 	}
+	
 
 }

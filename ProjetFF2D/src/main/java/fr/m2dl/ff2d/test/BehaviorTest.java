@@ -15,7 +15,7 @@ public class BehaviorTest {
 
 	private Box[][] grid;
 	private Behavior b;
-	
+	/*
 	@Before
 	public void createGrid() {
 		b = new Behavior();
@@ -72,4 +72,8 @@ public class BehaviorTest {
 		assertEquals(b.findFoodInGrid(grid).get(0).getY(),2);
 	}
 
+
+}*/
+
 }
+

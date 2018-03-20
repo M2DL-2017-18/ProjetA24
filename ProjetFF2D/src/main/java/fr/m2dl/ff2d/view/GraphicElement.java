@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 public class GraphicElement {
 
 	private Image image;
+	private ImageView imageView;
 	private FileInputStream is;
 	int height;
 	int width;
@@ -17,6 +18,7 @@ public class GraphicElement {
 		createImage(imagePath);
 		height = h;
 		width = w;
+		imageView = createImageView();
 	}
 	
 	
@@ -39,11 +41,16 @@ public class GraphicElement {
 	 * @param height la hauteur de l'image
 	 * @return l'image view de l'element
 	 */
-	public ImageView createImageView() {
+	private ImageView createImageView() {
 		
 		ImageView imageView = new ImageView(image);
 		imageView.setFitWidth(width);
 		imageView.setFitHeight(height);	
+		return imageView;	
+	}
+	
+	public ImageView getImageView() {
+		
 		return imageView;	
 	}
 

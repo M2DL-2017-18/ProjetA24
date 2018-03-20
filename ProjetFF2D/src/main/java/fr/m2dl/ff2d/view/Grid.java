@@ -1,6 +1,8 @@
 package fr.m2dl.ff2d.view;
 
 import fr.m2dl.ff2d.view.interfaces.IGrid;
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
@@ -55,9 +57,12 @@ public class Grid implements IGrid{
 
 	
 	public void addGraphicElement(ImageView image, int x, int y) {
+		this.gridPane.getChildren().remove(image);
 		this.gridPane.getChildren().add(image);
 		GridPane.setColumnIndex(image, x);
 		GridPane.setRowIndex(image, y);
+		
+		
 	}
 	
 	public int getGridRows() {
@@ -71,4 +76,5 @@ public class Grid implements IGrid{
 	public int getGridCols() {
 		return this.gridCols;
 	}
+	
 }
